@@ -1,12 +1,9 @@
 export default async function TrackingActivityPage(params: any) {
   const slug = params.searchParams.slug;
   const url = `http://localhost:8080/activity/${slug}`;
-  console.log(111, url);
 
   const data = await fetch(url);
-
   const activities = await data.json();
-  console.log(112, activities);
 
   return (
     <div>

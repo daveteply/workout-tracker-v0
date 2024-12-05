@@ -24,6 +24,7 @@ export default function Home() {
     <div className={styles.page}>
       <main className={styles.main}>
         <NavLinkButton link="tracking" title="start tracking"></NavLinkButton>
+        <NavLinkButton link="activity/category" title="activity categories"></NavLinkButton>
 
         {/* <ThemeImage
           className={styles.logo}

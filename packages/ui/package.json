@@ -15,7 +15,8 @@
     "./card": "./src/card.tsx",
     "./code": "./src/code.tsx",
     "./nav-link-button": "./src/nav-link-button.tsx",
-    "./activity-category-form": "./src/activity-category.tsx"
+    "./activity-category-add-form": "./src/forms/activity-category/add-form.tsx",
+    "./activity-category-delete-form": "./src/forms/activity-category/delete-form.tsx"
   },
   "scripts": {
     "build": "tailwindcss -i ./src/index.css -o ./dist/index.css",

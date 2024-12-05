@@ -40,3 +40,39 @@ export async function createActivityCategory(
     };
   }
 }
+
+export async function deleteActivityCategory(
+  prevState: {
+    message: string;
+  },
+  formData: FormData
+) {
+  const schema = z.object({
+    slug: z.string().min(1),
+  });
+
+  const parse = schema.safeParse({
+    slug: formData.get("slug"),
+  });
+
+  if (!parse.success) {
+    return { message: "Failed to delete" };
+  }
+
+  const data = parse.data;
+  const url = `http://localhost:8080/activity-category/${data.slug}`;
+  console.log("the url:", url);
+
+  const response = await fetch(url, { method: "DELETE" });
+
+  if (response.status === 200) {
+    revalidatePath("/");
+    return {
+      message: "Deleted activity category",
+    };
+  } else {
+    return {
+      message: "Failed to delete activity category: " + response.statusText,
+    };
+  }
+}

@@ -1,5 +1,9 @@
-import { ActivityCategoryForm } from "@repo/ui/activity-category-form";
-import { createActivityCategory } from "./activity-category-actions";
+import { ActivityCategoryForm } from "@repo/ui/activity-category-add-form";
+import { DeleteActivityCategoryForm } from "@repo/ui/activity-category-delete-form";
+import {
+  createActivityCategory,
+  deleteActivityCategory,
+} from "./activity-category-actions";
 
 export default async function ActivityCategoryPage() {
   const data = await fetch("http://localhost:8080/activity-category");
@@ -14,7 +18,13 @@ export default async function ActivityCategoryPage() {
       <hr />
       <ul>
         {activityCategories.map((ac: any) => (
-          <li key={ac.slug}>{ac.title}</li>
+          <li className="flex" key={ac.slug}>
+            {ac.title}
+            <DeleteActivityCategoryForm
+              slug={ac.slug}
+              deleteActivityCategoryAction={deleteActivityCategory}
+            />
+          </li>
         ))}
       </ul>
     </div>

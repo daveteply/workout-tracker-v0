@@ -18,7 +18,7 @@ function DeleteButton() {
   );
 }
 
-export function DeleteActivityCategoryForm({
+export function ActivityCategoryDeleteForm({
   slug,
   deleteActivityCategoryAction,
 }: {

@@ -1,5 +1,5 @@
-import { ActivityCategoryForm } from "@repo/ui/activity-category-add-form";
-import { DeleteActivityCategoryForm } from "@repo/ui/activity-category-delete-form";
+import { ActivityCategoryUpsertForm } from "@repo/ui/activity-category-upsert-form";
+import { ActivityCategoryDeleteForm } from "@repo/ui/activity-category-delete-form";
 import {
   createActivityCategory,
   deleteActivityCategory,
@@ -12,7 +12,7 @@ export default async function ActivityCategoryPage() {
   return (
     <div>
       <h1>Activity Category</h1>
-      <ActivityCategoryForm
+      <ActivityCategoryUpsertForm
         createActivityCategoryAction={createActivityCategory}
       />
       <hr />
@@ -20,7 +20,7 @@ export default async function ActivityCategoryPage() {
         {activityCategories.map((ac: any) => (
           <li className="flex" key={ac.slug}>
             {ac.title}
-            <DeleteActivityCategoryForm
+            <ActivityCategoryDeleteForm
               slug={ac.slug}
               deleteActivityCategoryAction={deleteActivityCategory}
             />

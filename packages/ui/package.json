@@ -15,7 +15,7 @@
     "./card": "./src/card.tsx",
     "./code": "./src/code.tsx",
     "./nav-link-button": "./src/nav-link-button.tsx",
-    "./activity-category-add-form": "./src/forms/activity-category/add-form.tsx",
+    "./activity-category-upsert-form": "./src/forms/activity-category/upsert-form.tsx",
     "./activity-category-delete-form": "./src/forms/activity-category/delete-form.tsx"
   },
   "scripts": {

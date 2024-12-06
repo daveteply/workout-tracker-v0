@@ -21,7 +21,9 @@ function SubmitButton() {
   );
 }
 
-export function ActivityCategoryForm({ createActivityCategoryAction }: any) {
+export function ActivityCategoryUpsertForm({
+  createActivityCategoryAction,
+}: any) {
   const [state, formAction] = useActionState(
     createActivityCategoryAction,
     initialState

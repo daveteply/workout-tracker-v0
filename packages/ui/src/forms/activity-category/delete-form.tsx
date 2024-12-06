@@ -1,5 +1,6 @@
 "use client";
 
+import { TrashIcon } from "@heroicons/react/16/solid";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 
@@ -11,12 +12,8 @@ function DeleteButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1 capitalize"
-      type="submit"
-      aria-disabled={pending}
-    >
-      Delete
+    <button type="submit" aria-disabled={pending}>
+      <TrashIcon className="size-5 text-blue-500"></TrashIcon>
     </button>
   );
 }

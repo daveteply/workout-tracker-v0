@@ -14,7 +14,6 @@
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
     "./code": "./src/code.tsx",
-    "./nav-link-button": "./src/nav-link-button.tsx",
     "./activity-category-upsert-form": "./src/forms/activity-category/upsert-form.tsx",
     "./activity-category-delete-form": "./src/forms/activity-category/delete-form.tsx"
   },
@@ -29,11 +28,13 @@
     "@repo/eslint-config": "*",
     "@repo/tailwind-config": "*",
     "@repo/typescript-config": "*",
+    "@tailwindcss/typography": "^0.5.15",
     "@turbo/gen": "^2.3.3",
     "@types/node": "^22.10.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.4.20",
+    "daisyui": "^4.12.14",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.16",
     "typescript": "5.7.2"

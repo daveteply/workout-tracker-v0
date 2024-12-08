@@ -1,12 +1,8 @@
-import { NavLinkButton } from '@repo/ui/nav-link-button';
+import Link from 'next/link';
 
 export default async function Tracking() {
   const data = await fetch('http://localhost:8080/activity-category');
   const activityCategories = await data.json();
-
-  const createLink = (slugId: string) => {
-    return `tracking/activity?slug=${slugId}`;
-  };
 
   return (
     <div>
@@ -14,15 +10,16 @@ export default async function Tracking() {
       <h2>Select a Category</h2>
       <div className="flex">
         {activityCategories.map((c: any) => (
-          <NavLinkButton
+          <Link
+            className="btn"
             key={c.slug}
-            link={createLink(c.slug)}
-            title={c.title}
-            // href={{
-            //   pathname: "tracking/activity/",
-            //   query: { slug: c.slug },
-            // }}
-          ></NavLinkButton>
+            href={{
+              pathname: 'tracking/activity/',
+              query: { slug: c.slug },
+            }}
+          >
+            {c.title}
+          </Link>
         ))}
       </div>
     </div>

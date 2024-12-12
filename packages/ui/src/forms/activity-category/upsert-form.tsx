@@ -1,21 +1,22 @@
-"use client";
+'use client';
 
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
+import { useActionState, useState } from 'react';
+import { useFormStatus } from 'react-dom';
+import Modal from '@repo/ui/modal';
 
 const initialState = {
-  message: "",
+  message: '',
 };
+
+interface ActivityCategoryUpsertFormProps {
+  createActivityCategoryAction: any;
+}
 
 function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button
-      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1 capitalize"
-      type="submit"
-      aria-disabled={pending}
-    >
+    <button className="btn btn-primary" type="submit" aria-disabled={pending}>
       Add
     </button>
   );
@@ -23,17 +24,40 @@ function SubmitButton() {
 
 export function ActivityCategoryUpsertForm({
   createActivityCategoryAction,
-}: any) {
+}: ActivityCategoryUpsertFormProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const [state, formAction] = useActionState(
     createActivityCategoryAction,
     initialState
   );
 
   return (
-    <form action={formAction}>
-      <input type="text" id="activity-category-title" name="title" required />
-      <SubmitButton />
-      <p>{state.message}</p>
-    </form>
+    <div>
+      <button className="btn btn-primary" onClick={handleOpenModal}>
+        Add Activity Category
+      </button>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        <form action={formAction}>
+          <h2>Modal Content</h2>
+          <input
+            type="text"
+            id="activity-category-title"
+            name="title"
+            required
+          />
+          <SubmitButton />
+          <p>{state.message}</p>
+        </form>
+      </Modal>
+    </div>
   );
 }

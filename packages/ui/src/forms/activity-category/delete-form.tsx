@@ -27,7 +27,7 @@ export function ActivityCategoryDeleteForm({
 }) {
   const [state, formAction] = useActionState(
     deleteActivityCategoryAction,
-    initialState
+    initialState,
   );
 
   return (

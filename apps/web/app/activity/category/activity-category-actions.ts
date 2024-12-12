@@ -7,7 +7,7 @@ export async function createActivityCategory(
   prevState: {
     message: string;
   },
-  formData: FormData
+  formData: FormData,
 ) {
   const schema = z.object({
     title: z.string().min(1),
@@ -45,7 +45,7 @@ export async function deleteActivityCategory(
   prevState: {
     message: string;
   },
-  formData: FormData
+  formData: FormData,
 ) {
   const schema = z.object({
     slug: z.string().min(1),

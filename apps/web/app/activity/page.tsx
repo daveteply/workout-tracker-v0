@@ -1,3 +1,3 @@
 export default async function ActivityPage() {
-    return <h1>Activity</h1>;
+  return <h1>Activity</h1>;
 }

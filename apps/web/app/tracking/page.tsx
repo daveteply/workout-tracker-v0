@@ -1,7 +1,7 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default async function Tracking() {
-  const data = await fetch('http://localhost:8080/activity-category');
+  const data = await fetch("http://localhost:8080/activity-category");
   const activityCategories = await data.json();
 
   return (
@@ -14,7 +14,7 @@ export default async function Tracking() {
             className="btn"
             key={c.slug}
             href={{
-              pathname: 'tracking/activity/',
+              pathname: "tracking/activity/",
               query: { slug: c.slug },
             }}
           >

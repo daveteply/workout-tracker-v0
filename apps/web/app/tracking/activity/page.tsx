@@ -7,7 +7,7 @@ export default async function TrackingActivityPage(params: any) {
 
   return (
     <div>
-      <h1>Tracking - Activity</h1>
+      <h3>Tracking - Activity</h3>
       {activities.map((a: any) => (
         <h3 className="m1 capitalize" key={a.slug}>
           {a.title}

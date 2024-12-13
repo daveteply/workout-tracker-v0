@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useActionState, useState } from "react";
-import { useFormStatus } from "react-dom";
-import Modal from "@repo/ui/modal";
+import { useActionState, useState } from 'react';
+import { useFormStatus } from 'react-dom';
+import Modal from '@repo/ui/modal';
 
 const initialState = {
-  message: "",
+  message: '',
 };
 
 interface ActivityCategoryUpsertFormProps {
@@ -37,7 +37,7 @@ export function ActivityCategoryUpsertForm({
 
   const [state, formAction] = useActionState(
     createActivityCategoryAction,
-    initialState,
+    initialState
   );
 
   return (
@@ -54,8 +54,10 @@ export function ActivityCategoryUpsertForm({
             name="title"
             required
           />
-          <SubmitButton />
           <p>{state.message}</p>
+          <div className="modal-action">
+            <SubmitButton />
+          </div>
         </form>
       </Modal>
     </div>

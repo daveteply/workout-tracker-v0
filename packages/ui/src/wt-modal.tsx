@@ -2,13 +2,19 @@
 
 import React, { useRef, useEffect } from "react";
 
-interface ModalProps {
+interface WTModalProps {
   isOpen: boolean;
+  hideClose?: boolean;
   onClose: () => void;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const WTModal: React.FC<WTModalProps> = ({
+  isOpen,
+  hideClose = false,
+  onClose,
+  children,
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,12 +51,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     isOpen && (
       <div className="modal modal-open">
         <div className="modal-box" ref={modalRef}>
-          <button
-            onClick={onClose}
-            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-          >
-            ✕
-          </button>
+          {!hideClose && (
+            <button
+              onClick={onClose}
+              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+            >
+              ✕
+            </button>
+          )}
           {children}
         </div>
       </div>
@@ -58,4 +66,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   );
 };
 
-export default Modal;
+export default WTModal;

@@ -6,8 +6,9 @@ import { z } from "zod";
 export async function createActivityCategory(
   prevState: {
     message: string;
+    success: boolean;
   },
-  formData: FormData,
+  formData: FormData
 ) {
   const schema = z.object({
     title: z.string().min(1),
@@ -33,10 +34,12 @@ export async function createActivityCategory(
     revalidatePath("/");
     return {
       message: "Added new activity category",
+      success: true,
     };
   } else {
     return {
       message: "Failed to add activity category: " + response.statusText,
+      success: false,
     };
   }
 }
@@ -45,7 +48,7 @@ export async function deleteActivityCategory(
   prevState: {
     message: string;
   },
-  formData: FormData,
+  formData: FormData
 ) {
   const schema = z.object({
     slug: z.string().min(1),
@@ -56,23 +59,21 @@ export async function deleteActivityCategory(
   });
 
   if (!parse.success) {
-    return { message: "Failed to delete" };
+    return { message: "Failed to delete", success: false };
   }
 
   const data = parse.data;
   const url = `http://localhost:8080/activity-category/${data.slug}`;
-  console.log("the url:", url);
 
   const response = await fetch(url, { method: "DELETE" });
 
   if (response.status === 200) {
     revalidatePath("/");
-    return {
-      message: "Deleted activity category",
-    };
+    // nothing to return
   } else {
     return {
       message: "Failed to delete activity category: " + response.statusText,
+      success: false,
     };
   }
 }

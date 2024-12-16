@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { useActionState, useState } from 'react';
-import { useFormStatus } from 'react-dom';
-import Modal from '@repo/ui/modal';
+import { useActionState, useEffect, useState } from "react";
+import { useFormStatus } from "react-dom";
+import WTModal from "@repo/ui/wt-modal";
 
 const initialState = {
-  message: '',
+  message: "",
+  success: false,
 };
 
 interface ActivityCategoryUpsertFormProps {
@@ -17,7 +18,7 @@ function SubmitButton() {
 
   return (
     <button className="btn btn-primary" type="submit" aria-disabled={pending}>
-      Add
+      Save
     </button>
   );
 }
@@ -35,31 +36,39 @@ export function ActivityCategoryUpsertForm({
     setIsModalOpen(false);
   };
 
-  const [state, formAction] = useActionState(
+  const [serverActionResult, formAction] = useActionState(
     createActivityCategoryAction,
     initialState
   );
+
+  useEffect(() => {
+    if (serverActionResult.success) {
+      handleCloseModal();
+    }
+  }, [serverActionResult]);
 
   return (
     <div>
       <button className="btn btn-primary" onClick={handleOpenModal}>
         Add Activity Category
       </button>
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+      <WTModal isOpen={isModalOpen} hideClose={true} onClose={handleCloseModal}>
+        <p>Activity Category</p>
         <form action={formAction}>
-          <h2>Modal Content</h2>
           <input
             type="text"
             id="activity-category-title"
             name="title"
             required
           />
-          <p>{state.message}</p>
           <div className="modal-action">
+            <button className="btn" onClick={handleCloseModal}>
+              Cancel
+            </button>
             <SubmitButton />
           </div>
         </form>
-      </Modal>
+      </WTModal>
     </div>
   );
 }

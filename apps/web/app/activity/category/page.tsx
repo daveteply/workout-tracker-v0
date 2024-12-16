@@ -1,12 +1,12 @@
-import { ActivityCategoryUpsertForm } from '@repo/ui/activity-category-upsert-form';
-import { ActivityCategoryDeleteForm } from '@repo/ui/activity-category-delete-form';
+import { ActivityCategoryUpsertForm } from "@repo/ui/activity-category-upsert-form";
+import { ActivityCategoryDeleteForm } from "@repo/ui/activity-category-delete-form";
 import {
   createActivityCategory,
   deleteActivityCategory,
-} from './activity-category-actions';
+} from "./activity-category-actions";
 
 export default async function ActivityCategoryPage() {
-  const data = await fetch('http://localhost:8080/activity-category');
+  const data = await fetch("http://localhost:8080/activity-category");
   const activityCategories = await data.json();
 
   return (
@@ -15,7 +15,7 @@ export default async function ActivityCategoryPage() {
       <ActivityCategoryUpsertForm
         createActivityCategoryAction={createActivityCategory}
       />
-      <hr />
+      <div className="divider"></div>
       <ul>
         {activityCategories.map((ac: any) => (
           <li className="flex" key={ac.slug}>

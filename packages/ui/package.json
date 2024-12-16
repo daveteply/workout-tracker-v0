@@ -14,7 +14,7 @@
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
     "./code": "./src/code.tsx",
-    "./modal": "./src/modal.tsx",
+    "./wt-modal": "./src/wt-modal.tsx",
     "./activity-category-upsert-form": "./src/forms/activity-category/upsert-form.tsx",
     "./activity-category-delete-form": "./src/forms/activity-category/delete-form.tsx"
   },

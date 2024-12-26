@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { TrashIcon } from "@heroicons/react/16/solid";
-import { useActionState, useEffect } from "react";
-import { useFormStatus } from "react-dom";
+import { TrashIcon } from '@heroicons/react/16/solid';
+import { useActionState, useEffect } from 'react';
+import { useFormStatus } from 'react-dom';
 
 const initialState = {
-  message: "",
+  message: '',
   success: true,
 };
 
@@ -33,7 +33,7 @@ export function ActivityCategoryDeleteForm({
 
   useEffect(() => {
     // TODO: create toast system
-    console.log("server action result: ", serverActionResult);
+    console.info('server action result: ', serverActionResult);
     // if (!serverActionResult.success) {    }
   }, [serverActionResult]);
 

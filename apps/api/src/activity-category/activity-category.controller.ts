@@ -7,12 +7,22 @@ import { UtilsService } from 'src/services/utils/utils.service';
 export class ActivityCategoryController {
   constructor(
     private clientService: PrismaClientService,
-    private utislService: UtilsService,
+    private utilsService: UtilsService,
   ) {}
 
   @Get()
   async getActivityCategories(): Promise<activity_category[]> {
     return await this.clientService.client.activity_category.findMany();
+  }
+
+  @Get(':slug')
+  async getActivityCategory(
+    @Param('slug') slug: string,
+  ): Promise<activity_category | null> {
+    const id = this.utilsService.getId(slug);
+    return await this.clientService.client.activity_category.findUnique({
+      where: { category_id: id },
+    });
   }
 
   @Post()
@@ -24,7 +34,7 @@ export class ActivityCategoryController {
 
   @Delete(':slug')
   async deleteActivityCategory(@Param('slug') slug: string): Promise<void> {
-    const id = this.utislService.getId(slug);
+    const id = this.utilsService.getId(slug);
     await this.clientService.client.activity_category.delete({
       where: { category_id: id },
     });

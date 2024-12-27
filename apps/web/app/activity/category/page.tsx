@@ -18,23 +18,21 @@ export default async function ActivityCategoryPage() {
         createActivityCategoryAction={createActivityCategory}
       />
       <div className="divider"></div>
-      <ul>
-        {activityCategories.map((ac: any) => (
-          <div className="flex" key={ac.slug}>
-            {ac.title}
-            <Link
-              className="btn btn-sm mx-1"
-              href={{ pathname: '/activity/', query: { slug: ac.slug } }}
-            >
-              Activities
-            </Link>
-            <ActivityCategoryDeleteForm
-              slug={ac.slug}
-              deleteActivityCategoryAction={deleteActivityCategory}
-            />
-          </div>
-        ))}
-      </ul>
+      {activityCategories.map((ac: any) => (
+        <div className="flex" key={ac.slug}>
+          {ac.title}
+          <Link
+            className="btn btn-sm mx-1"
+            href={{ pathname: '/activity/', query: { slug: ac.slug } }}
+          >
+            Activities
+          </Link>
+          <ActivityCategoryDeleteForm
+            slug={ac.slug}
+            deleteActivityCategoryAction={deleteActivityCategory}
+          />
+        </div>
+      ))}
     </div>
   );
 }

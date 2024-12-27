@@ -31,12 +31,12 @@ model activity_tracking {
   member_id   Int
   activity_id Int
   set_id      Int
-  sets        actviity_tracking_set[] 
+  sets        activity_tracking_set[] 
 
   @@id(name: "member_activity", fields:[member_id, activity_id])
 }
 
-model actviity_tracking_set {
+model activity_tracking_set {
   set_id      Int @id @default(autoincrement())
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt

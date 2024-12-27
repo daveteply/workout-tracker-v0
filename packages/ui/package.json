@@ -15,6 +15,8 @@
     "./card": "./src/card.tsx",
     "./code": "./src/code.tsx",
     "./wt-modal": "./src/wt-modal.tsx",
+    "./activity-upsert-form": "./src/forms/activity/upsert-form.tsx",
+    "./activity-delete-form": "./src/forms/activity/delete-form.tsx",
     "./activity-category-upsert-form": "./src/forms/activity-category/upsert-form.tsx",
     "./activity-category-delete-form": "./src/forms/activity-category/delete-form.tsx"
   },

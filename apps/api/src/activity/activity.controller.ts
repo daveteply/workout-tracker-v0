@@ -14,7 +14,7 @@ export class ActivityController {
   async getActivitiesByCategory(@Param() params: any): Promise<activity[]> {
     const id = this.utilService.getId(params?.slug);
     const activities = await this.clientService.client.activity.findMany({
-      where: { activity_id: id },
+      where: { category_id: id },
     });
     return activities;
   }

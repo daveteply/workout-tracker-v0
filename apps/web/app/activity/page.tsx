@@ -14,14 +14,16 @@ export default async function ActivityPage(params: any) {
   return (
     <div>
       <h3>
-        Activities for category{' '}
-        <span className="font-bold italic">{activityCategory?.title}</span>
+        <p>
+          Activities for category&nbsp;
+          <span className="font-bold italic">{activityCategory?.title}</span>
+        </p>
       </h3>
-      <ul>
+      <div>
         {activities.map((a: any) => (
-          <li key={a.slug}>{a.title}</li>
+          <div key={a.activity_id}>{a.title}</div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

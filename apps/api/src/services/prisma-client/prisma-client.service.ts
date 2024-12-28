@@ -22,7 +22,7 @@ export class PrismaClientService {
               return utilsService.getSqid(activity.activity_id);
             },
           },
-          catSlug: {
+          categorySlug: {
             needs: { category_id: true },
             compute(activity) {
               return utilsService.getSqid(activity.category_id);

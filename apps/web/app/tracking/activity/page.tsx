@@ -1,6 +1,6 @@
 export default async function TrackingActivityPage(params: any) {
-  const slug = (await params.searchParams).slug;
-  const apiUrl = `http://localhost:8080/activity/${slug}`;
+  const categorySlug = (await params.searchParams).cs;
+  const apiUrl = `http://localhost:8080/activity/${categorySlug}`;
 
   const data = await fetch(apiUrl);
   const activities = await data.json();

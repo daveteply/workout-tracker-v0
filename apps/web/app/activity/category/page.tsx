@@ -18,7 +18,7 @@ export default async function ActivityCategoryPage() {
           {ac.title}
           <Link
             className="btn btn-sm mx-1"
-            href={{ pathname: '/activity/', query: { catSlug: ac.slug } }}
+            href={{ pathname: '/activity/', query: { cs: ac.slug } }}
           >
             Activities
           </Link>

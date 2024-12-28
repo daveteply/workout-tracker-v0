@@ -11,11 +11,11 @@ export default async function Tracking() {
       <div className="flex">
         {activityCategories.map((c: any) => (
           <Link
-            className="btn"
+            className="btn mx-1"
             key={c.slug}
             href={{
               pathname: 'tracking/activity/',
-              query: { slug: c.slug },
+              query: { cs: c.slug },
             }}
           >
             {c.title}

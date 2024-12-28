@@ -10,9 +10,9 @@ export class ActivityController {
     private utilsService: UtilsService,
   ) {}
 
-  @Get(':catSlug')
-  async getActivitiesByCategory(@Param('catSlug') catSlug: string): Promise<activity[]> {
-    const id = this.utilsService.getId(catSlug);
+  @Get(':cs')
+  async getActivitiesByCategory(@Param('cs') categorySlug: string): Promise<activity[]> {
+    const id = this.utilsService.getId(categorySlug);
     return await this.clientService.client.activity.findMany({
       where: { category_id: id },
     });

@@ -4,7 +4,7 @@ import { ActivityDeleteForm } from '@repo/ui/activity-delete-form';
 
 export default async function ActivityPage(params: any) {
   // Activity Category
-  const activityCategorySlug = (await params.searchParams).catSlug;
+  const activityCategorySlug = (await params.searchParams).cs;
   const categoryData = await fetch(
     `http://localhost:8080/activity-category/${activityCategorySlug}`,
   );

@@ -1,12 +1,16 @@
 import { ActivityUpsertForm } from '@repo/ui/activity-upsert-form';
-import { createActivity } from './activity-actions';
+import { createActivity, deleteActivity } from './activity-actions';
+import { ActivityDeleteForm } from '@repo/ui/activity-delete-form';
 
 export default async function ActivityPage(params: any) {
-  const slug = (await params.searchParams).slug;
-  const categoryData = await fetch(`http://localhost:8080/activity-category/${slug}`);
+  // Activity Category
+  const activityCategorySlug = (await params.searchParams).catSlug;
+  const categoryData = await fetch(
+    `http://localhost:8080/activity-category/${activityCategorySlug}`,
+  );
   const activityCategory = await categoryData.json();
-  const activityCategorySlug = activityCategory?.slug;
 
+  // Activities
   const activityData = await fetch(`http://localhost:8080/activity/${activityCategorySlug}`);
   const activities = await activityData.json();
 
@@ -24,8 +28,9 @@ export default async function ActivityPage(params: any) {
       />
       <div className="divider"></div>
       {activities.map((a: any) => (
-        <div className="capitalize" key={a.activity_id}>
+        <div className="capitalize flex" key={a.activity_id}>
           {a.title}
+          <ActivityDeleteForm slug={a.slug} deleteActivityAction={deleteActivity} />
         </div>
       ))}
     </div>

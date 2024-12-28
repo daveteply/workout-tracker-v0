@@ -4,22 +4,28 @@ import { UtilsService } from '../utils/utils.service';
 
 @Injectable()
 export class PrismaClientService {
-  constructor(public utilService: UtilsService) {
+  constructor(public utilsService: UtilsService) {
     this._client = new PrismaClient().$extends({
       result: {
         activity_category: {
           slug: {
             needs: { category_id: true },
             compute(activity_category) {
-              return utilService.getSqid(activity_category.category_id);
+              return utilsService.getSqid(activity_category.category_id);
             },
           },
         },
         activity: {
           slug: {
+            needs: { activity_id: true },
+            compute(activity) {
+              return utilsService.getSqid(activity.activity_id);
+            },
+          },
+          catSlug: {
             needs: { category_id: true },
             compute(activity) {
-              return utilService.getSqid(activity.category_id);
+              return utilsService.getSqid(activity.category_id);
             },
           },
         },

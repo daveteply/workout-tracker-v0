@@ -29,8 +29,9 @@ export function ActivityDeleteForm({
 
   useEffect(() => {
     // TODO: create toast system
-    console.info('server action result: ', serverActionResult);
-    // if (!serverActionResult.success) {    }
+    if (serverActionResult?.message) {
+      console.error('server action result: ', serverActionResult);
+    }
   }, [serverActionResult]);
 
   return (

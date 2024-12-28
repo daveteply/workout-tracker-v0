@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { activity } from '@prisma/client';
 import { PrismaClientService } from 'src/services/prisma-client/prisma-client.service';
 import { UtilsService } from 'src/services/utils/utils.service';
@@ -7,12 +7,12 @@ import { UtilsService } from 'src/services/utils/utils.service';
 export class ActivityController {
   constructor(
     private clientService: PrismaClientService,
-    private utilService: UtilsService,
+    private utilsService: UtilsService,
   ) {}
 
-  @Get(':slug')
-  async getActivitiesByCategory(@Param('slug') slug: string): Promise<activity[]> {
-    const id = this.utilService.getId(slug);
+  @Get(':catSlug')
+  async getActivitiesByCategory(@Param('catSlug') catSlug: string): Promise<activity[]> {
+    const id = this.utilsService.getId(catSlug);
     return await this.clientService.client.activity.findMany({
       where: { category_id: id },
     });
@@ -20,9 +20,17 @@ export class ActivityController {
 
   @Post()
   async createActivity(@Body() body: any): Promise<void> {
-    const activityCategoryId = this.utilService.getId(body.activityCategorySlug);
+    const activityCategoryId = this.utilsService.getId(body.activityCategorySlug);
     await this.clientService.client.activity.create({
       data: { title: body.title, category_id: activityCategoryId },
+    });
+  }
+
+  @Delete(':slug')
+  async deleteActivity(@Param('slug') slug: string): Promise<void> {
+    const id = this.utilsService.getId(slug);
+    await this.clientService.client.activity.delete({
+      where: { activity_id: id },
     });
   }
 }

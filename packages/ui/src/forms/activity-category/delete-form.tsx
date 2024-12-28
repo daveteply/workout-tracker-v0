@@ -33,7 +33,7 @@ export function ActivityCategoryDeleteForm({
   useEffect(() => {
     // TODO: create toast system
     if (serverActionResult?.message) {
-      console.info('server action result: ', serverActionResult);
+      console.error('server action result: ', serverActionResult);
     }
   }, [serverActionResult]);
 

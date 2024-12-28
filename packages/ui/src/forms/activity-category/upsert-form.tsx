@@ -1,12 +1,11 @@
-"use client";
+'use client';
 
-import { useActionState, useEffect, useState } from "react";
-import { useFormStatus } from "react-dom";
-import WTModal from "@repo/ui/wt-modal";
+import { useActionState, useEffect, useState } from 'react';
+import { useFormStatus } from 'react-dom';
+import WTModal from '@repo/ui/wt-modal';
 
 const initialState = {
-  message: "",
-  success: false,
+  message: '',
 };
 
 interface ActivityCategoryUpsertFormProps {
@@ -38,11 +37,11 @@ export function ActivityCategoryUpsertForm({
 
   const [serverActionResult, formAction] = useActionState(
     createActivityCategoryAction,
-    initialState
+    initialState,
   );
 
   useEffect(() => {
-    if (serverActionResult.success) {
+    if (serverActionResult?.message) {
       handleCloseModal();
     }
   }, [serverActionResult]);

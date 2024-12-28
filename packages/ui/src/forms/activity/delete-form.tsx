@@ -6,7 +6,6 @@ import { useFormStatus } from 'react-dom';
 
 const initialState = {
   message: '',
-  success: true,
 };
 
 function DeleteButton() {
@@ -28,7 +27,7 @@ export function ActivityDeleteForm({
 }) {
   const [serverActionResult, formAction] = useActionState(
     deleteActivityAction,
-    initialState
+    initialState,
   );
 
   useEffect(() => {

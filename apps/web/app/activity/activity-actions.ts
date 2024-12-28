@@ -6,9 +6,8 @@ import { z } from 'zod';
 export async function createActivity(
   prevState: {
     message: string;
-    success: boolean;
   },
-  formData: FormData
+  formData: FormData,
 ) {
   const schema = z.object({
     title: z.string().min(1),
@@ -29,8 +28,6 @@ export async function createActivity(
     method: 'POST',
     body: JSON.stringify(data),
   });
-
-  console.log(1111, response);
 }
 
 export async function deleteActivity() {}

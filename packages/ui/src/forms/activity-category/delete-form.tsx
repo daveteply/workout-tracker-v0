@@ -6,7 +6,6 @@ import { useFormStatus } from 'react-dom';
 
 const initialState = {
   message: '',
-  success: true,
 };
 
 function DeleteButton() {
@@ -28,13 +27,14 @@ export function ActivityCategoryDeleteForm({
 }) {
   const [serverActionResult, formAction] = useActionState(
     deleteActivityCategoryAction,
-    initialState
+    initialState,
   );
 
   useEffect(() => {
     // TODO: create toast system
-    console.info('server action result: ', serverActionResult);
-    // if (!serverActionResult.success) {    }
+    if (serverActionResult?.message) {
+      console.info('server action result: ', serverActionResult);
+    }
   }, [serverActionResult]);
 
   return (

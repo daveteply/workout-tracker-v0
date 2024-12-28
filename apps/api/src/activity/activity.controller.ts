@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { activity } from '@prisma/client';
 import { PrismaClientService } from 'src/services/prisma-client/prisma-client.service';
 import { UtilsService } from 'src/services/utils/utils.service';
@@ -11,11 +11,18 @@ export class ActivityController {
   ) {}
 
   @Get(':slug')
-  async getActivitiesByCategory(@Param() params: any): Promise<activity[]> {
-    const id = this.utilService.getId(params?.slug);
-    const activities = await this.clientService.client.activity.findMany({
+  async getActivitiesByCategory(@Param('slug') slug: string): Promise<activity[]> {
+    const id = this.utilService.getId(slug);
+    return await this.clientService.client.activity.findMany({
       where: { category_id: id },
     });
-    return activities;
+  }
+
+  @Post()
+  async createActivity(@Body() body: any): Promise<void> {
+    const activityCategoryId = this.utilService.getId(body.activityCategorySlug);
+    await this.clientService.client.activity.create({
+      data: { title: body.title, category_id: activityCategoryId },
+    });
   }
 }

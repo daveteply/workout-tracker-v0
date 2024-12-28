@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
+import { HTTP_STATUS_CREATED } from '../../constants';
 
 export async function createActivityCategory(
   prevState: {
@@ -29,7 +30,7 @@ export async function createActivityCategory(
     body: JSON.stringify(data),
   });
 
-  if (response.status === 201) {
+  if (response.status === HTTP_STATUS_CREATED) {
     revalidatePath('/');
     return {
       message: 'Added new activity category',
@@ -56,7 +57,7 @@ export async function deleteActivityCategory(
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete', success: false };
+    return { message: 'Failed to delete' };
   }
 
   const data = parse.data;

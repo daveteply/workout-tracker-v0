@@ -6,10 +6,10 @@ import WTModal from '@repo/ui/wt-modal';
 
 const initialState = {
   message: '',
-  success: false,
 };
 
 interface ActivityUpsertFormProps {
+  activityCategorySlug: string;
   createActivityAction: any;
 }
 
@@ -23,7 +23,10 @@ function SubmitButton() {
   );
 }
 
-export function ActivityUpsertForm({ createActivityAction }: ActivityUpsertFormProps) {
+export function ActivityUpsertForm({
+  activityCategorySlug,
+  createActivityAction,
+}: ActivityUpsertFormProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -37,7 +40,7 @@ export function ActivityUpsertForm({ createActivityAction }: ActivityUpsertFormP
   const [serverActionResult, formAction] = useActionState(createActivityAction, initialState);
 
   useEffect(() => {
-    if (serverActionResult.success) {
+    if (!serverActionResult?.message) {
       handleCloseModal();
     }
   }, [serverActionResult]);
@@ -51,7 +54,7 @@ export function ActivityUpsertForm({ createActivityAction }: ActivityUpsertFormP
         <p>Activity</p>
         <form action={formAction}>
           <input type="text" id="activity-title" name="title" required />
-          <input type="hidden" name="activity_category_slug" value="slug" />
+          <input type="hidden" name="activity-category-slug" value={activityCategorySlug} />
           <div className="modal-action">
             <button className="btn" onClick={handleCloseModal}>
               Cancel

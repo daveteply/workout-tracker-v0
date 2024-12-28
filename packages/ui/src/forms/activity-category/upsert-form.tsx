@@ -41,7 +41,7 @@ export function ActivityCategoryUpsertForm({
   );
 
   useEffect(() => {
-    if (serverActionResult?.message) {
+    if (!serverActionResult?.message) {
       handleCloseModal();
     }
   }, [serverActionResult]);

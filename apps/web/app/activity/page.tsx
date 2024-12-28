@@ -18,7 +18,10 @@ export default async function ActivityPage(params: any) {
           <span className="font-bold italic capitalize">{activityCategory?.title}</span>
         </p>
       </h3>
-      <ActivityUpsertForm createActivityAction={createActivity} />
+      <ActivityUpsertForm
+        createActivityAction={createActivity}
+        activityCategorySlug={activityCategorySlug}
+      />
       <div className="divider"></div>
       {activities.map((a: any) => (
         <div className="capitalize" key={a.activity_id}>

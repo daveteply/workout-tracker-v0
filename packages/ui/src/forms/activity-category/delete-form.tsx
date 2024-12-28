@@ -39,12 +39,7 @@ export function ActivityCategoryDeleteForm({
 
   return (
     <form action={formAction}>
-      <input
-        type="hidden"
-        id="activity-category-slug"
-        name="slug"
-        value={slug}
-      />
+      <input type="hidden" id="activity-category-slug" name="slug" value={slug} />
       <DeleteButton />
     </form>
   );

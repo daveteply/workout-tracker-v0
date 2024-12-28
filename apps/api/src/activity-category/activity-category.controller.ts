@@ -16,9 +16,7 @@ export class ActivityCategoryController {
   }
 
   @Get(':slug')
-  async getActivityCategory(
-    @Param('slug') slug: string,
-  ): Promise<activity_category | null> {
+  async getActivityCategory(@Param('slug') slug: string): Promise<activity_category | null> {
     const id = this.utilsService.getId(slug);
     return await this.clientService.client.activity_category.findUnique({
       where: { category_id: id },

@@ -2,10 +2,7 @@ import Link from 'next/link';
 
 import { ActivityCategoryUpsertForm } from '@repo/ui/activity-category-upsert-form';
 import { ActivityCategoryDeleteForm } from '@repo/ui/activity-category-delete-form';
-import {
-  createActivityCategory,
-  deleteActivityCategory,
-} from './activity-category-actions';
+import { createActivityCategory, deleteActivityCategory } from './activity-category-actions';
 
 export default async function ActivityCategoryPage() {
   const data = await fetch('http://localhost:8080/activity-category');
@@ -14,9 +11,7 @@ export default async function ActivityCategoryPage() {
   return (
     <div>
       <h3>Activity Category</h3>
-      <ActivityCategoryUpsertForm
-        createActivityCategoryAction={createActivityCategory}
-      />
+      <ActivityCategoryUpsertForm createActivityCategoryAction={createActivityCategory} />
       <div className="divider"></div>
       {activityCategories.map((ac: any) => (
         <div className="flex" key={ac.slug}>

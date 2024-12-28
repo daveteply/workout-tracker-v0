@@ -3,8 +3,7 @@ import Sqids from 'sqids';
 
 @Injectable()
 export class UtilsService {
-  private readonly ALPHABET =
-    '3SRChn4jU79pXIDzBbcgQlofdE1tLPsiZFHuMxmr2k8KeVaWO5YG0qTwA6NyvJ';
+  private readonly ALPHABET = '3SRChn4jU79pXIDzBbcgQlofdE1tLPsiZFHuMxmr2k8KeVaWO5YG0qTwA6NyvJ';
   private readonly PADDING = 10;
 
   private _sqids = new Sqids({

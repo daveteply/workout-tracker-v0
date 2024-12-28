@@ -25,10 +25,7 @@ export function ActivityDeleteForm({
   slug: string;
   deleteActivityAction: any;
 }) {
-  const [serverActionResult, formAction] = useActionState(
-    deleteActivityAction,
-    initialState,
-  );
+  const [serverActionResult, formAction] = useActionState(deleteActivityAction, initialState);
 
   useEffect(() => {
     // TODO: create toast system

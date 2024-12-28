@@ -9,9 +9,7 @@ describe('ActivityCategoryController', () => {
       controllers: [ActivityCategoryController],
     }).compile();
 
-    controller = module.get<ActivityCategoryController>(
-      ActivityCategoryController,
-    );
+    controller = module.get<ActivityCategoryController>(ActivityCategoryController);
   });
 
   it('should be defined', () => {

@@ -54,12 +54,7 @@ export function ActivityCategoryUpsertForm({
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={handleCloseModal}>
         <p>Activity Category</p>
         <form action={formAction}>
-          <input
-            type="text"
-            id="activity-category-title"
-            name="title"
-            required
-          />
+          <input type="text" id="activity-category-title" name="title" required />
           <div className="modal-action">
             <button className="btn" onClick={handleCloseModal}>
               Cancel

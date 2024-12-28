@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from 'react';
 
 interface WTModalProps {
   isOpen: boolean;
@@ -9,41 +9,33 @@ interface WTModalProps {
   children: React.ReactNode;
 }
 
-const WTModal: React.FC<WTModalProps> = ({
-  isOpen,
-  hideClose = false,
-  onClose,
-  children,
-}) => {
+const WTModal: React.FC<WTModalProps> = ({ isOpen, hideClose = false, onClose, children }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         onClose();
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isOpen) {
+      if (event.key === 'Escape' && isOpen) {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);
 

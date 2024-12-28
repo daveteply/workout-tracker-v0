@@ -23,9 +23,7 @@ function SubmitButton() {
   );
 }
 
-export function ActivityUpsertForm({
-  createActivityAction,
-}: ActivityUpsertFormProps) {
+export function ActivityUpsertForm({ createActivityAction }: ActivityUpsertFormProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -36,10 +34,7 @@ export function ActivityUpsertForm({
     setIsModalOpen(false);
   };
 
-  const [serverActionResult, formAction] = useActionState(
-    createActivityAction,
-    initialState
-  );
+  const [serverActionResult, formAction] = useActionState(createActivityAction, initialState);
 
   useEffect(() => {
     if (serverActionResult.success) {

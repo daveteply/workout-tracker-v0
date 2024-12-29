@@ -5,7 +5,7 @@ import { useFormStatus } from 'react-dom';
 import { PencilIcon } from '@heroicons/react/16/solid';
 
 import WTModal from '@repo/ui/wt-modal';
-import { ActivityCategoryDTO } from '@repo/dto/activity-category';
+import { ActivityDTO } from '@repo/dto/activity';
 
 const initialState = {
   message: '',
@@ -20,18 +20,15 @@ function SubmitButton() {
   );
 }
 
-export function ActivityCategoryUpdateForm({
-  updateActivityCategoryAction,
+export function ActivityUpdateForm({
+  updateActivityAction,
   dto,
 }: {
-  updateActivityCategoryAction: any;
-  dto: ActivityCategoryDTO;
+  updateActivityAction: any;
+  dto: ActivityDTO;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [serverActionResult, formAction] = useActionState(
-    updateActivityCategoryAction,
-    initialState,
-  );
+  const [serverActionResult, formAction] = useActionState(updateActivityAction, initialState);
 
   useEffect(() => {
     if (!serverActionResult?.message) {
@@ -45,16 +42,11 @@ export function ActivityCategoryUpdateForm({
         <PencilIcon className="size-5 text-blue-500" />
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
-        <p>Activity Category</p>
+        <p>Activity</p>
         <form action={formAction}>
-          <input
-            type="text"
-            id="activity-category-title"
-            name="title"
-            defaultValue={dto?.title}
-            required
-          />
-          <input type="hidden" id="activity-category-slug" name="slug" value={dto?.slug} />
+          <input type="text" id="activity-title" name="title" defaultValue={dto?.title} required />
+          <input type="hidden" name="activity-slug" value={dto.slug} />
+          <input type="hidden" name="activity-category-slug" value={dto.categorySlug} />
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel

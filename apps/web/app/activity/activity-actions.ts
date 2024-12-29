@@ -2,14 +2,9 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { HTTP_STATUS_CREATED } from '../constants';
+import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../constants';
 
-export async function createActivity(
-  prevState: {
-    message: string;
-  },
-  formData: FormData,
-) {
+export async function createActivity(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     title: z.string().min(1),
     activityCategorySlug: z.string(),
@@ -43,12 +38,43 @@ export async function createActivity(
   }
 }
 
-export async function deleteActivity(
-  prevState: {
-    message: string;
-  },
-  formData: FormData,
-) {
+export async function updateActivity(prevState: { message: string }, formData: FormData) {
+  const schema = z.object({
+    title: z.string().min(1),
+    activitySlug: z.string(),
+    activityCategorySlug: z.string(),
+  });
+
+  const parse = schema.safeParse({
+    title: formData.get('title'),
+    activitySlug: formData.get('activity-slug'),
+    activityCategorySlug: formData.get('activity-category-slug'),
+  });
+
+  if (!parse.success) {
+    return { message: 'Failed to create' };
+  }
+
+  const data = parse.data;
+
+  const response = await fetch(`http://localhost:8080/activity/${data.activitySlug}`, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
+
+  if (response.status === HTTP_STATUS_OK) {
+    // TODO: toast
+    console.info(`Created new activity: ${data.title}`);
+    revalidatePath('/');
+  } else {
+    return {
+      message: `Failed to delete activity: ${response.statusText}`,
+    };
+  }
+}
+
+export async function deleteActivity(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     slug: z.string().min(1),
   });
@@ -66,7 +92,7 @@ export async function deleteActivity(
 
   const response = await fetch(url, { method: 'DELETE' });
 
-  if (response.status === 200) {
+  if (response.status === HTTP_STATUS_OK) {
     revalidatePath('/');
     // nothing to return
   } else {

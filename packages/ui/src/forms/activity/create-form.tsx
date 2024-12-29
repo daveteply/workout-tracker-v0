@@ -8,55 +8,49 @@ const initialState = {
   message: '',
 };
 
-interface ActivityUpsertFormProps {
-  activityCategorySlug: string;
-  createActivityAction: any;
-}
-
 function SubmitButton() {
   const { pending } = useFormStatus();
-
   return (
     <button className="btn btn-primary" type="submit" aria-disabled={pending}>
-      Save
+      Add Activity
     </button>
   );
 }
 
-export function ActivityUpsertForm({
-  activityCategorySlug,
+export function ActivityCreateForm({
   createActivityAction,
-}: ActivityUpsertFormProps) {
+  activityCategorySlug,
+}: {
+  createActivityAction: any;
+  activityCategorySlug: string;
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   const [serverActionResult, formAction] = useActionState(createActivityAction, initialState);
 
   useEffect(() => {
     if (!serverActionResult?.message) {
-      handleCloseModal();
+      setIsModalOpen(false);
     }
   }, [serverActionResult]);
 
   return (
     <div>
-      <button className="btn btn-primary" onClick={handleOpenModal}>
+      <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
         Add Activity
       </button>
-      <WTModal isOpen={isModalOpen} hideClose={true} onClose={handleCloseModal}>
+      <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity</p>
         <form action={formAction}>
-          <input type="text" id="activity-title" name="title" required />
+          <input
+            type="text"
+            id="activity-title"
+            name="title"
+            placeholder="Activity Title"
+            required
+          />
           <input type="hidden" name="activity-category-slug" value={activityCategorySlug} />
           <div className="modal-action">
-            <button className="btn" onClick={handleCloseModal}>
+            <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
             <SubmitButton />

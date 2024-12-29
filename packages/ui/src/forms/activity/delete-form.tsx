@@ -19,8 +19,8 @@ function DeleteButton() {
 }
 
 export function ActivityDeleteForm({
-  slug,
   deleteActivityAction,
+  slug,
 }: {
   slug: string;
   deleteActivityAction: any;

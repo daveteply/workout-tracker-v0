@@ -32,10 +32,12 @@ export default async function ActivityCategoryPage() {
             dto={ac}
             updateActivityCategoryAction={updateActivityCategory}
           />
-          <ActivityCategoryDeleteForm
-            slug={ac.slug || ''}
-            deleteActivityCategoryAction={deleteActivityCategory}
-          />
+          {ac.slug && (
+            <ActivityCategoryDeleteForm
+              slug={ac.slug}
+              deleteActivityCategoryAction={deleteActivityCategory}
+            />
+          )}
         </div>
       ))}
     </div>

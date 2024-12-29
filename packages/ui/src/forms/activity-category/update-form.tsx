@@ -28,15 +28,6 @@ export function ActivityCategoryUpdateForm({
   dto?: ActivityCategoryDTO;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   const [serverActionResult, formAction] = useActionState(
     updateActivityCategoryAction,
     initialState,
@@ -44,16 +35,16 @@ export function ActivityCategoryUpdateForm({
 
   useEffect(() => {
     if (!serverActionResult?.message) {
-      handleCloseModal();
+      setIsModalOpen(false);
     }
   }, [serverActionResult]);
 
   return (
     <div>
-      <button onClick={handleOpenModal}>
+      <button onClick={() => setIsModalOpen(true)}>
         <PencilIcon className="size-5 text-blue-500" />
       </button>
-      <WTModal isOpen={isModalOpen} hideClose={true} onClose={handleCloseModal}>
+      <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity Category</p>
         <form action={formAction}>
           <input
@@ -65,7 +56,7 @@ export function ActivityCategoryUpdateForm({
           />
           <input type="hidden" id="activity-category-slug" name="slug" value={dto?.slug} />
           <div className="modal-action">
-            <button className="btn" onClick={handleCloseModal}>
+            <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
             <SubmitButton />

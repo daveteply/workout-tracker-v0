@@ -1,7 +1,6 @@
 'use client';
 
 import { TrashIcon } from '@heroicons/react/16/solid';
-import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import { useActionState, useEffect } from 'react';
 import { useFormStatus } from 'react-dom';
 

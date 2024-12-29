@@ -23,15 +23,6 @@ export function ActivityCategoryCreateForm({
   createActivityCategoryAction?: any;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   const [serverActionResult, formAction] = useActionState(
     createActivityCategoryAction,
     initialState,
@@ -39,16 +30,16 @@ export function ActivityCategoryCreateForm({
 
   useEffect(() => {
     if (!serverActionResult?.message) {
-      handleCloseModal();
+      setIsModalOpen(false);
     }
   }, [serverActionResult]);
 
   return (
     <div>
-      <button className="btn btn-primary" onClick={handleOpenModal}>
+      <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
         Add Activity Category
       </button>
-      <WTModal isOpen={isModalOpen} hideClose={true} onClose={handleCloseModal}>
+      <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity Category</p>
         <form action={formAction}>
           <input
@@ -59,7 +50,7 @@ export function ActivityCategoryCreateForm({
             required
           />
           <div className="modal-action">
-            <button className="btn" onClick={handleCloseModal}>
+            <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
             <SubmitButton />

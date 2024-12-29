@@ -1,0 +1,22 @@
+{
+    "name": "@repo/dto",
+    "version": "0.0.0",
+    "type": "module",
+    "private": true,
+    "files": [
+      "dist"
+    ],
+    "scripts": {
+      "dev": "tsc --watch",
+      "build": "tsc"
+    },
+    "exports": {
+        "./activity-category": "./src/activity-category.tsx"
+    },
+    "devDependencies": {
+      "@repo/eslint-config": "^0.0.0",
+      "@repo/tailwind-config": "^0.0.0",
+      "@repo/typescript-config": "^0.0.0",
+      "typescript": "5.7.2"
+    }
+  }

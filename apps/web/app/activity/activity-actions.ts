@@ -33,11 +33,12 @@ export async function createActivity(
   });
 
   if (response.status === HTTP_STATUS_CREATED) {
+    // TODO: toast
+    console.info(`Created new activity category: ${data.title}`);
     revalidatePath('/');
-    // nothing to return
   } else {
     return {
-      message: 'Failed to delete activity category: ' + response.statusText,
+      message: `Failed to delete activity category: ${response.statusText}`,
     };
   }
 }

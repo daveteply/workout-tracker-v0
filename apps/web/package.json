@@ -21,6 +21,7 @@
     "@repo/tailwind-config": "^0.0.0",
     "@repo/typescript-config": "^0.0.0",
     "@repo/ui": "^0.0.0",
+    "@repo/dto": "^0.0.0",
     "@tailwindcss/forms": "^0.5.9",
     "@tailwindcss/typography": "^0.5.15",
     "@types/node": "^22.10.2",

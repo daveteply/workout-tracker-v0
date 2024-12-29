@@ -17,7 +17,8 @@
     "./wt-modal": "./src/wt-modal.tsx",
     "./activity-upsert-form": "./src/forms/activity/upsert-form.tsx",
     "./activity-delete-form": "./src/forms/activity/delete-form.tsx",
-    "./activity-category-upsert-form": "./src/forms/activity-category/upsert-form.tsx",
+    "./activity-category-create-form": "./src/forms/activity-category/create-form.tsx",
+    "./activity-category-update-form": "./src/forms/activity-category/update-form.tsx",
     "./activity-category-delete-form": "./src/forms/activity-category/delete-form.tsx"
   },
   "scripts": {
@@ -31,6 +32,7 @@
     "@repo/eslint-config": "^0.0.0",
     "@repo/tailwind-config": "^0.0.0",
     "@repo/typescript-config": "^0.0.0",
+    "@repo/dto": "^0.0.0",
     "@tailwindcss/typography": "^0.5.15",
     "@turbo/gen": "^2.3.3",
     "@types/node": "^22.10.2",

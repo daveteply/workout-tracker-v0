@@ -1,8 +1,14 @@
 import Link from 'next/link';
 
-import { ActivityCategoryUpsertForm } from '@repo/ui/activity-category-upsert-form';
+import { ActivityCategoryCreateForm } from '@repo/ui/activity-category-create-form';
+import { ActivityCategoryUpdateForm } from '@repo/ui/activity-category-update-form';
 import { ActivityCategoryDeleteForm } from '@repo/ui/activity-category-delete-form';
-import { createActivityCategory, deleteActivityCategory } from './activity-category-actions';
+import { ActivityCategoryDTO } from '@repo/dto/activity-category';
+import {
+  createActivityCategory,
+  deleteActivityCategory,
+  updateActivityCategory,
+} from './activity-category-actions';
 
 export default async function ActivityCategoryPage() {
   const data = await fetch('http://localhost:8080/activity-category');
@@ -11,9 +17,9 @@ export default async function ActivityCategoryPage() {
   return (
     <div>
       <h3>Activity Category</h3>
-      <ActivityCategoryUpsertForm createActivityCategoryAction={createActivityCategory} />
+      <ActivityCategoryCreateForm createActivityCategoryAction={createActivityCategory} />
       <div className="divider"></div>
-      {activityCategories.map((ac: any) => (
+      {activityCategories.map((ac: ActivityCategoryDTO) => (
         <div className="flex" key={ac.slug}>
           {ac.title}
           <Link
@@ -22,8 +28,12 @@ export default async function ActivityCategoryPage() {
           >
             Activities
           </Link>
+          <ActivityCategoryUpdateForm
+            dto={ac}
+            updateActivityCategoryAction={updateActivityCategory}
+          />
           <ActivityCategoryDeleteForm
-            slug={ac.slug}
+            slug={ac.slug || ''}
             deleteActivityCategoryAction={deleteActivityCategory}
           />
         </div>

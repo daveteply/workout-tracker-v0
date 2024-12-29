@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { activity_category } from '@prisma/client';
 import { PrismaClientService } from 'src/services/prisma-client/prisma-client.service';
 import { UtilsService } from 'src/services/utils/utils.service';
@@ -26,6 +26,15 @@ export class ActivityCategoryController {
   @Post()
   async createActivityCategory(@Body() body: any): Promise<void> {
     await this.clientService.client.activity_category.create({
+      data: { title: body.title },
+    });
+  }
+
+  @Patch(':slug')
+  async updateActivityCategory(@Param('slug') slug: string, @Body() body: any): Promise<void> {
+    const id = this.utilsService.getId(slug);
+    await this.clientService.client.activity_category.update({
+      where: { category_id: id },
       data: { title: body.title },
     });
   }

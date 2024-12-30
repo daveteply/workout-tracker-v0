@@ -7,19 +7,28 @@ export default async function Tracking() {
   return (
     <div>
       <h3>Tracking</h3>
-      <h4>Select a Category</h4>
-      <div className="flex">
+      <h4>Select a Category:</h4>
+      <div className="flex flex-wrap">
         {activityCategories.map((c: any) => (
-          <Link
-            className="btn mx-1"
-            key={c.slug}
-            href={{
-              pathname: 'tracking/activity/',
-              query: { cs: c.slug },
-            }}
-          >
-            {c.title}
-          </Link>
+          <div className="card card-compact w-60 border border-blue-400 m-2" key={c.slug}>
+            <figure>
+              <div className="text-6xl after:content-['\01f3c3']"></div>
+            </figure>
+            <div className="card-body capitalize">
+              <h4 className="card-title">{c.title}</h4>
+              <div className="card-actions justify-end">
+                <Link
+                  className="btn btn-primary"
+                  href={{
+                    pathname: 'tracking/activity/',
+                    query: { cs: c.slug },
+                  }}
+                >
+                  Select
+                </Link>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>

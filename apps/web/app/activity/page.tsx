@@ -28,14 +28,31 @@ export default async function ActivityPage(params: any) {
         createActivityAction={createActivity}
         activityCategorySlug={activityCategorySlug}
       />
-      <div className="divider"></div>
-      {activities.map((a: ActivityDTO) => (
-        <div className="capitalize flex" key={a.slug}>
-          {a.title}
-          <ActivityUpdateForm updateActivityAction={updateActivity} dto={a} />
-          {a.slug && <ActivityDeleteForm deleteActivityAction={deleteActivity} slug={a.slug} />}
-        </div>
-      ))}
+      <div className="overflow-x-auto">
+        <table className="table table-xs md:table-md">
+          <thead>
+            <tr>
+              <th>Activity</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {activities.map((a: ActivityDTO) => (
+              <tr key={a.slug}>
+                <td>{a.title}</td>
+                <td>
+                  <div className="flex justify-end">
+                    <ActivityUpdateForm updateActivityAction={updateActivity} dto={a} />
+                    {a.slug && (
+                      <ActivityDeleteForm deleteActivityAction={deleteActivity} slug={a.slug} />
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

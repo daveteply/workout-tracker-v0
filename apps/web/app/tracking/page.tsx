@@ -9,7 +9,7 @@ export default async function Tracking() {
     <div>
       <h3>Tracking</h3>
       <h4>Select a Category:</h4>
-      <div className="flex flex-wrap justify-center md:justify-start">
+      <div className="flex flex-wrap justify-center">
         {activityCategories.map((c: ActivityCategoryDTO) => (
           <div
             className="card card-compact border border-2 border-blue-300 m-2 basis-36 md:basis-52"

@@ -22,9 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.className + ' h-full'}>
       <body className="h-full flex flex-col prose max-w-none">
-        <header>
-          <nav className="navbar bg-base-100 capitalize drop-shadow-md bg-primary-content">
-            <div className="font-bold text-sm sm:text-xl flex-1">Workout Tracker</div>
+        <header className="sticky top-0 z-10">
+          <nav className="navbar bg-base-100 capitalize drop-shadow-lg bg-primary-content">
+            <div className="font-bold text-sm sm:text-xl flex-1">workout tracker</div>
             <div className="flex-none">
               <Link className="btn btn-ghost text-xs sm:text-sm" href="/tracking">
                 start tracking
@@ -35,8 +35,10 @@ export default function RootLayout({
             </div>
           </nav>
         </header>
-        <main className="grow w-full p-5 lg:mx-auto lg:w-3/4 xl:w-2/3">{children}</main>
-        <footer className="footer bg-neutral text-neutral-content p-5">Footer content</footer>
+        <main className="grow container mx-auto px-4 lg:w-3/4 xl:w-2/3">{children}</main>
+        <footer className="footer bg-neutral text-neutral-content p-5 sticky bottom-0">
+          Footer content
+        </footer>
       </body>
     </html>
   );

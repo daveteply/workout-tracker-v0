@@ -2,8 +2,8 @@ import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import Link from 'next/link';
 
 export default async function Tracking() {
-  const data = await fetch('http://localhost:8080/activity-category');
-  const activityCategories = await data.json();
+  const categoryData = await fetch('http://localhost:8080/v1/activity-category');
+  const activityCategories = await categoryData.json();
 
   return (
     <div>
@@ -24,7 +24,7 @@ export default async function Tracking() {
                 <Link
                   className="btn btn-primary btn-sm md:btn-lg"
                   href={{
-                    pathname: 'tracking/activity/',
+                    pathname: '/tracking/activity/',
                     query: { cs: c.slug },
                   }}
                 >

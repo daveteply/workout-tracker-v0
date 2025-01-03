@@ -1,15 +1,22 @@
+import Link from 'next/link';
 import { ActivityDTO } from '@repo/dto/activity';
 
-export default async function TrackingActivityPage(params: any) {
+export default async function TrackingActivityPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ cs: string }>;
+}) {
   // Activity Category
-  const activityCategorySlug = (await params.searchParams).cs;
+  const activityCategorySlug = (await searchParams).cs;
   const categoryData = await fetch(
-    `http://localhost:8080/activity-category/${activityCategorySlug}`,
+    `http://localhost:8080/v1/activity-category/${activityCategorySlug}`,
   );
   const activityCategory = await categoryData.json();
 
   // Activities
-  const activityData = await fetch(`http://localhost:8080/activity/${activityCategorySlug}`);
+  const activityData = await fetch(
+    `http://localhost:8080/v1/activity/category/${activityCategorySlug}`,
+  );
   const activities = await activityData.json();
 
   return (
@@ -31,7 +38,12 @@ export default async function TrackingActivityPage(params: any) {
             <div className="card-body capitalize">
               <h4 className="card-title text-sm md:text-lg">{a.title}</h4>
               <div className="card-actions justify-end">
-                <h4 className="m1 capitalize">Track</h4>
+                <Link
+                  className="btn btn-primary m1 capitalize"
+                  href={{ pathname: '/tracking/track', query: { s: a.slug } }}
+                >
+                  Track
+                </Link>
               </div>
             </div>
           </div>

@@ -19,7 +19,7 @@ export async function createActivityCategory(prevState: { message: string }, for
 
   const data = parse.data;
 
-  const response = await fetch('http://localhost:8080/activity-category', {
+  const response = await fetch('http://localhost:8080/v1/activity-category', {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(data),
@@ -52,7 +52,7 @@ export async function updateActivityCategory(prevState: { message: string }, for
 
   const data = parse.data;
 
-  const response = await fetch(`http://localhost:8080/activity-category/${data.slug}`, {
+  const response = await fetch(`http://localhost:8080/v1/activity-category/${data.slug}`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
     body: JSON.stringify(data),
@@ -82,7 +82,7 @@ export async function deleteActivityCategory(prevState: { message: string }, for
   }
 
   const data = parse.data;
-  const url = `http://localhost:8080/activity-category/${data.slug}`;
+  const url = `http://localhost:8080/v1/activity-category/${data.slug}`;
 
   const response = await fetch(url, { method: 'DELETE' });
 

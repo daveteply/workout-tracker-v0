@@ -21,7 +21,7 @@ export async function createActivity(prevState: { message: string }, formData: F
 
   const data = parse.data;
 
-  const response = await fetch('http://localhost:8080/activity', {
+  const response = await fetch('http://localhost:8080/v1/activity', {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(data),
@@ -57,7 +57,7 @@ export async function updateActivity(prevState: { message: string }, formData: F
 
   const data = parse.data;
 
-  const response = await fetch(`http://localhost:8080/activity/${data.activitySlug}`, {
+  const response = await fetch(`http://localhost:8080/v1/activity/${data.activitySlug}`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
     body: JSON.stringify(data),
@@ -88,7 +88,7 @@ export async function deleteActivity(prevState: { message: string }, formData: F
   }
 
   const data = parse.data;
-  const url = `http://localhost:8080/activity/${data.slug}`;
+  const url = `http://localhost:8080/v1/activity/${data.slug}`;
 
   const response = await fetch(url, { method: 'DELETE' });
 

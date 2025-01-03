@@ -8,12 +8,12 @@ export default async function ActivityPage(params: any) {
   // Activity Category
   const activityCategorySlug = (await params.searchParams).cs;
   const categoryData = await fetch(
-    `http://localhost:8080/activity-category/${activityCategorySlug}`,
+    `http://localhost:8080/v1/activity-category/${activityCategorySlug}`,
   );
   const activityCategory = await categoryData.json();
 
   // Activities
-  const activityData = await fetch(`http://localhost:8080/activity/${activityCategorySlug}`);
+  const activityData = await fetch(`http://localhost:8080/v1/activity/${activityCategorySlug}`);
   const activities = await activityData.json();
 
   return (

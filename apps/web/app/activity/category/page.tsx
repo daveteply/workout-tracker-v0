@@ -11,8 +11,8 @@ import {
 } from './activity-category-actions';
 
 export default async function ActivityCategoryPage() {
-  const data = await fetch('http://localhost:8080/v1/activity-category');
-  const activityCategories = await data.json();
+  const activityCategoryResponse = await fetch('http://localhost:8080/v1/activity-category');
+  const activityCategories = await activityCategoryResponse.json();
 
   return (
     <div>

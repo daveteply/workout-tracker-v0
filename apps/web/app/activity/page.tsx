@@ -7,14 +7,16 @@ import { createActivity, deleteActivity, updateActivity } from './activity-actio
 export default async function ActivityPage(params: any) {
   // Activity Category
   const activityCategorySlug = (await params.searchParams).cs;
-  const categoryData = await fetch(
+  const categoryResponse = await fetch(
     `http://localhost:8080/v1/activity-category/${activityCategorySlug}`,
   );
-  const activityCategory = await categoryData.json();
+  const activityCategory = await categoryResponse.json();
 
-  // Activities
-  const activityData = await fetch(`http://localhost:8080/v1/activity/${activityCategorySlug}`);
-  const activities = await activityData.json();
+  // Activities for Category
+  const activityResponse = await fetch(
+    `http://localhost:8080/v1/activity/category/${activityCategorySlug}`,
+  );
+  const activities = await activityResponse.json();
 
   return (
     <div>

@@ -13,7 +13,6 @@ export class ActivityController {
   @Get('category/:cs')
   @Version('1')
   async getActivitiesByCategory(@Param('cs') categorySlug: string): Promise<activity[]> {
-    console.log(111, categorySlug);
     const id = this.utilsService.getId(categorySlug);
     return await this.clientService.client.activity.findMany({
       where: { category_id: id },

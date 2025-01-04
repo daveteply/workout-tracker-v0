@@ -8,51 +8,49 @@ datasource db {
 }
 
 model member {
-  member_id Int @id @default(autoincrement())
-  email     String @unique
+  member_id Int     @id @default(autoincrement())
+  email     String  @unique
   name      String?
-  role      Role  @default(MEMBER)
+  role      Role    @default(MEMBER)
 }
 
 model activity_category {
-  category_id  Int  @id @default(autoincrement())
-  title        String
-  activity     activity[]
+  category_id Int        @id @default(autoincrement())
+  title       String
+  activity    activity[]
 }
 
 model activity {
-  activity_id   Int @id @default(autoincrement())
-  title         String
-  category      activity_category @relation(fields: [category_id], references: [category_id])
-  category_id   Int
+  activity_id Int               @id @default(autoincrement())
+  title       String
+  category_id Int
+  category    activity_category @relation(fields: [category_id], references: [category_id])
+
+  @@index([category_id], map: "activity_category_id_fkey")
 }
 
-model activity_tracking {
-  member_id   Int
-  activity_id Int
-  set_id      Int
-  sets        activity_tracking_set[] 
-
-  @@id(name: "member_activity", fields:[member_id, activity_id])
+model activity_attribute {
+  attribute_id   String        @id @db.VarChar(12)
+  description    String        @db.VarChar(45)
+  attribute_type AttributeType @default(LENGTH)
 }
 
-model activity_tracking_set {
-  set_id      Int @id @default(autoincrement())
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  weight      Int?
-  reps        Int?
-  incline     Int?
-  speed       Int?
-  time        Int?
-  distance    Int?
+model activity_attributes {
+  activity_id  Int
+  attribute_id String @db.VarChar(12)
 
-  tracking activity_tracking @relation(fields: [member_id, activity_id], references: [member_id, activity_id])
-  member_id   Int
-  activity_id Int
+  @@id([activity_id, attribute_id])
 }
 
 enum Role {
   MEMBER
   ADMIN
+}
+
+enum AttributeType {
+  LENGTH
+  MASS
+  TIME
+  NUMBER
+  STRING
 }

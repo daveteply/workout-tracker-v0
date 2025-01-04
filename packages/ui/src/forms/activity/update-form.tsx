@@ -44,7 +44,14 @@ export function ActivityUpdateForm({
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity</p>
         <form action={formAction}>
-          <input type="text" id="activity-title" name="title" defaultValue={dto?.title} required />
+          <input
+            className="input input-bordered w-full max-w-xs mb-5"
+            type="text"
+            id="activity-title"
+            name="title"
+            defaultValue={dto?.title}
+            required
+          />
           <input type="hidden" name="activity-slug" value={dto.slug} />
           <input type="hidden" name="activity-category-slug" value={dto.categorySlug} />
           <div className="modal-action">

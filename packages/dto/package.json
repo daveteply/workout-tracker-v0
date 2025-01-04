@@ -12,7 +12,8 @@
     },
     "exports": {
         "./activity-category": "./src/activity-category.tsx",
-        "./activity": "./src/activity.tsx"
+        "./activity": "./src/activity.tsx",
+        "./activity-attribute": "./src/activity-attribute.tsx"
 
     },
     "devDependencies": {

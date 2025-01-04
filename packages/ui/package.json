@@ -18,6 +18,9 @@
     "./activity-create-form": "./src/forms/activity/create-form.tsx",
     "./activity-update-form": "./src/forms/activity/update-form.tsx",
     "./activity-delete-form": "./src/forms/activity/delete-form.tsx",
+    "./activity-attribute-create-form": "./src/forms/activity-attribute/create-form.tsx",
+    "./activity-attribute-update-form": "./src/forms/activity-attribute/update-form.tsx",
+    "./activity-attribute-delete-form": "./src/forms/activity-attribute/delete-form.tsx",    
     "./activity-category-create-form": "./src/forms/activity-category/create-form.tsx",
     "./activity-category-update-form": "./src/forms/activity-category/update-form.tsx",
     "./activity-category-delete-form": "./src/forms/activity-category/delete-form.tsx"

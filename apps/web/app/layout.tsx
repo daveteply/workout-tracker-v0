@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import '@repo/ui/styles.css';
 import Link from 'next/link';
+import { Bars3Icon } from '@heroicons/react/16/solid';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,15 +24,33 @@ export default function RootLayout({
     <html lang="en" className={inter.className + ' h-full'}>
       <body className="h-full flex flex-col prose max-w-none">
         <header className="sticky top-0 z-10">
-          <nav className="navbar bg-base-100 capitalize drop-shadow-lg bg-primary-content">
-            <div className="font-bold text-sm sm:text-xl flex-1">workout tracker</div>
-            <div className="flex-none">
-              <Link className="btn btn-ghost text-xs sm:text-sm" href="/tracking">
-                start tracking
-              </Link>
-              <Link className="btn btn-ghost text-xs sm:text-sm" href="/activity/category">
-                activity categories
-              </Link>
+          <nav className="navbar bg-base-100 capitalize drop-shadow-lg bg-primary-content px-5">
+            <Link
+              className="font-bold text-sm sm:text-xl flex-1 no-underline hover:text-white"
+              href="/"
+            >
+              workout tracker
+            </Link>
+            <div className="navbar-end">
+              <div className="dropdown dropdown-end">
+                <div className="dropdown dropdown-end">
+                  <div tabIndex={0} role="button" className="btn m-1">
+                    <Bars3Icon className="size-5" />
+                  </div>
+                  <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 shadow">
+                    <li>
+                      <Link className="no-underline" href="/activity/category">
+                        activity categories
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="no-underline" href="/activity/attributes">
+                        activity attributes
+                      </Link>
+                    </li>
+                  </ul>
+                </div>{' '}
+              </div>
             </div>
           </nav>
         </header>

@@ -27,6 +27,11 @@ export function ActivityCreateForm({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serverActionResult, formAction] = useActionState(createActivityAction, initialState);
 
+  const openModal = () => {
+    initialState.message = '';
+    setIsModalOpen(true);
+  };
+
   useEffect(() => {
     if (!serverActionResult?.message) {
       setIsModalOpen(false);
@@ -35,7 +40,7 @@ export function ActivityCreateForm({
 
   return (
     <div>
-      <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
+      <button className="btn btn-primary" onClick={openModal}>
         Add Activity
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>

@@ -30,6 +30,11 @@ export function ActivityAttributeCreateForm({
     initialState,
   );
 
+  const openModal = () => {
+    initialState.message = '';
+    setIsModalOpen(true);
+  };
+
   useEffect(() => {
     if (!serverActionResult?.message) {
       setIsModalOpen(false);
@@ -38,7 +43,7 @@ export function ActivityAttributeCreateForm({
 
   return (
     <div>
-      <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
+      <button className="btn btn-primary" onClick={openModal}>
         Add Activity Attribute
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>

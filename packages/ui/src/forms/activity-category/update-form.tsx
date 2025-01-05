@@ -33,6 +33,11 @@ export function ActivityCategoryUpdateForm({
     initialState,
   );
 
+  const openModal = () => {
+    initialState.message = '';
+    setIsModalOpen(true);
+  };
+
   useEffect(() => {
     if (!serverActionResult?.message) {
       setIsModalOpen(false);
@@ -41,7 +46,7 @@ export function ActivityCategoryUpdateForm({
 
   return (
     <div>
-      <button onClick={() => setIsModalOpen(true)}>
+      <button onClick={openModal}>
         <PencilIcon className="size-5 text-blue-500" />
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>

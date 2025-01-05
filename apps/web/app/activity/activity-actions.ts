@@ -52,7 +52,7 @@ export async function updateActivity(prevState: { message: string }, formData: F
   });
 
   if (!parse.success) {
-    return { message: 'Failed to create' };
+    return { message: 'Failed to update' };
   }
 
   const data = parse.data;

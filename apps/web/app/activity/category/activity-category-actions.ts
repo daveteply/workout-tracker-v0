@@ -47,7 +47,7 @@ export async function updateActivityCategory(prevState: { message: string }, for
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete' };
+    return { message: 'Failed to update' };
   }
 
   const data = parse.data;

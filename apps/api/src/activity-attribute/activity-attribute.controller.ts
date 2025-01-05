@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Version } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
 import { PrismaClientService } from 'src/services/prisma-client/prisma-client.service';
 
 enum AttributeTypes {
@@ -34,6 +34,23 @@ export class ActivityAttributeController {
         description: body.attributeDescription,
         attribute_type: body.attributeType,
       },
+    });
+  }
+
+  @Patch()
+  @Version('1')
+  async updateActivityCategory(@Body() body: any): Promise<void> {
+    await this.clientService.client.activity_attribute.update({
+      where: { attribute_id: body.attributeId },
+      data: { description: body.attributeDescription, attribute_type: body.attributeType },
+    });
+  }
+
+  @Delete(':id')
+  @Version('1')
+  async deleteActivityCategory(@Param('id') id: string): Promise<void> {
+    await this.clientService.client.activity_attribute.delete({
+      where: { attribute_id: id },
     });
   }
 }

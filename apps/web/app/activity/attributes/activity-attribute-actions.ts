@@ -41,22 +41,24 @@ export async function createActivityAttribute(prevState: { message: string }, fo
 
 export async function updateActivityAttribute(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
-    title: z.string().min(1),
-    slug: z.string(),
+    attributeId: z.string().min(1).max(12),
+    attributeDescription: z.string().optional(),
+    attributeType: z.string(),
   });
 
   const parse = schema.safeParse({
-    title: formData.get('title'),
-    slug: formData.get('slug'),
+    attributeId: formData.get('attribute-id'),
+    attributeDescription: formData.get('attribute-description'),
+    attributeType: formData.get('attribute-type'),
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete' };
+    return { message: 'Failed to update' };
   }
 
   const data = parse.data;
 
-  const response = await fetch(`http://localhost:8080/v1/activity-attribute/${data.slug}`, {
+  const response = await fetch('http://localhost:8080/v1/activity-attribute/', {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
     body: JSON.stringify(data),
@@ -74,11 +76,11 @@ export async function updateActivityAttribute(prevState: { message: string }, fo
 
 export async function deleteActivityAttribute(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
-    slug: z.string().min(1),
+    id: z.string().min(1),
   });
 
   const parse = schema.safeParse({
-    slug: formData.get('slug'),
+    id: formData.get('id'),
   });
 
   if (!parse.success) {
@@ -86,7 +88,7 @@ export async function deleteActivityAttribute(prevState: { message: string }, fo
   }
 
   const data = parse.data;
-  const url = `http://localhost:8080/v1/activity-attribute/${data.slug}`;
+  const url = `http://localhost:8080/v1/activity-attribute/${data.id}`;
 
   const response = await fetch(url, { method: 'DELETE' });
 

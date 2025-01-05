@@ -49,7 +49,7 @@ export function ActivityAttributeCreateForm({
             type="text"
             id="activity-attribute-id"
             name="attribute-id"
-            placeholder="Attribute ID"
+            placeholder="Unique Attribute ID"
             maxLength={12}
             required
           />

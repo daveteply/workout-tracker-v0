@@ -1,6 +1,12 @@
 import { ActivityAttributeCreateForm } from '@repo/ui/activity-attribute-create-form';
-import { createActivityAttribute } from './activity-attribute-actions';
+import {
+  createActivityAttribute,
+  deleteActivityAttribute,
+  updateActivityAttribute,
+} from './activity-attribute-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
+import { ActivityAttributeUpdateForm } from '@repo/ui/activity-attribute-update-form';
+import { ActivityAttributeDeleteForm } from '@repo/ui/activity-attribute-delete-form';
 
 export default async function ActivityAttributesPage(params: any) {
   // Activity Attribute Types
@@ -25,7 +31,7 @@ export default async function ActivityAttributesPage(params: any) {
           <thead>
             <tr>
               <th>Id</th>
-              <th>Desctipion</th>
+              <th>Description</th>
               <th>Type</th>
               <th></th>
             </tr>
@@ -37,7 +43,17 @@ export default async function ActivityAttributesPage(params: any) {
                 <td>{attribute.description}</td>
                 <td>{attribute.attribute_type}</td>
                 <td>
-                  <div className="flex justify-end">TODO: Edit, Delete</div>
+                  <div className="flex justify-end">
+                    <ActivityAttributeUpdateForm
+                      updateActivityAction={updateActivityAttribute}
+                      attributeTypes={activityAttributeTypes}
+                      dto={attribute}
+                    />
+                    <ActivityAttributeDeleteForm
+                      deleteActivityAction={deleteActivityAttribute}
+                      id={attribute.attribute_id}
+                    />
+                  </div>
                 </td>
               </tr>
             ))}

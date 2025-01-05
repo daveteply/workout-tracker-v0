@@ -20,9 +20,9 @@ function DeleteButton() {
 
 export function ActivityAttributeDeleteForm({
   deleteActivityAction,
-  slug,
+  id,
 }: {
-  slug: string;
+  id: string;
   deleteActivityAction: any;
 }) {
   const [serverActionResult, formAction] = useActionState(deleteActivityAction, initialState);
@@ -36,7 +36,7 @@ export function ActivityAttributeDeleteForm({
 
   return (
     <form action={formAction}>
-      <input type="hidden" id="activity-slug" name="slug" value={slug} />
+      <input type="hidden" id="activity-slug" name="id" value={id} />
       <DeleteButton />
     </form>
   );

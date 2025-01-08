@@ -18,15 +18,15 @@ function DeleteButton() {
   );
 }
 
-export function ActivityAttributeDeleteForm({
-  deleteActivityAttributeAction,
-  slug,
+export function ActivityAttributesDeleteForm({
+  deleteActivityAttributesAction,
+  id,
 }: {
-  slug: string;
-  deleteActivityAttributeAction: any;
+  id: string;
+  deleteActivityAttributesAction: any;
 }) {
   const [serverActionResult, formAction] = useActionState(
-    deleteActivityAttributeAction,
+    deleteActivityAttributesAction,
     initialState,
   );
 
@@ -39,7 +39,7 @@ export function ActivityAttributeDeleteForm({
 
   return (
     <form action={formAction}>
-      <input type="hidden" id="activity-slug" name="slug" value={slug} />
+      <input type="hidden" id="activity-slug" name="id" value={id} />
       <DeleteButton />
     </form>
   );

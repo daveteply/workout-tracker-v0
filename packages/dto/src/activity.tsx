@@ -1,5 +1,6 @@
 export interface ActivityDTO {
-  slug?: string;
+  slug: string;
   categorySlug: string;
+  description: string;
   title: string;
 }

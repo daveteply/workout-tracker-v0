@@ -2,11 +2,16 @@ import { ActivityDTO } from '@repo/dto/activity';
 import { ActivityCreateForm } from '@repo/ui/activity-create-form';
 import { ActivityUpdateForm } from '@repo/ui/activity-update-form';
 import { ActivityDeleteForm } from '@repo/ui/activity-delete-form';
-import { createActivity, deleteActivity, updateActivity } from './activity-actions';
+import { createActivity, deleteActivity, updateActivity } from '../../activity-actions';
+import Link from 'next/link';
 
-export default async function ActivityPage(params: any) {
+export default async function ActivityPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ cs: string }>;
+}) {
   // Activity Category
-  const activityCategorySlug = (await params.searchParams).cs;
+  const activityCategorySlug = (await searchParams).cs;
   const categoryResponse = await fetch(
     `http://localhost:8080/v1/activity-category/${activityCategorySlug}`,
   );
@@ -35,15 +40,26 @@ export default async function ActivityPage(params: any) {
           <thead>
             <tr>
               <th>Activity</th>
+              <th>Description</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {activities.map((a: ActivityDTO) => (
               <tr key={a.slug}>
-                <td>{a.title}</td>
+                <td className="capitalize">{a.title}</td>
+                <td>{a.description}</td>
                 <td>
                   <div className="flex justify-end">
+                    <Link
+                      className="btn btn-sm mx-1"
+                      href={{
+                        pathname: '/activity/category/activities/attributes',
+                        query: { s: a.slug },
+                      }}
+                    >
+                      Attributes
+                    </Link>
                     <ActivityUpdateForm updateActivityAction={updateActivity} dto={a} />
                     {a.slug && (
                       <ActivityDeleteForm deleteActivityAction={deleteActivity} slug={a.slug} />

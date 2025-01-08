@@ -7,25 +7,33 @@ export class PrismaClientService {
   constructor(public utilsService: UtilsService) {
     this._client = new PrismaClient().$extends({
       result: {
-        activity_category: {
+        activityCategory: {
           slug: {
-            needs: { category_id: true },
+            needs: { id: true },
             compute(activity_category) {
-              return utilsService.getSqid(activity_category.category_id);
+              return utilsService.getSqid(activity_category.id);
             },
           },
         },
         activity: {
           slug: {
-            needs: { activity_id: true },
+            needs: { id: true },
             compute(activity) {
-              return utilsService.getSqid(activity.activity_id);
+              return utilsService.getSqid(activity.id);
             },
           },
           categorySlug: {
-            needs: { category_id: true },
+            needs: { categoryId: true },
             compute(activity) {
-              return utilsService.getSqid(activity.category_id);
+              return utilsService.getSqid(activity.categoryId);
+            },
+          },
+        },
+        activityAttribute: {
+          slug: {
+            needs: { id: true },
+            compute(activity_attribute) {
+              return utilsService.getSqid(activity_attribute.id);
             },
           },
         },

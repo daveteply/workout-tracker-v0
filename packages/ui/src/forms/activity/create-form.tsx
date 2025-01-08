@@ -54,6 +54,11 @@ export function ActivityCreateForm({
             placeholder="Activity Title"
             required
           />
+          <textarea
+            className="input input-bordered w-full max-w-xs mb-5"
+            id="activity-description"
+            name="description"
+          />
           <input type="hidden" name="activity-category-slug" value={activityCategorySlug} />
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>

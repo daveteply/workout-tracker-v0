@@ -2,19 +2,17 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../constants';
+import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../../../constants';
 
-export async function createActivity(prevState: { message: string }, formData: FormData) {
+export async function createActivityAttributes(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
-    title: z.string().min(1),
-    description: z.string().min(1).optional(),
-    activityCategorySlug: z.string(),
+    activitySlug: z.string(),
+    attributeSlug: z.string(),
   });
 
   const parse = schema.safeParse({
-    title: formData.get('title'),
-    description: formData.get('description'),
-    activityCategorySlug: formData.get('activity-category-slug'),
+    activitySlug: formData.get('activity-slug'),
+    attributeSlug: formData.get('attribute-slug'),
   });
 
   if (!parse.success) {
@@ -23,7 +21,7 @@ export async function createActivity(prevState: { message: string }, formData: F
 
   const data = parse.data;
 
-  const response = await fetch('http://localhost:8080/v1/activity', {
+  const response = await fetch('http://localhost:8080/v1/activity-attributes', {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(data),
@@ -31,26 +29,24 @@ export async function createActivity(prevState: { message: string }, formData: F
 
   if (response.status === HTTP_STATUS_CREATED) {
     // TODO: toast
-    console.info(`Created new activity category: ${data.title}`);
+    console.info('Created new activity attributes');
     revalidatePath('/');
   } else {
     return {
-      message: `Failed to delete activity category: ${response.statusText}`,
+      message: `Failed to create activity attributes: ${response.statusText}`,
     };
   }
 }
 
-export async function updateActivity(prevState: { message: string }, formData: FormData) {
+export async function updateActivityAttributes(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     title: z.string().min(1),
-    description: z.string().min(1).optional(),
     activitySlug: z.string(),
     activityCategorySlug: z.string(),
   });
 
   const parse = schema.safeParse({
     title: formData.get('title'),
-    description: formData.get('description'),
     activitySlug: formData.get('activity-slug'),
     activityCategorySlug: formData.get('activity-category-slug'),
   });
@@ -78,7 +74,7 @@ export async function updateActivity(prevState: { message: string }, formData: F
   }
 }
 
-export async function deleteActivity(prevState: { message: string }, formData: FormData) {
+export async function deleteActivityAttributes(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     slug: z.string().min(1),
   });

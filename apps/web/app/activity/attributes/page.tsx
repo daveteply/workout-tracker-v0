@@ -8,7 +8,12 @@ import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ActivityAttributeUpdateForm } from '@repo/ui/activity-attribute-update-form';
 import { ActivityAttributeDeleteForm } from '@repo/ui/activity-attribute-delete-form';
 
-export default async function ActivityAttributesPage(params: any) {
+/**
+ * General use Activity Attributes to be attached to an Activity
+ * @param params
+ * @returns
+ */
+export default async function ActivityAttributesPage() {
   // Activity Attribute Types
   const activityAttributeTypesResponse = await fetch(
     'http://localhost:8080/v1/activity-attribute/types',
@@ -30,7 +35,7 @@ export default async function ActivityAttributesPage(params: any) {
         <table className="table table-xs md:table-md">
           <thead>
             <tr>
-              <th>Id</th>
+              <th>Title</th>
               <th>Description</th>
               <th>Type</th>
               <th></th>
@@ -38,20 +43,20 @@ export default async function ActivityAttributesPage(params: any) {
           </thead>
           <tbody>
             {activityAttributes.map((attribute: ActivityAttributeDTO) => (
-              <tr key={attribute.attribute_id}>
-                <td>{attribute.attribute_id}</td>
+              <tr key={attribute.slug}>
+                <td>{attribute.title}</td>
                 <td>{attribute.description}</td>
-                <td>{attribute.attribute_type}</td>
+                <td>{attribute.attributeType}</td>
                 <td>
                   <div className="flex justify-end">
                     <ActivityAttributeUpdateForm
-                      updateActivityAction={updateActivityAttribute}
+                      updateActivityAttributeAction={updateActivityAttribute}
                       attributeTypes={activityAttributeTypes}
                       dto={attribute}
                     />
                     <ActivityAttributeDeleteForm
-                      deleteActivityAction={deleteActivityAttribute}
-                      id={attribute.attribute_id}
+                      deleteActivityAttributeAction={deleteActivityAttribute}
+                      slug={attribute.slug}
                     />
                   </div>
                 </td>

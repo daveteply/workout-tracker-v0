@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
 import { PrismaClientService } from 'src/services/prisma-client/prisma-client.service';
+import { UtilsService } from 'src/services/utils/utils.service';
 
 enum AttributeTypes {
   LENGTH,
@@ -11,7 +12,10 @@ enum AttributeTypes {
 
 @Controller('activity-attribute')
 export class ActivityAttributeController {
-  constructor(private clientService: PrismaClientService) {}
+  constructor(
+    private clientService: PrismaClientService,
+    private utilsService: UtilsService,
+  ) {}
 
   @Get('types')
   @Version('1')
@@ -22,17 +26,17 @@ export class ActivityAttributeController {
   @Get()
   @Version('1')
   async getActivityAttributes() {
-    return await this.clientService.client.activity_attribute.findMany();
+    return await this.clientService.client.activityAttribute.findMany();
   }
 
   @Post()
   @Version('1')
   async createActivity(@Body() body: any): Promise<void> {
-    await this.clientService.client.activity_attribute.create({
+    await this.clientService.client.activityAttribute.create({
       data: {
-        attribute_id: body.attributeId,
+        title: body.attributeTitle,
         description: body.attributeDescription,
-        attribute_type: body.attributeType,
+        attributeType: body.attributeType,
       },
     });
   }
@@ -40,17 +44,23 @@ export class ActivityAttributeController {
   @Patch()
   @Version('1')
   async updateActivityCategory(@Body() body: any): Promise<void> {
-    await this.clientService.client.activity_attribute.update({
-      where: { attribute_id: body.attributeId },
-      data: { description: body.attributeDescription, attribute_type: body.attributeType },
+    console.log('1111 body', body);
+    const id = this.utilsService.getId(body.slug);
+    await this.clientService.client.activityAttribute.update({
+      where: { id: id },
+      data: {
+        title: body.attributeTitle,
+        description: body.attributeDescription,
+        attributeType: body.attributeType,
+      },
     });
   }
 
   @Delete(':id')
   @Version('1')
-  async deleteActivityCategory(@Param('id') id: string): Promise<void> {
-    await this.clientService.client.activity_attribute.delete({
-      where: { attribute_id: id },
+  async deleteActivityCategory(@Param('id') id: number): Promise<void> {
+    await this.clientService.client.activityAttribute.delete({
+      where: { id: id },
     });
   }
 }

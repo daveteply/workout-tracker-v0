@@ -7,41 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model member {
-  member_id Int     @id @default(autoincrement())
-  email     String  @unique
-  name      String?
-  role      Role    @default(MEMBER)
-}
-
-model activity_category {
-  category_id Int        @id @default(autoincrement())
-  title       String
-  activity    activity[]
-}
-
-model activity {
-  activity_id Int               @id @default(autoincrement())
-  title       String
-  category_id Int
-  category    activity_category @relation(fields: [category_id], references: [category_id])
-
-  @@index([category_id], map: "activity_category_id_fkey")
-}
-
-model activity_attribute {
-  attribute_id   String        @id @db.VarChar(12)
-  description    String        @db.VarChar(45)
-  attribute_type AttributeType @default(LENGTH)
-}
-
-model activity_attributes {
-  activity_id  Int
-  attribute_id String @db.VarChar(12)
-
-  @@id([activity_id, attribute_id])
-}
-
 enum Role {
   MEMBER
   ADMIN
@@ -54,3 +19,97 @@ enum AttributeType {
   NUMBER
   STRING
 }
+
+// Model definitions
+
+model ActivityCategory {
+  id          Int        @id @default(autoincrement()) @map("activity_category_id")
+  title       String
+  description String?   @db.VarChar(512)
+  createdAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  activities  Activity[]
+  @@map("activity_categories")
+}
+
+model Activity {
+  id          Int               @id @default(autoincrement()) @map("activity_id")
+
+  category    ActivityCategory  @relation(fields: [categoryId], references: [id])
+  categoryId  Int  
+
+  title       String
+  description String?   @db.VarChar(512)
+  createdAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  attributes  ActivityActivityAttributes[]
+  @@map("activities")
+}
+
+model ActivityAttribute {
+  id            Int        @id @default(autoincrement()) @map("activity_attribute_id")
+  title         String
+  description String?   @db.VarChar(512)
+  attributeType AttributeType @default(LENGTH)
+  createdAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  attributes    ActivityActivityAttributes[]
+  @@map("activity_attributes")
+}
+
+model ActivityActivityAttributes {
+  activity          Activity           @relation(fields: [activityId], references: [id])
+  activityId        Int
+
+  activityAttribute ActivityAttribute  @relation(fields: [attributeId], references: [id])
+  attributeId       Int
+ 
+  createdAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([activityId, attributeId])
+  @@map("activity_activity_attributes")
+}
+
+model Workout {
+  id        Int     @id @default(autoincrement()) @map("workout_id")
+  title     String
+  members   MemberWorkout[]
+
+  createdAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("workouts")
+}
+
+model Member {
+  id        Int     @id @default(autoincrement()) @map("member_id")
+  email     String  @unique
+  name      String?
+  role      Role    @default(MEMBER)
+  workouts  MemberWorkout[]
+
+  createdAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("members")
+} 
+
+model MemberWorkout {
+  member    Member  @relation(fields: [memberId], references: [id])
+  memberId  Int
+
+  workout   Workout @relation(fields: [workoutId], references: [id])
+  workoutId Int
+
+  createdAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([memberId, workoutId])
+  @@map("member_workouts")
+}
+
+

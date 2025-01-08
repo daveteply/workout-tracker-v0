@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import WTModal from '@repo/ui/wt-modal';
+import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 
 const initialState = {
   message: '',
@@ -17,16 +18,18 @@ function SubmitButton() {
   );
 }
 
-export function ActivityAttributeCreateForm({
-  createActivityAttributeAction,
-  attributeTypes,
+export function ActivityAttributesCreateForm({
+  createActivityAttributesAction,
+  attributes,
+  activitySlug,
 }: {
-  createActivityAttributeAction: any;
-  attributeTypes: string[];
+  createActivityAttributesAction: any;
+  attributes: ActivityAttributeDTO[];
+  activitySlug: string;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serverActionResult, formAction] = useActionState(
-    createActivityAttributeAction,
+    createActivityAttributesAction,
     initialState,
   );
 
@@ -49,29 +52,15 @@ export function ActivityAttributeCreateForm({
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity Attribute</p>
         <form action={formAction}>
-          <input
-            className="input input-bordered w-1/2 max-w-xs mb-5"
-            type="text"
-            id="activity-attribute-title"
-            name="attribute-title"
-            placeholder="Attribute title"
-            required
-          />
-          <input
-            className="input input-bordered w-full max-w-xs mb-5"
-            type="text"
-            id="activity-attribute-description"
-            name="attribute-description"
-            placeholder="Description"
-          />
+          <input type="hidden" name="activity-slug" value={activitySlug} />
           <select
-            className="select select-bordered w-1/3 max-w-xs mb-5"
+            className="select select-bordered w-1/3 max-w-xs mb-5 w-full"
             id="activity-attribute-type"
-            name="attribute-type"
+            name="attribute-slug"
           >
-            {attributeTypes.map((attributeType) => (
-              <option key={attributeType} value={attributeType}>
-                {attributeType}
+            {attributes.map((attribute) => (
+              <option key={attribute.slug} value={attribute.slug}>
+                {attribute.title} ({attribute.attributeType})
               </option>
             ))}
           </select>

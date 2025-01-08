@@ -56,9 +56,15 @@ export function ActivityCategoryUpdateForm({
             className="input input-bordered w-full max-w-xs mb-5"
             type="text"
             id="activity-category-title"
-            name="title"
+            name="attribute-title"
             defaultValue={dto?.title}
             required
+          />
+          <textarea
+            className="input input-bordered w-full max-w-xs mb-5"
+            id="activity-category-description"
+            name="attribute-description"
+            defaultValue={dto?.description}
           />
           <input type="hidden" id="activity-category-slug" name="slug" value={dto?.slug} />
           <div className="modal-action">

@@ -57,6 +57,12 @@ export function ActivityUpdateForm({
             defaultValue={dto?.title}
             required
           />
+          <textarea
+            className="input input-bordered w-full max-w-xs mb-5"
+            id="activity-description"
+            name="description"
+            defaultValue={dto?.description}
+          />
           <input type="hidden" name="activity-slug" value={dto.slug} />
           <input type="hidden" name="activity-category-slug" value={dto.categorySlug} />
           <div className="modal-action">

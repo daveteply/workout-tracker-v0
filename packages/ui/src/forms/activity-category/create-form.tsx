@@ -48,11 +48,17 @@ export function ActivityCategoryCreateForm({
         <p>Activity Category</p>
         <form action={formAction}>
           <input
+            className="input input-bordered w-full max-w-xs mb-5"
             type="text"
             id="activity-category-title"
             name="title"
             placeholder="Activity Category Title"
             required
+          />
+          <textarea
+            className="input input-bordered w-full max-w-xs mb-5"
+            id="activity-category-description"
+            name="description"
           />
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>

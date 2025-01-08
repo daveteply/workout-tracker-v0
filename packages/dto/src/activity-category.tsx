@@ -1,4 +1,5 @@
 export interface ActivityCategoryDTO {
-  slug?: string;
+  slug: string;
   title: string;
+  description: string;
 }

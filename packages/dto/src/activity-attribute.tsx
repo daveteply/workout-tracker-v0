@@ -1,5 +1,6 @@
 export interface ActivityAttributeDTO {
-  attribute_id: string;
+  slug: string;
+  title: string;
   description: string;
-  attribute_type: string;
+  attributeType: string;
 }

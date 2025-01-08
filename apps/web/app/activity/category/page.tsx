@@ -23,18 +23,20 @@ export default async function ActivityCategoryPage() {
           <thead>
             <tr>
               <th>Category</th>
+              <th>Description</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
             {activityCategories.map((ac: ActivityCategoryDTO) => (
               <tr key={ac.slug}>
-                <td>{ac.title}</td>
+                <td className="capitalize">{ac.title}</td>
+                <td>{ac.description}</td>
                 <td>
                   <div className="flex justify-end">
                     <Link
                       className="btn btn-sm mx-1"
-                      href={{ pathname: '/activity/', query: { cs: ac.slug } }}
+                      href={{ pathname: '/activity/category/activities', query: { cs: ac.slug } }}
                     >
                       Activities
                     </Link>

@@ -6,13 +6,13 @@ import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../constants';
 
 export async function createActivityAttribute(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
-    attributeId: z.string().min(1).max(12),
+    attributeTitle: z.string().min(1),
     attributeDescription: z.string().optional(),
     attributeType: z.string(),
   });
 
   const parse = schema.safeParse({
-    attributeId: formData.get('attribute-id'),
+    attributeTitle: formData.get('attribute-title'),
     attributeDescription: formData.get('attribute-description'),
     attributeType: formData.get('attribute-type'),
   });
@@ -41,13 +41,15 @@ export async function createActivityAttribute(prevState: { message: string }, fo
 
 export async function updateActivityAttribute(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
-    attributeId: z.string().min(1).max(12),
+    slug: z.string().min(1),
+    attributeTitle: z.string().min(1),
     attributeDescription: z.string().optional(),
     attributeType: z.string(),
   });
 
   const parse = schema.safeParse({
-    attributeId: formData.get('attribute-id'),
+    slug: formData.get('slug'),
+    attributeTitle: formData.get('attribute-title'),
     attributeDescription: formData.get('attribute-description'),
     attributeType: formData.get('attribute-type'),
   });
@@ -76,11 +78,11 @@ export async function updateActivityAttribute(prevState: { message: string }, fo
 
 export async function deleteActivityAttribute(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
-    id: z.string().min(1),
+    slug: z.string().min(1),
   });
 
   const parse = schema.safeParse({
-    id: formData.get('id'),
+    slug: formData.get('slug'),
   });
 
   if (!parse.success) {
@@ -88,7 +90,7 @@ export async function deleteActivityAttribute(prevState: { message: string }, fo
   }
 
   const data = parse.data;
-  const url = `http://localhost:8080/v1/activity-attribute/${data.id}`;
+  const url = `http://localhost:8080/v1/activity-attribute/${data.slug}`;
 
   const response = await fetch(url, { method: 'DELETE' });
 

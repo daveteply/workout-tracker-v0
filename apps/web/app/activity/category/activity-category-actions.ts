@@ -7,10 +7,12 @@ import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../constants';
 export async function createActivityCategory(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     title: z.string().min(1),
+    description: z.string().min(1).optional(),
   });
 
   const parse = schema.safeParse({
     title: formData.get('title'),
+    description: formData.get('description'),
   });
 
   if (!parse.success) {
@@ -38,11 +40,13 @@ export async function createActivityCategory(prevState: { message: string }, for
 export async function updateActivityCategory(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     title: z.string().min(1),
+    description: z.string().min(1).optional(),
     slug: z.string(),
   });
 
   const parse = schema.safeParse({
     title: formData.get('title'),
+    description: formData.get('description'),
     slug: formData.get('slug'),
   });
 

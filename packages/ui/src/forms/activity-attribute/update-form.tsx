@@ -21,16 +21,19 @@ function SubmitButton() {
 }
 
 export function ActivityAttributeUpdateForm({
-  updateActivityAction,
+  updateActivityAttributeAction,
   attributeTypes,
   dto,
 }: {
-  updateActivityAction: any;
+  updateActivityAttributeAction: any;
   attributeTypes: string[];
   dto: ActivityAttributeDTO;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [serverActionResult, formAction] = useActionState(updateActivityAction, initialState);
+  const [serverActionResult, formAction] = useActionState(
+    updateActivityAttributeAction,
+    initialState,
+  );
 
   const openModal = () => {
     initialState.message = '';
@@ -52,15 +55,13 @@ export function ActivityAttributeUpdateForm({
         <p>Activity Attribute</p>
         <form action={formAction}>
           <input
-            className="input input-bordered w-1/2 max-w-xs mb-5 read-only:bg-gray-100"
+            className="input input-bordered w-1/2 max-w-xs mb-5"
             type="text"
-            id="activity-attribute-id"
-            name="attribute-id"
-            placeholder="Unique Attribute ID"
-            maxLength={12}
-            defaultValue={dto.attribute_id}
+            id="activity-attribute-title"
+            name="attribute-title"
+            placeholder="Attribute title"
+            defaultValue={dto.title}
             required
-            readOnly
           />
           <input
             className="input input-bordered w-full max-w-xs mb-5"
@@ -75,7 +76,7 @@ export function ActivityAttributeUpdateForm({
             className="select select-bordered w-1/3 max-w-xs mb-5"
             id="activity-attribute-type"
             name="attribute-type"
-            defaultValue={dto.attribute_type}
+            defaultValue={dto.attributeType}
           >
             {attributeTypes.map((attributeType) => (
               <option key={attributeType} value={attributeType}>
@@ -83,6 +84,7 @@ export function ActivityAttributeUpdateForm({
               </option>
             ))}
           </select>
+          <input type="hidden" id="activity-attribute-slug" name="slug" value={dto?.slug} />
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel

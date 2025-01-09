@@ -27,6 +27,10 @@ export default async function ActivityAttributesPage() {
   return (
     <div>
       <h3>Activity Attributes</h3>
+      <p>
+        These attributes are intended to become desribers of Activity functionality. They are used
+        create the input form for various types of Activites during Tracking.
+      </p>
       <ActivityAttributeCreateForm
         createActivityAttributeAction={createActivityAttribute}
         attributeTypes={activityAttributeTypes}

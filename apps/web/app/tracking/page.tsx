@@ -2,7 +2,7 @@ import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import Link from 'next/link';
 
 export default async function Tracking() {
-  const categoryResponse = await fetch('http://localhost:8080/v1/activity-category');
+  const categoryResponse = await fetch('http://localhost:8080/v1/categories');
   const activityCategories = await categoryResponse.json();
 
   return (

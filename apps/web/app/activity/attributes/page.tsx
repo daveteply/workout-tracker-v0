@@ -15,13 +15,11 @@ import { ActivityAttributeDeleteForm } from '@repo/ui/activity-attribute-delete-
  */
 export default async function ActivityAttributesPage() {
   // Activity Attribute Types
-  const activityAttributeTypesResponse = await fetch(
-    'http://localhost:8080/v1/activity-attribute/types',
-  );
+  const activityAttributeTypesResponse = await fetch('http://localhost:8080/v1/attributes/types');
   const activityAttributeTypes = await activityAttributeTypesResponse.json();
 
   // Activity Attributes
-  const activityAttributesResponse = await fetch('http://localhost:8080/v1/activity-attribute');
+  const activityAttributesResponse = await fetch('http://localhost:8080/v1/attributes');
   const activityAttributes = await activityAttributesResponse.json();
 
   return (

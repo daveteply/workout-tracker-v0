@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { UtilsService } from '../utils/utils.service';
+import { UtilsService } from 'src/services/utils/utils.service';
 
 @Injectable()
-export class PrismaClientService {
+export class PrismaClientActivityService {
   constructor(public utilsService: UtilsService) {
     this._client = new PrismaClient().$extends({
       result: {
         activityCategory: {
           slug: {
             needs: { id: true },
-            compute(activity_category) {
-              return utilsService.getSqid(activity_category.id);
+            compute(activiityCategory) {
+              return utilsService.getSqid(activiityCategory.id);
             },
           },
         },
@@ -32,8 +32,8 @@ export class PrismaClientService {
         activityAttribute: {
           slug: {
             needs: { id: true },
-            compute(activity_attribute) {
-              return utilsService.getSqid(activity_attribute.id);
+            compute(activityAttribute) {
+              return utilsService.getSqid(activityAttribute.id);
             },
           },
         },

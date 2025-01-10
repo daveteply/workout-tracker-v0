@@ -7,7 +7,7 @@ import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../constants';
 export async function createActivity(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     title: z.string().min(1),
-    description: z.string().min(1).optional(),
+    description: z.string().optional(),
     activityCategorySlug: z.string(),
   });
 
@@ -23,7 +23,7 @@ export async function createActivity(prevState: { message: string }, formData: F
 
   const data = parse.data;
 
-  const response = await fetch('http://localhost:8080/v1/activity', {
+  const response = await fetch('http://localhost:8080/v1/activities', {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(data),
@@ -43,16 +43,14 @@ export async function createActivity(prevState: { message: string }, formData: F
 export async function updateActivity(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     title: z.string().min(1),
-    description: z.string().min(1).optional(),
+    description: z.string().optional(),
     activitySlug: z.string(),
-    activityCategorySlug: z.string(),
   });
 
   const parse = schema.safeParse({
     title: formData.get('title'),
     description: formData.get('description'),
     activitySlug: formData.get('activity-slug'),
-    activityCategorySlug: formData.get('activity-category-slug'),
   });
 
   if (!parse.success) {
@@ -61,7 +59,7 @@ export async function updateActivity(prevState: { message: string }, formData: F
 
   const data = parse.data;
 
-  const response = await fetch(`http://localhost:8080/v1/activity/${data.activitySlug}`, {
+  const response = await fetch(`http://localhost:8080/v1/activities/${data.activitySlug}`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
     body: JSON.stringify(data),
@@ -92,7 +90,7 @@ export async function deleteActivity(prevState: { message: string }, formData: F
   }
 
   const data = parse.data;
-  const url = `http://localhost:8080/v1/activity/${data.slug}`;
+  const url = `http://localhost:8080/v1/activities/${data.slug}`;
 
   const response = await fetch(url, { method: 'DELETE' });
 

@@ -13,13 +13,13 @@ export default async function ActivityPage({
   // Activity Category
   const activityCategorySlug = (await searchParams).cs;
   const categoryResponse = await fetch(
-    `http://localhost:8080/v1/activity-category/${activityCategorySlug}`,
+    `http://localhost:8080/v1/categories/${activityCategorySlug}`,
   );
   const activityCategory = await categoryResponse.json();
 
   // Activities for Category
   const activityResponse = await fetch(
-    `http://localhost:8080/v1/activity/category/${activityCategorySlug}`,
+    `http://localhost:8080/v1/activities/category/${activityCategorySlug}`,
   );
   const activities = await activityResponse.json();
 

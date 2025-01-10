@@ -64,7 +64,6 @@ export function ActivityUpdateForm({
             defaultValue={dto?.description}
           />
           <input type="hidden" name="activity-slug" value={dto.slug} />
-          <input type="hidden" name="activity-category-slug" value={dto.categorySlug} />
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel

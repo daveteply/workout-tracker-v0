@@ -23,93 +23,97 @@ enum AttributeType {
 // Model definitions
 
 model ActivityCategory {
-  id          Int        @id @default(autoincrement()) @map("activity_category_id")
+  id          Int     @id @default(autoincrement()) @map("activity_category_id")
   title       String
-  description String?   @db.VarChar(512)
-  createdAt   DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  description String? @db.VarChar(512)
 
-  activities  Activity[]
+  createdAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  activities Activity[]
+
   @@map("activity_categories")
 }
 
 model Activity {
-  id          Int               @id @default(autoincrement()) @map("activity_id")
+  id Int @id @default(autoincrement()) @map("activity_id")
 
-  category    ActivityCategory  @relation(fields: [categoryId], references: [id])
-  categoryId  Int  
+  category   ActivityCategory @relation(fields: [categoryId], references: [id])
+  categoryId Int              @map("category_id")
 
   title       String
-  description String?   @db.VarChar(512)
-  createdAt   DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  attributes  ActivityActivityAttributes[]
+  description String? @db.VarChar(512)
+
+  createdAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  attributes ActivityActivityAttributes[]
+
   @@map("activities")
 }
 
 model ActivityAttribute {
-  id            Int        @id @default(autoincrement()) @map("activity_attribute_id")
+  id            Int           @id @default(autoincrement()) @map("activity_attribute_id")
   title         String
-  description String?   @db.VarChar(512)
-  attributeType AttributeType @default(LENGTH)
-  createdAt   DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  description   String?       @db.VarChar(512)
+  attributeType AttributeType @default(LENGTH) @map("attribute_type")
 
-  attributes    ActivityActivityAttributes[]
+  createdAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  attributes ActivityActivityAttributes[]
+
   @@map("activity_attributes")
 }
 
 model ActivityActivityAttributes {
-  activity          Activity           @relation(fields: [activityId], references: [id])
-  activityId        Int
+  activity   Activity @relation(fields: [activityId], references: [id])
+  activityId Int      @map("activity_id")
 
-  activityAttribute ActivityAttribute  @relation(fields: [attributeId], references: [id])
-  attributeId       Int
- 
-  createdAt   DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  activityAttribute ActivityAttribute @relation(fields: [attributeId], references: [id])
+  attributeId       Int               @map("attribute_id")
+
+  createdAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@id([activityId, attributeId])
   @@map("activity_activity_attributes")
 }
 
 model Workout {
-  id        Int     @id @default(autoincrement()) @map("workout_id")
-  title     String
-  members   MemberWorkout[]
+  id      Int             @id @default(autoincrement()) @map("workout_id")
+  title   String
+  members MemberWorkout[]
 
-  createdAt   DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("workouts")
 }
 
 model Member {
-  id        Int     @id @default(autoincrement()) @map("member_id")
-  email     String  @unique
-  name      String?
-  role      Role    @default(MEMBER)
-  workouts  MemberWorkout[]
+  id       Int             @id @default(autoincrement()) @map("member_id")
+  email    String          @unique
+  name     String?
+  role     Role            @default(MEMBER)
+  workouts MemberWorkout[]
 
-  createdAt   DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("members")
-} 
+}
 
 model MemberWorkout {
-  member    Member  @relation(fields: [memberId], references: [id])
-  memberId  Int
+  member   Member @relation(fields: [memberId], references: [id])
+  memberId Int    @map("mamber_id")
 
   workout   Workout @relation(fields: [workoutId], references: [id])
-  workoutId Int
+  workoutId Int     @map("workout_id")
 
-  createdAt   DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@id([memberId, workoutId])
   @@map("member_workouts")
 }
-
-

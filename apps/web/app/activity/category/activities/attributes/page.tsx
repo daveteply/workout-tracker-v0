@@ -14,23 +14,18 @@ export default async function ActivityCategoryActivitiesAttributesPage({
 }) {
   const activitySlug = (await searchParams).s;
   // Activity
-  const activityResponse = await fetch(`http://localhost:8080/v1/activity/${activitySlug}`);
+  const activityResponse = await fetch(`http://localhost:8080/v1/activities/${activitySlug}`);
   const activity = await activityResponse.json();
 
   // Attributes
-  const attributesResponse = await fetch(`http://localhost:8080/v1/activity-attribute`);
+  const attributesResponse = await fetch(`http://localhost:8080/v1/attributes`);
   const attributes = await attributesResponse.json();
 
   // Attributes for Activity
   const activityAttributesResponse = await fetch(
     `http://localhost:8080/v1/activity-attributes/activity/${activitySlug}`,
   );
-  const activityData = await activityAttributesResponse.json();
-  // TODO: this seems really ugly :/
-  const activityAttributes = activityData
-    .map((a: { attributes: any }) => a.attributes)
-    .flat()
-    .map((a: { activityAttribute: ActivityAttributeDTO }) => a.activityAttribute);
+  const activityAttributes = await activityAttributesResponse.json();
 
   return (
     <div>

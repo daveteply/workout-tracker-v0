@@ -9,7 +9,7 @@ export default async function TrackingActivityPage({
   // Activity Category
   const activityCategorySlug = (await searchParams).cs;
   const categoryResponse = await fetch(
-    `http://localhost:8080/v1/activity-category/${activityCategorySlug}`,
+    `http://localhost:8080/v1/categories/${activityCategorySlug}`,
   );
   const activityCategory = await categoryResponse.json();
 

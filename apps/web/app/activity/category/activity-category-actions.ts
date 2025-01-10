@@ -7,7 +7,7 @@ import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../constants';
 export async function createActivityCategory(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     title: z.string().min(1),
-    description: z.string().min(1).optional(),
+    description: z.string().optional(),
   });
 
   const parse = schema.safeParse({
@@ -21,7 +21,7 @@ export async function createActivityCategory(prevState: { message: string }, for
 
   const data = parse.data;
 
-  const response = await fetch('http://localhost:8080/v1/activity-category', {
+  const response = await fetch('http://localhost:8080/v1/categories', {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(data),
@@ -40,13 +40,13 @@ export async function createActivityCategory(prevState: { message: string }, for
 export async function updateActivityCategory(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     title: z.string().min(1),
-    description: z.string().min(1).optional(),
+    description: z.string().optional(),
     slug: z.string(),
   });
 
   const parse = schema.safeParse({
-    title: formData.get('title'),
-    description: formData.get('description'),
+    title: formData.get('attribute-title'),
+    description: formData.get('attribute-description'),
     slug: formData.get('slug'),
   });
 
@@ -56,7 +56,7 @@ export async function updateActivityCategory(prevState: { message: string }, for
 
   const data = parse.data;
 
-  const response = await fetch(`http://localhost:8080/v1/activity-category/${data.slug}`, {
+  const response = await fetch(`http://localhost:8080/v1/categories/${data.slug}`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
     body: JSON.stringify(data),
@@ -86,7 +86,7 @@ export async function deleteActivityCategory(prevState: { message: string }, for
   }
 
   const data = parse.data;
-  const url = `http://localhost:8080/v1/activity-category/${data.slug}`;
+  const url = `http://localhost:8080/v1/categories/${data.slug}`;
 
   const response = await fetch(url, { method: 'DELETE' });
 

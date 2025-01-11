@@ -1,12 +1,12 @@
-import { ActivityAttributeCreateForm } from '@repo/ui/activity-attribute-create-form';
 import {
   createActivityAttribute,
   deleteActivityAttribute,
   updateActivityAttribute,
 } from './activity-attribute-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-import { ActivityAttributeUpdateForm } from '@repo/ui/activity-attribute-update-form';
+import { ActivityAttributeCreateForm } from '@repo/ui/activity-attribute-create-form';
 import { ActivityAttributeDeleteForm } from '@repo/ui/activity-attribute-delete-form';
+import { ActivityAttributeUpdateForm } from '@repo/ui/activity-attribute-update-form';
 
 /**
  * General use Activity Attributes to be attached to an Activity
@@ -26,8 +26,8 @@ export default async function ActivityAttributesPage() {
     <div>
       <h3>Activity Attributes</h3>
       <p>
-        These attributes are intended to become desribers of Activity functionality. They are used
-        create the input form for various types of Activites during Tracking.
+        These attributes are intended to become describers of Activity functionality. They are used
+        create the input form for various types of Activities during Tracking.
       </p>
       <ActivityAttributeCreateForm
         createActivityAttributeAction={createActivityAttribute}

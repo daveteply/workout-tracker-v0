@@ -2,8 +2,6 @@
 
 import { useActionState, useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { PencilIcon } from '@heroicons/react/16/solid';
-
 import WTModal from '@repo/ui/wt-modal';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 
@@ -15,23 +13,23 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <button className="btn btn-primary" type="submit" aria-disabled={pending}>
-      Save Changes
+      Attach Attribute
     </button>
   );
 }
 
-export function ActivityAttributesUpdateForm({
-  updateActivityAttributesAction,
-  attributeTypes,
-  dto,
+export function ActivityAttributesAttachForm({
+  createActivityAttributesAction,
+  attributes,
+  activitySlug,
 }: {
-  updateActivityAttributesAction: any;
-  attributeTypes: string[];
-  dto: ActivityAttributeDTO;
+  createActivityAttributesAction: any;
+  attributes: ActivityAttributeDTO[];
+  activitySlug: string;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [serverActionResult, formAction] = useActionState(
-    updateActivityAttributesAction,
+    createActivityAttributesAction,
     initialState,
   );
 
@@ -48,41 +46,21 @@ export function ActivityAttributesUpdateForm({
 
   return (
     <div>
-      <button onClick={openModal}>
-        <PencilIcon className="size-5 text-blue-500" />
+      <button className="btn btn-primary" onClick={openModal}>
+        Attach Attribute to Activity
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity Attribute</p>
         <form action={formAction}>
-          <input
-            className="input input-bordered w-1/2 max-w-xs mb-5 read-only:bg-gray-100"
-            type="text"
-            id="activity-attribute-title"
-            name="attribute-id"
-            placeholder="Unique Attribute ID"
-            maxLength={12}
-            defaultValue={dto.slug}
-            required
-            readOnly
-          />
-          <input
-            className="input input-bordered w-full max-w-xs mb-5"
-            type="text"
-            id="activity-attribute-description"
-            name="attribute-description"
-            placeholder="Description"
-            defaultValue={dto.description}
-            maxLength={45}
-          />
+          <input type="hidden" name="activity-slug" value={activitySlug} />
           <select
-            className="select select-bordered w-1/3 max-w-xs mb-5"
+            className="select select-bordered w-1/3 max-w-xs mb-5 w-full"
             id="activity-attribute-type"
-            name="attribute-type"
-            defaultValue={dto.attributeType}
+            name="attribute-slug"
           >
-            {attributeTypes.map((attributeType) => (
-              <option key={attributeType} value={attributeType}>
-                {attributeType}
+            {attributes.map((attribute) => (
+              <option key={attribute.slug} value={attribute.slug}>
+                {attribute.title} ({attribute.attributeType})
               </option>
             ))}
           </select>

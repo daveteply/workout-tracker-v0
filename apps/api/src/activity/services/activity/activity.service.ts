@@ -11,14 +11,14 @@ export class ActivityService {
     private utilsService: UtilsService,
   ) {}
 
-  async createActivity(activiity: ActivityDO): Promise<Activity | null> {
-    if (activiity.categorySlug) {
-      const categoryId = this.utilsService.getId(activiity.categorySlug);
+  async createActivity(activity: ActivityDO): Promise<Activity | null> {
+    if (activity.categorySlug) {
+      const categoryId = this.utilsService.getId(activity.categorySlug);
       return await this.prismaClientActivityService.client.activity.create({
         data: {
           categoryId: categoryId,
-          title: activiity.title,
-          description: activiity.description,
+          title: activity.title,
+          description: activity.description,
         },
       });
     } else {
@@ -26,7 +26,7 @@ export class ActivityService {
     }
   }
 
-  async getAcitiviesByCategorySlug(categorySlug: string): Promise<Activity[]> {
+  async getActivitiesByCategorySlug(categorySlug: string): Promise<Activity[]> {
     const categoryId = this.utilsService.getId(categorySlug);
     return this.prismaClientActivityService.client.activity.findMany({
       where: { categoryId: categoryId },
@@ -44,14 +44,14 @@ export class ActivityService {
     });
   }
 
-  async updateActivity(activiity: ActivityDO): Promise<Activity | null> {
-    if (activiity.activitySlug) {
-      const id = this.utilsService.getId(activiity.activitySlug);
+  async updateActivity(activity: ActivityDO): Promise<Activity | null> {
+    if (activity.activitySlug) {
+      const id = this.utilsService.getId(activity.activitySlug);
       return await this.prismaClientActivityService.client.activity.update({
         where: { id: id },
         data: {
-          title: activiity.title,
-          description: activiity.description,
+          title: activity.title,
+          description: activity.description,
         },
       });
     } else {

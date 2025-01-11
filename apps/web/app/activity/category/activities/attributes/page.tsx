@@ -1,6 +1,7 @@
-import { ActivityAttributesCreateForm } from '@repo/ui/activity-attributes-create-form';
-import { createActivityAttributes } from './activity-attributes-actions';
+import { attachActivityAttributes, removeActivityAttributes } from './activity-attributes-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
+import { ActivityAttributesAttachForm } from '@repo/ui/activity-activity-attribute-attach-form';
+import { ActivityAttributesRemoveForm } from '@repo/ui/activity-activity-attribute-remove-form';
 
 /**
  * Associate Attributes to an Activity
@@ -32,8 +33,8 @@ export default async function ActivityCategoryActivitiesAttributesPage({
       <h3>
         Attributes for <span className="font-bold italic capitalize">{activity.title}</span>
       </h3>
-      <ActivityAttributesCreateForm
-        createActivityAttributesAction={createActivityAttributes}
+      <ActivityAttributesAttachForm
+        createActivityAttributesAction={attachActivityAttributes}
         attributes={attributes}
         activitySlug={activitySlug}
       />
@@ -55,15 +56,11 @@ export default async function ActivityCategoryActivitiesAttributesPage({
                 <td>{attribute.attributeType}</td>
                 <td>
                   <div className="flex justify-end">
-                    {/* <ActivityAttributeUpdateForm
-                      updateActivityAttributeAction={updateActivityAttribute}
-                      attributeTypes={attributeTypes}
-                      dto={attribute}
+                    <ActivityAttributesRemoveForm
+                      activitySlug={activitySlug}
+                      attributeSlug={attribute.slug}
+                      deleteActivityAttributesAction={removeActivityAttributes}
                     />
-                    <ActivityAttributeDeleteForm
-                      deleteActivityAttributeAction={deleteActivityAttribute}
-                      id={attribute.attribute_id}
-                    /> */}
                   </div>
                 </td>
               </tr>

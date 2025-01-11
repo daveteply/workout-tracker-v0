@@ -16,7 +16,7 @@ export class CategoryController {
   @Get(':s')
   @Version('1')
   async getActivityCategory(@Param('s') slug: string): Promise<ActivityCategory | null> {
-    return await this.categoryService.getCagetoryBySlug(slug);
+    return await this.categoryService.getCategoryBySlug(slug);
   }
 
   @Post()
@@ -45,7 +45,7 @@ export class CategoryController {
 
   @Delete(':s')
   @Version('1')
-  async deleteActivityCategory(@Param('s') slug: string): Promise<void> {
-    this.categoryService.deleteActivityCategory(slug);
+  async deleteActivityCategory(@Param('s') slug: string): Promise<ActivityCategory | null> {
+    return await this.categoryService.deleteActivityCategory(slug);
   }
 }

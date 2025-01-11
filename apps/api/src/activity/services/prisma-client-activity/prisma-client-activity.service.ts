@@ -10,8 +10,8 @@ export class PrismaClientActivityService {
         activityCategory: {
           slug: {
             needs: { id: true },
-            compute(activiityCategory) {
-              return utilsService.getSqid(activiityCategory.id);
+            compute(activityCategory) {
+              return utilsService.getSqid(activityCategory.id);
             },
           },
         },

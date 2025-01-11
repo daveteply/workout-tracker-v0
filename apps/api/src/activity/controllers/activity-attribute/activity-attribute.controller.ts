@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post, Version } from '@nestjs/common';
-import { ActivityAttribute } from '@prisma/client';
+import { Body, Controller, Delete, Get, Param, Post, Query, Version } from '@nestjs/common';
+import { ActivityActivityAttributes, ActivityAttribute } from '@prisma/client';
 import { ActivityAttributeService } from 'src/activity/services/activity-attribute/activity-attribute.service';
 
 @Controller('activity-attributes')
@@ -8,32 +8,25 @@ export class ActivityAttributeController {
 
   @Get('activity/:s')
   @Version('1')
-  async getAtributesByActivity(@Param('s') activitySlug: string): Promise<ActivityAttribute[]> {
+  async getAttributesByActivity(@Param('s') activitySlug: string): Promise<ActivityAttribute[]> {
     return await this.activityAttributeService.getAttributesByActivity(activitySlug);
   }
-  //   const activityId = this.utilsService.getId(activitySlug);
-  //   return await this.clientService.client.activity.findMany({
-  //     where: {
-  //       id: activityId,
-  //     },
-  //     include: {
-  //       attributes: {
-  //         include: { activityAttribute: true },
-  //       },
-  //     },
-  //   });
-  // }
 
-  // @Post()
-  // @Version('1')
-  // async createActivity(@Body() body: any): Promise<void> {
-  //   const activityId = this.utilsService.getId(body.activitySlug);
-  //   const attributeId = this.utilsService.getId(body.attributeSlug);
-  //   await this.clientService.client.activityActivityAttributes.create({
-  //     data: {
-  //       activityId: activityId,
-  //       attributeId: attributeId,
-  //     },
-  //   });
-  // }
+  @Post()
+  @Version('1')
+  async attachActivityAttribute(@Body() body: any): Promise<ActivityActivityAttributes> {
+    return await this.activityAttributeService.attachActivityAttribute(
+      body.activitySlug,
+      body.attributeSlug,
+    );
+  }
+
+  @Delete()
+  @Version('1')
+  async removeActivityAttribute(
+    @Query('as') activitySlug: string,
+    @Query('at') attributeSlug: string,
+  ): Promise<ActivityActivityAttributes> {
+    return await this.activityAttributeService.removeActivityAttribute(activitySlug, attributeSlug);
+  }
 }

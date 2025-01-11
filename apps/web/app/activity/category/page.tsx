@@ -1,14 +1,14 @@
 import Link from 'next/link';
 
-import { ActivityCategoryCreateForm } from '@repo/ui/activity-category-create-form';
-import { ActivityCategoryUpdateForm } from '@repo/ui/activity-category-update-form';
-import { ActivityCategoryDeleteForm } from '@repo/ui/activity-category-delete-form';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import {
   createActivityCategory,
   deleteActivityCategory,
   updateActivityCategory,
 } from './activity-category-actions';
+import { ActivityCategoryCreateForm } from '@repo/ui/activity-category-create-form';
+import { ActivityCategoryDeleteForm } from '@repo/ui/activity-category-delete-form';
+import { ActivityCategoryUpdateForm } from '@repo/ui/activity-category-update-form';
 
 export default async function ActivityCategoryPage() {
   const activityCategoryResponse = await fetch('http://localhost:8080/v1/categories');

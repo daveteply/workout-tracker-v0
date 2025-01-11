@@ -22,7 +22,7 @@ export class ActivityController {
   @Get('category/:cs')
   @Version('1')
   async getActivitiesByCategory(@Param('cs') categorySlug: string): Promise<Activity[]> {
-    return await this.activityService.getAcitiviesByCategorySlug(categorySlug);
+    return await this.activityService.getActivitiesByCategorySlug(categorySlug);
   }
 
   @Post()

@@ -1,9 +1,10 @@
-import { ActivityDTO } from '@repo/dto/activity';
-import { ActivityCreateForm } from '@repo/ui/activity-create-form';
-import { ActivityUpdateForm } from '@repo/ui/activity-update-form';
-import { ActivityDeleteForm } from '@repo/ui/activity-delete-form';
-import { createActivity, deleteActivity, updateActivity } from '../../activity-actions';
 import Link from 'next/link';
+
+import { ActivityDTO } from '@repo/dto/activity';
+import { createActivity, deleteActivity, updateActivity } from '../../activity-actions';
+import { ActivityCreateForm } from '@repo/ui/activity-create-form';
+import { ActivityDeleteForm } from '@repo/ui/activity-delete-form';
+import { ActivityUpdateForm } from '@repo/ui/activity-update-form';
 
 export default async function ActivityPage({
   searchParams,

@@ -1,6 +1,6 @@
 'use client';
 
-import { TrashIcon } from '@heroicons/react/16/solid';
+import { XCircleIcon } from '@heroicons/react/16/solid';
 import { useActionState, useEffect } from 'react';
 import { useFormStatus } from 'react-dom';
 
@@ -13,17 +13,19 @@ function DeleteButton() {
 
   return (
     <button type="submit" aria-disabled={pending}>
-      <TrashIcon className="size-5 text-blue-500"></TrashIcon>
+      <XCircleIcon className="size-5 text-blue-500"></XCircleIcon>
     </button>
   );
 }
 
-export function ActivityAttributesDeleteForm({
+export function ActivityAttributesRemoveForm({
   deleteActivityAttributesAction,
-  id,
+  activitySlug,
+  attributeSlug,
 }: {
-  id: string;
   deleteActivityAttributesAction: any;
+  activitySlug: string;
+  attributeSlug: string;
 }) {
   const [serverActionResult, formAction] = useActionState(
     deleteActivityAttributesAction,
@@ -39,7 +41,8 @@ export function ActivityAttributesDeleteForm({
 
   return (
     <form action={formAction}>
-      <input type="hidden" id="activity-slug" name="id" value={id} />
+      <input type="hidden" id="activity-slug" name="activity-slug" value={activitySlug} />
+      <input type="hidden" id="attribute-slug" name="attribute-slug" value={attributeSlug} />
       <DeleteButton />
     </form>
   );

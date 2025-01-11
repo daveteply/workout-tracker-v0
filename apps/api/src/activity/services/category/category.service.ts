@@ -11,11 +11,11 @@ export class CategoryService {
     private utilsService: UtilsService,
   ) {}
 
-  async createCategory(activiityCategory: CategoryDO): Promise<ActivityCategory> {
+  async createCategory(activityCategory: CategoryDO): Promise<ActivityCategory> {
     return await this.prismaClientActivityService.client.activityCategory.create({
       data: {
-        title: activiityCategory.title,
-        description: activiityCategory.description,
+        title: activityCategory.title,
+        description: activityCategory.description,
       },
     });
   }
@@ -24,7 +24,7 @@ export class CategoryService {
     return await this.prismaClientActivityService.client.activityCategory.findMany();
   }
 
-  async getCagetoryBySlug(slug: string): Promise<ActivityCategory | null> {
+  async getCategoryBySlug(slug: string): Promise<ActivityCategory | null> {
     const id = this.utilsService.getId(slug);
     return await this.prismaClientActivityService.client.activityCategory.findFirst({
       where: { id: id },

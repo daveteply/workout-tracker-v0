@@ -85,6 +85,9 @@ model Workout {
   title   String
   members MemberWorkout[]
 
+  started DateTime
+  completed DateTime? 
+  
   createdAt DateTime @default(now()) @map("create_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -106,7 +109,7 @@ model Member {
 
 model MemberWorkout {
   member   Member @relation(fields: [memberId], references: [id])
-  memberId Int    @map("mamber_id")
+  memberId Int    @map("member_id")
 
   workout   Workout @relation(fields: [workoutId], references: [id])
   workoutId Int     @map("workout_id")

@@ -179,7 +179,6 @@ async function main() {
   // Attributes
   const AttributeRepetitions = await prisma.activityAttribute.create({
     data: {
-      id: 1,
       title: 'Repetitions',
       description: 'The number of times an exercise is completed.',
       attributeType: 'NUMBER',
@@ -188,7 +187,6 @@ async function main() {
 
   const AttributeWeight = await prisma.activityAttribute.create({
     data: {
-      id: 2,
       title: 'Weight',
       description: 'The amount of weight used for an exercise.',
       attributeType: 'MASS',
@@ -197,7 +195,6 @@ async function main() {
 
   const AttributeDistance = await prisma.activityAttribute.create({
     data: {
-      id: 3,
       title: 'Distance',
       description: 'The distance covered during an exercise.',
       attributeType: 'LENGTH',
@@ -206,7 +203,6 @@ async function main() {
 
   const AttributeDuration = await prisma.activityAttribute.create({
     data: {
-      id: 4,
       title: 'Duration',
       description: 'The amount of time an exercise is completed.',
       attributeType: 'TIME',
@@ -215,7 +211,6 @@ async function main() {
 
   const AttributeProgramId = await prisma.activityAttribute.create({
     data: {
-      id: 5,
       title: 'Program Id',
       description: 'The program id associated with an exercise.',
       attributeType: 'STRING',
@@ -224,7 +219,6 @@ async function main() {
 
   const AttributeLaps = await prisma.activityAttribute.create({
     data: {
-      id: 6,
       title: 'Laps',
       description: 'The number of laps completed during an exercise.',
       attributeType: 'NUMBER',
@@ -247,6 +241,7 @@ async function main() {
       { activityId: ActivityRunning.id, attributeId: AttributeDistance.id },
       { activityId: ActivityCycling.id, attributeId: AttributeDistance.id },
       { activityId: ActivitySwimming.id, attributeId: AttributeDistance.id },
+      { activityId: ActivitySwimming.id, attributeId: AttributeLaps.id },
       { activityId: ActivityJumpingRope.id, attributeId: AttributeDuration.id },
       { activityId: ActivityYoga.id, attributeId: AttributeDuration.id },
       { activityId: ActivityPilates.id, attributeId: AttributeDuration.id },

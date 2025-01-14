@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "api-structure",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -32,7 +32,7 @@
     "@prisma/client": "^6.2.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "sqids": "^0.3.0"  
+    "sqids": "^0.3.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.4.9",

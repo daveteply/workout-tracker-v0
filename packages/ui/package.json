@@ -25,7 +25,8 @@
     "./activity-category-delete-form": "./src/forms/activity/category/delete-form.tsx",
     "./activity-category-update-form": "./src/forms/activity/category/update-form.tsx",
     "./activity-activity-attribute-attach-form": "./src/forms/activity/activity-attribute/attach-form.tsx",
-    "./activity-activity-attribute-remove-form": "./src/forms/activity/activity-attribute/remove-form.tsx"
+    "./activity-activity-attribute-remove-form": "./src/forms/activity/activity-attribute/remove-form.tsx",
+    "./tracking-form": "./src/forms/tracking/tracking-form.tsx"
   },
   "scripts": {
     "build": "tailwindcss -i ./src/index.css -o ./dist/index.css",

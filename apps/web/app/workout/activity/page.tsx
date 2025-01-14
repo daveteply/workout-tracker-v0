@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ActivityDTO } from '@repo/dto/activity';
 
-export default async function TrackingActivityPage({
+export default async function WorkoutActivityPage({
   searchParams,
 }: {
   searchParams: Promise<{ cs: string }>;
@@ -15,14 +15,14 @@ export default async function TrackingActivityPage({
 
   // Activities for category
   const activityResponse = await fetch(
-    `http://localhost:8080/v1/activity/category/${activityCategorySlug}`,
+    `http://localhost:8080/v1/activities/category/${activityCategorySlug}`,
   );
   const activities = await activityResponse.json();
 
   return (
     <div>
       <h3>
-        Tracking Category - <span className="capitalize italic">{activityCategory?.title}</span>
+        Workout Category - <span className="capitalize italic">{activityCategory?.title}</span>
       </h3>
       <h4>Select an Activity:</h4>
       <div className="flex flex-wrap justify-center md:justify-start">
@@ -40,7 +40,7 @@ export default async function TrackingActivityPage({
               <div className="card-actions justify-end">
                 <Link
                   className="btn btn-primary m1 capitalize"
-                  href={{ pathname: '/tracking/track', query: { s: a.slug } }}
+                  href={{ pathname: '/workout/activity/track', query: { s: a.slug } }}
                 >
                   Track
                 </Link>

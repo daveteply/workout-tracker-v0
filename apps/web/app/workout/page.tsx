@@ -1,14 +1,14 @@
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import Link from 'next/link';
 
-export default async function Tracking() {
-  const categoryResponse = await fetch('http://localhost:8080/v1/categories');
-  const activityCategories = await categoryResponse.json();
+const categoryResponse = await fetch('http://localhost:8080/v1/categories');
+console.log(111, categoryResponse);
+const activityCategories = await categoryResponse.json();
 
+export default async function WorkoutPage() {
   return (
     <div>
-      <h3>Tracking</h3>
-      <h4>Select a Category:</h4>
+      <h3>Select a Category</h3>
       <div className="flex flex-wrap justify-center">
         {activityCategories.map((c: ActivityCategoryDTO) => (
           <div
@@ -24,7 +24,7 @@ export default async function Tracking() {
                 <Link
                   className="btn btn-primary btn-sm md:btn-lg"
                   href={{
-                    pathname: '/tracking/activity/',
+                    pathname: '/workout/activity/',
                     query: { cs: c.slug },
                   }}
                 >

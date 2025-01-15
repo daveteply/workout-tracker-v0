@@ -80,10 +80,10 @@ model ActivityActivityAttributes {
   @@map("activity_activity_attributes")
 }
 
-model Workout {
-  id      Int             @id @default(autoincrement()) @map("workout_id")
+model Routine {
+  id      Int             @id @default(autoincrement()) @map("routine_id")
   title   String
-  members MemberWorkout[]
+  members MemberRoutine[]
 
   started DateTime
   completed DateTime? 
@@ -91,7 +91,7 @@ model Workout {
   createdAt DateTime @default(now()) @map("create_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("workouts")
+  @@map("routines")
 }
 
 model Member {
@@ -99,7 +99,7 @@ model Member {
   email    String          @unique
   name     String?
   role     Role            @default(MEMBER)
-  workouts MemberWorkout[]
+  routines MemberRoutine[]
 
   createdAt DateTime @default(now()) @map("create_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -107,16 +107,16 @@ model Member {
   @@map("members")
 }
 
-model MemberWorkout {
+model MemberRoutine {
   member   Member @relation(fields: [memberId], references: [id])
   memberId Int    @map("member_id")
 
-  workout   Workout @relation(fields: [workoutId], references: [id])
-  workoutId Int     @map("workout_id")
+  routine   Routine @relation(fields: [routineId], references: [id])
+  routineId Int     @map("routine_id")
 
   createdAt DateTime @default(now()) @map("create_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@id([memberId, workoutId])
-  @@map("member_workouts")
+  @@id([memberId, routineId])
+  @@map("member_routines")
 }

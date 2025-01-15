@@ -176,6 +176,14 @@ async function main() {
     },
   });
 
+  const ActivityTreadmill = await prisma.activity.create({
+    data: {
+      title: 'Treadmill',
+      description: 'Perform various cardio exercises like walking, jogging and running',
+      categoryId: categoryCardiovascular.id,
+    },
+  });
+
   // Attributes
   const AttributeRepetitions = await prisma.activityAttribute.create({
     data: {
@@ -225,6 +233,22 @@ async function main() {
     },
   });
 
+  const AttributeIncline = await prisma.activityAttribute.create({
+    data: {
+      title: 'Incline',
+      description: 'The degree of slope or angle on the running surface.',
+      attributeType: 'NUMBER',
+    },
+  });
+
+  const AttributeRate = await prisma.activityAttribute.create({
+    data: {
+      title: 'Rate',
+      description: 'A measure of the rate or speed for an activity.',
+      attributeType: 'NUMBER',
+    },
+  });
+
   // Activity Attributes
   await prisma.activityActivityAttributes.createMany({
     data: [
@@ -249,7 +273,21 @@ async function main() {
       { activityId: ActivityJumpingLunges.id, attributeId: AttributeDuration.id },
       { activityId: ActivityBurpees.id, attributeId: AttributeDuration.id },
       { activityId: ActivityPlank.id, attributeId: AttributeDuration.id },
+      { activityId: ActivityTreadmill.id, attributeId: AttributeDistance.id },
+      { activityId: ActivityTreadmill.id, attributeId: AttributeProgramId.id },
+      { activityId: ActivityTreadmill.id, attributeId: AttributeIncline.id },
+      { activityId: ActivityTreadmill.id, attributeId: AttributeDuration.id },
+      { activityId: ActivityTreadmill.id, attributeId: AttributeRate.id },
     ],
+  });
+
+  // Members
+  const defaultMember = await prisma.member.create({
+    data: {
+      name: 'Default Member',
+      email: 'member@member.com',
+      role: 'MEMBER',
+    },
   });
 }
 

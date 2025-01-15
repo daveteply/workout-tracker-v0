@@ -2,6 +2,7 @@ import { attachActivityAttributes, removeActivityAttributes } from './activity-a
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ActivityAttributesAttachForm } from '@repo/ui/activity-activity-attribute-attach-form';
 import { ActivityAttributesRemoveForm } from '@repo/ui/activity-activity-attribute-remove-form';
+import { API_STRUCTURE_URL } from '../../../../constants';
 
 /**
  * Associate Attributes to an Activity
@@ -15,16 +16,16 @@ export default async function ActivityCategoryActivitiesAttributesPage({
 }) {
   const activitySlug = (await searchParams).s;
   // Activity
-  const activityResponse = await fetch(`http://localhost:8080/v1/activities/${activitySlug}`);
+  const activityResponse = await fetch(`${API_STRUCTURE_URL}/v1/activities/${activitySlug}`);
   const activity = await activityResponse.json();
 
   // Attributes
-  const attributesResponse = await fetch(`http://localhost:8080/v1/attributes`);
+  const attributesResponse = await fetch(`${API_STRUCTURE_URL}/v1/attributes`);
   const attributes = await attributesResponse.json();
 
   // Attributes for Activity
   const activityAttributesResponse = await fetch(
-    `http://localhost:8080/v1/activity-attributes/activity/${activitySlug}`,
+    `${API_STRUCTURE_URL}/v1/activity-attributes/activity/${activitySlug}`,
   );
   const activityAttributes = await activityAttributesResponse.json();
 

@@ -5,6 +5,7 @@ import { createActivity, deleteActivity, updateActivity } from '../../activity-a
 import { ActivityCreateForm } from '@repo/ui/activity-create-form';
 import { ActivityDeleteForm } from '@repo/ui/activity-delete-form';
 import { ActivityUpdateForm } from '@repo/ui/activity-update-form';
+import { API_STRUCTURE_URL } from '../../../constants';
 
 export default async function ActivityPage({
   searchParams,
@@ -14,13 +15,13 @@ export default async function ActivityPage({
   // Activity Category
   const activityCategorySlug = (await searchParams).cs;
   const categoryResponse = await fetch(
-    `http://localhost:8080/v1/categories/${activityCategorySlug}`,
+    `${API_STRUCTURE_URL}/v1/categories/${activityCategorySlug}`,
   );
   const activityCategory = await categoryResponse.json();
 
   // Activities for Category
   const activityResponse = await fetch(
-    `http://localhost:8080/v1/activities/category/${activityCategorySlug}`,
+    `${API_STRUCTURE_URL}/v1/activities/category/${activityCategorySlug}`,
   );
   const activities = await activityResponse.json();
 

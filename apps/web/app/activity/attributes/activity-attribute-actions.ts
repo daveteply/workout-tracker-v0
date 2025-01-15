@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../constants';
+import { API_STRUCTURE_URL, HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../constants';
 
 export async function createActivityAttribute(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
@@ -23,7 +23,7 @@ export async function createActivityAttribute(prevState: { message: string }, fo
 
   const data = parse.data;
 
-  const response = await fetch('http://localhost:8080/v1/attributes', {
+  const response = await fetch(`${API_STRUCTURE_URL}/v1/attributes`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(data),
@@ -60,7 +60,7 @@ export async function updateActivityAttribute(prevState: { message: string }, fo
 
   const data = parse.data;
 
-  const response = await fetch('http://localhost:8080/v1/attributes/', {
+  const response = await fetch(`${API_STRUCTURE_URL}/v1/attributes/`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
     body: JSON.stringify(data),
@@ -90,7 +90,7 @@ export async function deleteActivityAttribute(prevState: { message: string }, fo
   }
 
   const data = parse.data;
-  const url = `http://localhost:8080/v1/attributes/${data.slug}`;
+  const url = `${API_STRUCTURE_URL}/v1/attributes/${data.slug}`;
 
   const response = await fetch(url, { method: 'DELETE' });
 

@@ -10,7 +10,7 @@ export class MongooseConfigService implements MongooseOptionsFactory {
     | Promise<MongooseModuleOptions>
     | MongooseModuleOptions {
     return {
-      uri: process.env.DATABASE_URL,
+      uri: `mongodb://${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE}`,
     };
   }
 }

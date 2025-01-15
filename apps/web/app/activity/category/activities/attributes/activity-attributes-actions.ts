@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../../../constants';
+import { API_STRUCTURE_URL, HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../../../constants';
 
 export async function attachActivityAttributes(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
@@ -21,7 +21,7 @@ export async function attachActivityAttributes(prevState: { message: string }, f
 
   const data = parse.data;
 
-  const response = await fetch('http://localhost:8080/v1/activity-attributes', {
+  const response = await fetch(`${API_STRUCTURE_URL}/v1/activity-attributes`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(data),
@@ -54,7 +54,7 @@ export async function removeActivityAttributes(prevState: { message: string }, f
   }
 
   const data = parse.data;
-  const url = `http://localhost:8080/v1/activity-attributes?as=${data.activitySlug}&at=${data.attributeSlug}`;
+  const url = `${API_STRUCTURE_URL}/v1/activity-attributes?as=${data.activitySlug}&at=${data.attributeSlug}`;
 
   const response = await fetch(url, { method: 'DELETE' });
 

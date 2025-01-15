@@ -9,9 +9,10 @@ import {
 import { ActivityCategoryCreateForm } from '@repo/ui/activity-category-create-form';
 import { ActivityCategoryDeleteForm } from '@repo/ui/activity-category-delete-form';
 import { ActivityCategoryUpdateForm } from '@repo/ui/activity-category-update-form';
+import { API_STRUCTURE_URL } from '../../constants';
 
 export default async function ActivityCategoryPage() {
-  const activityCategoryResponse = await fetch('http://localhost:8080/v1/categories');
+  const activityCategoryResponse = await fetch(`${API_STRUCTURE_URL}/v1/categories`);
   const activityCategories = await activityCategoryResponse.json();
 
   return (

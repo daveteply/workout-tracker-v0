@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../constants';
+import { API_STRUCTURE_URL, HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../constants';
 
 export async function createActivityCategory(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
@@ -21,7 +21,7 @@ export async function createActivityCategory(prevState: { message: string }, for
 
   const data = parse.data;
 
-  const response = await fetch('http://localhost:8080/v1/categories', {
+  const response = await fetch(`${API_STRUCTURE_URL}/v1/categories`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
     body: JSON.stringify(data),
@@ -56,7 +56,7 @@ export async function updateActivityCategory(prevState: { message: string }, for
 
   const data = parse.data;
 
-  const response = await fetch(`http://localhost:8080/v1/categories/${data.slug}`, {
+  const response = await fetch(`${API_STRUCTURE_URL}/v1/categories/${data.slug}`, {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
     body: JSON.stringify(data),
@@ -86,7 +86,7 @@ export async function deleteActivityCategory(prevState: { message: string }, for
   }
 
   const data = parse.data;
-  const url = `http://localhost:8080/v1/categories/${data.slug}`;
+  const url = `${API_STRUCTURE_URL}/v1/categories/${data.slug}`;
 
   const response = await fetch(url, { method: 'DELETE' });
 

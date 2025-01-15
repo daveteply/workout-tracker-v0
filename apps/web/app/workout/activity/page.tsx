@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ActivityDTO } from '@repo/dto/activity';
+import { API_STRUCTURE_URL } from '../../constants';
 
 export default async function WorkoutActivityPage({
   searchParams,
@@ -9,13 +10,13 @@ export default async function WorkoutActivityPage({
   // Activity Category
   const activityCategorySlug = (await searchParams).cs;
   const categoryResponse = await fetch(
-    `http://localhost:8080/v1/categories/${activityCategorySlug}`,
+    `${API_STRUCTURE_URL}/v1/categories/${activityCategorySlug}`,
   );
   const activityCategory = await categoryResponse.json();
 
   // Activities for category
   const activityResponse = await fetch(
-    `http://localhost:8080/v1/activities/category/${activityCategorySlug}`,
+    `${API_STRUCTURE_URL}/v1/activities/category/${activityCategorySlug}`,
   );
   const activities = await activityResponse.json();
 

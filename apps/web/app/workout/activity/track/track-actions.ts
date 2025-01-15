@@ -16,8 +16,6 @@ export async function trackActivity(prevState: { message: string }, formData: Fo
   } else {
   }
 
-  console.log(111, formData);
-
   // const attributeValue =
 
   const schema = z.object({

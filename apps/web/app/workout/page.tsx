@@ -2,7 +2,6 @@ import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import Link from 'next/link';
 
 const categoryResponse = await fetch('http://localhost:8080/v1/categories');
-console.log(111, categoryResponse);
 const activityCategories = await categoryResponse.json();
 
 export default async function WorkoutPage() {

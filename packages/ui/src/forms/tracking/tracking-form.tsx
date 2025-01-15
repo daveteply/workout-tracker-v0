@@ -3,8 +3,13 @@
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { NumberCaptureForm } from './attribute-forms/number-capture-form.js';
 import { useFormStatus } from 'react-dom';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { StringCaptureForm } from './attribute-forms/string-capture-form.js';
+import WTModal from '@repo/ui/wt-modal';
+
+const initialState = {
+  message: '',
+};
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -20,16 +25,20 @@ export function TrackingForm({
 }: {
   activityAttributes: ActivityAttributeDTO[];
 }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    initialState.message = '';
+    setIsModalOpen(true);
+  };
+
   function trackActivityData(e: SyntheticEvent) {
     e.preventDefault();
-    console.log('event', e.target);
-  }
-
-  function handleAddSet() {
-    console.log('TODO: handle add set');
+    // console.log('event', e.target);
   }
 
   function attributeFormFactory(attribute: ActivityAttributeDTO) {
+    // TODO: convert to use enum
     switch (attribute.attributeType) {
       case 'LENGTH':
       case 'MASS':
@@ -47,17 +56,25 @@ export function TrackingForm({
 
   return (
     <div>
-      <button className="btn btn-primary" onClick={handleAddSet}>
-        Start a New Set
+      <button className="btn btn-primary mr-2" onClick={openModal}>
+        Add Tracking
       </button>
-      <form onSubmit={trackActivityData}>
-        {activityAttributes.map((attribute, index) => (
-          <div key={index} className="my-5">
-            {attributeFormFactory(attribute)}
+      <button className="btn btn-primary">Complete Activity</button>
+      <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
+        <form onSubmit={trackActivityData}>
+          {activityAttributes.map((attribute, index) => (
+            <div key={index} className="my-5">
+              {attributeFormFactory(attribute)}
+            </div>
+          ))}
+          <div className="modal-action">
+            <button className="btn" onClick={() => setIsModalOpen(false)}>
+              Cancel
+            </button>
+            <SubmitButton />
           </div>
-        ))}
-        <SubmitButton />
-      </form>
+        </form>
+      </WTModal>
     </div>
   );
 }

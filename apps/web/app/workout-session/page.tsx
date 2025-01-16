@@ -2,10 +2,10 @@ import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import Link from 'next/link';
 import { API_STRUCTURE_URL } from '../constants';
 
-const categoryResponse = await fetch(`${API_STRUCTURE_URL}/v1/categories`);
-const activityCategories = await categoryResponse.json();
-
 export default async function WorkoutPage() {
+  const categoryResponse = await fetch(`${API_STRUCTURE_URL}/v1/categories`);
+  const activityCategories = await categoryResponse.json();
+
   return (
     <div>
       <h3>Select a Category</h3>

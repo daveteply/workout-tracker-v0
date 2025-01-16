@@ -10,8 +10,8 @@ export class WorkoutSessionController {
   @Get()
   @Version('1')
   async getWorkoutSession(): Promise<WorkoutSession[]> {
-    // TODO
-    return [];
+    // TODO: add member slug as paramater
+    return await this.workoutSessionService.getWorkoutSessionByMemberId();
   }
 
   @Post()

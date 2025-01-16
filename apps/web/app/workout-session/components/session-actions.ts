@@ -14,7 +14,7 @@ export async function createNewSession() {
   });
 
   if (createWorkoutSessionResponse.status === HTTP_STATUS_CREATED) {
-    redirect('/workout');
+    redirect('/workout-session');
   } else {
     // TODO: other error handling
     console.error(createWorkoutSessionResponse);

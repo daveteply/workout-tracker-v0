@@ -17,4 +17,9 @@ export class WorkoutSessionService {
     const workoutSession = new this.workoutSessionModel(createWorkoutSessionDO);
     return await workoutSession.save();
   }
+
+  async getWorkoutSessionByMemberId(): Promise<WorkoutSession[]> {
+    // TODO: Remove hard coded member after enabling auth
+    return await this.workoutSessionModel.where({ MemberId: 1 });
+  }
 }

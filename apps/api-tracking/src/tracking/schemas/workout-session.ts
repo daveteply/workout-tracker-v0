@@ -1,11 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { WorkoutSet } from './workout-set';
+import { BaseSchema } from './base-schema';
 
-@Schema({ collection: 'workout_sessions' })
-export class WorkoutSession {
+@Schema({
+  collection: 'workout_sessions',
+})
+export class WorkoutSession extends BaseSchema {
   @Prop({ required: true })
-  MemberId: Number;
+  MemberId: number;
 
   @Prop({ required: true })
   SessionStart: Date;

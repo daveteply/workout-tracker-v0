@@ -1,5 +1,5 @@
 import { TrackingForm } from '@repo/ui/tracking-form';
-import { API_STRUCTURE_URL } from '../../../constants';
+import { API_STRUCTURE_URL } from '../../../../constants';
 
 export default async function TrackingActivityPage({
   searchParams,

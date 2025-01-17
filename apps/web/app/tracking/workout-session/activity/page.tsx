@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ActivityDTO } from '@repo/dto/activity';
-import { API_STRUCTURE_URL } from '../../constants';
+import { API_STRUCTURE_URL } from '../../../constants';
 
 export default async function WorkoutActivityPage({
   searchParams,
@@ -41,7 +41,7 @@ export default async function WorkoutActivityPage({
               <div className="card-actions justify-end">
                 <Link
                   className="btn btn-primary m1 capitalize"
-                  href={{ pathname: '/workout-session/activity/track', query: { s: a.slug } }}
+                  href={{ pathname: './activity/track', query: { s: a.slug } }}
                 >
                   Track
                 </Link>

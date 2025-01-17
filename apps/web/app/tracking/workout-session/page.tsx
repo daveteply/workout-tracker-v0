@@ -1,6 +1,6 @@
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import Link from 'next/link';
-import { API_STRUCTURE_URL } from '../constants';
+import { API_STRUCTURE_URL } from '../../constants';
 
 export default async function WorkoutPage() {
   const categoryResponse = await fetch(`${API_STRUCTURE_URL}/v1/categories`);
@@ -24,7 +24,7 @@ export default async function WorkoutPage() {
                 <Link
                   className="btn btn-primary btn-sm md:btn-lg"
                   href={{
-                    pathname: '/workout-session/activity/',
+                    pathname: './workout-session/activity/',
                     query: { cs: c.slug },
                   }}
                 >

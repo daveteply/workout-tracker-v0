@@ -5,10 +5,13 @@ import { API_STRUCTURE_URL } from '../../../constants';
 export default async function WorkoutActivityPage({
   searchParams,
 }: {
-  searchParams: Promise<{ cs: string }>;
+  searchParams: Promise<{ cs: string; ses: string }>;
 }) {
   // Activity Category
-  const activityCategorySlug = (await searchParams).cs;
+  const params = await searchParams;
+  const activityCategorySlug = params.cs;
+  const sessionId = params.ses;
+
   const categoryResponse = await fetch(
     `${API_STRUCTURE_URL}/v1/categories/${activityCategorySlug}`,
   );
@@ -41,7 +44,7 @@ export default async function WorkoutActivityPage({
               <div className="card-actions justify-end">
                 <Link
                   className="btn btn-primary m1 capitalize"
-                  href={{ pathname: './activity/track', query: { s: a.slug } }}
+                  href={{ pathname: './activity/track', query: { s: a.slug, secs: sessionId } }}
                 >
                   Track
                 </Link>

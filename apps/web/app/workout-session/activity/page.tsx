@@ -41,7 +41,7 @@ export default async function WorkoutActivityPage({
               <div className="card-actions justify-end">
                 <Link
                   className="btn btn-primary m1 capitalize"
-                  href={{ pathname: '/workout/activity/track', query: { s: a.slug } }}
+                  href={{ pathname: '/workout-session/activity/track', query: { s: a.slug } }}
                 >
                   Track
                 </Link>

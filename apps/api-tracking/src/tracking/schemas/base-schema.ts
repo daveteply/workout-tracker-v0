@@ -3,6 +3,6 @@ import { randomUUID } from 'crypto';
 
 @Schema({})
 export abstract class BaseSchema {
-  @Prop({ default: randomUUID() })
+  @Prop({ default: () => randomUUID() })
   Id: string;
 }

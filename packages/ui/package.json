@@ -27,7 +27,8 @@
     "./activity-activity-attribute-attach-form": "./src/forms/activity/activity-attribute/attach-form.tsx",
     "./activity-activity-attribute-remove-form": "./src/forms/activity/activity-attribute/remove-form.tsx",
     "./tracking-form": "./src/forms/tracking/tracking-form.tsx",
-    "./start-session": "./src/start-session.tsx"
+    "./start-session": "./src/tracking/start-session.tsx",
+    "./continue-session": "./src/tracking/continue-session.tsx"
   },
   "scripts": {
     "build": "tailwindcss -i ./src/index.css -o ./dist/index.css",

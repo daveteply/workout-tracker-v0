@@ -11,9 +11,10 @@
       "build": "tsc"
     },
     "exports": {
-        "./activity-category": "./src/activity-category.tsx",
-        "./activity": "./src/activity.tsx",
-        "./activity-attribute": "./src/activity-attribute.tsx"
+        "./activity-category": "./src/activity-category.ts",
+        "./activity": "./src/activity.ts",
+        "./activity-attribute": "./src/activity-attribute.ts",
+        "./workout-session": "./src/workout-session.ts"
 
     },
     "devDependencies": {

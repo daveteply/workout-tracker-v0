@@ -24,7 +24,7 @@ export default async function WorkoutPage() {
                 <Link
                   className="btn btn-primary btn-sm md:btn-lg"
                   href={{
-                    pathname: '/workout/activity/',
+                    pathname: '/workout-session/activity/',
                     query: { cs: c.slug },
                   }}
                 >

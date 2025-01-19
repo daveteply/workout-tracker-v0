@@ -1,7 +1,7 @@
 'use server';
 
-import { redirect } from 'next/navigation';
 import { API_TRACKING_URL, HTTP_STATUS_CREATED } from '../../constants';
+import { revalidatePath } from 'next/cache';
 
 export async function createNewSession() {
   // TODO: Remove hard coded member after enabling auth
@@ -14,7 +14,7 @@ export async function createNewSession() {
   });
 
   if (createWorkoutSessionResponse.status === HTTP_STATUS_CREATED) {
-    redirect('/tracking/workout-session');
+    revalidatePath('/tracking');
   } else {
     // TODO: other error handling
     console.error(createWorkoutSessionResponse);

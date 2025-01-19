@@ -1,10 +1,8 @@
 'use client';
 
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-import { NumberCaptureForm } from './attribute-forms/number-capture-form.js';
 import { useFormStatus } from 'react-dom';
 import { SyntheticEvent, useState } from 'react';
-import { StringCaptureForm } from './attribute-forms/string-capture-form.js';
 import WTModal from '@repo/ui/wt-modal';
 
 const initialState = {
@@ -26,45 +24,51 @@ export function TrackingForm({
   activityAttributes: ActivityAttributeDTO[];
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [attributes, setAttributes] = useState<ActivityAttributeDTO[]>([...activityAttributes]);
+  const [attributeSet, setAttributeSet] = useState<ActivityAttributeDTO[][]>([]);
 
   const openModal = () => {
     initialState.message = '';
     setIsModalOpen(true);
   };
 
-  function trackActivityData(e: SyntheticEvent) {
+  function addTrackingAttribute(e: SyntheticEvent) {
     e.preventDefault();
-    // console.log('event', e.target);
+    setAttributeSet([...attributeSet, attributes]);
+    setIsModalOpen(false);
   }
 
-  function attributeFormFactory(attribute: ActivityAttributeDTO) {
-    // TODO: convert to use enum
-    switch (attribute.attributeType) {
-      case 'LENGTH':
-      case 'MASS':
-      case 'NUMBER':
-        return <NumberCaptureForm attribute={attribute} />;
-
-      case 'TIME':
-      case 'STRING':
-        return <StringCaptureForm attribute={attribute} />;
-
-      default:
-        console.error('Missing Attribute Type:', attribute);
-    }
+  function handleChange(slug: string, value: string) {
+    setAttributes(attributes.map((a) => (a.slug === slug ? { ...a, attributeValue: value } : a)));
   }
 
   return (
     <div>
-      <button className="btn btn-primary mr-2" onClick={openModal}>
-        Add Tracking
-      </button>
-      <button className="btn btn-primary">Complete Activity</button>
+      <div className="mb-5">
+        <button className="btn btn-primary mr-2" onClick={openModal}>
+          Add Tracking
+        </button>
+        <button className="btn btn-primary">Complete Activity</button>
+      </div>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
-        <form onSubmit={trackActivityData}>
-          {activityAttributes.map((attribute, index) => (
+        <form onSubmit={addTrackingAttribute}>
+          {attributes.map((attribute: ActivityAttributeDTO, index: number) => (
             <div key={index} className="my-5">
-              {attributeFormFactory(attribute)}
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">{attribute.title}</span>
+                </div>
+                <input
+                  type={
+                    attribute.attributeType === 'TIME' || attribute.attributeType === 'STRING'
+                      ? 'text'
+                      : 'number'
+                  }
+                  placeholder="Enter value"
+                  className="input input-bordered w-full max-w-xs"
+                  onChange={(e) => handleChange(attribute.slug, e.target.value)}
+                />
+              </label>
             </div>
           ))}
           <div className="modal-action">
@@ -75,6 +79,23 @@ export function TrackingForm({
           </div>
         </form>
       </WTModal>
+
+      <div className="flex flex-wrap">
+        {attributeSet.map((a, aInx) => (
+          <div
+            key={aInx}
+            className="card card-compact border border-2 border-blue-300 m-2 basis-36 md:basis-52"
+          >
+            <div className="card-body capitalize">
+              {a.map((s, sInx) => (
+                <div key={sInx}>
+                  {s.title} {s.attributeValue}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

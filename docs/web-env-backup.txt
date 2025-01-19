@@ -1,0 +1,9 @@
+# TODO: update to use service regristry (e.g. Consul, etcd, or Zookeeper) or an API Gateway
+
+API_STRUCTURE_SCHEMA=http
+API_STRUCTURE_HOST=localhost
+API_STRUCTURE_PORT=8080
+
+API_TRACKING_SCHEMA=http
+API_TRACKING_HOST=localhost
+API_TRACKING_PORT=8081

@@ -1,4 +1,4 @@
-# TODO: update to use service regristry (e.g. Consul, etcd, or Zookeeper) or an API Gateway
+# TODO: update to use service registry (e.g. Consul, etcd, or Zookeeper) or an API Gateway
 
 API_STRUCTURE_SCHEMA=http
 API_STRUCTURE_HOST=localhost

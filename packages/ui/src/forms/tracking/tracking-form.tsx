@@ -25,6 +25,7 @@ export function TrackingForm({
   activityAttributes: ActivityAttributeDTO[];
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editIdx, setEditIdx] = useState(-1);
   const [attributes, setAttributes] = useState<ActivityAttributeDTO[]>([...activityAttributes]);
   const [attributeSet, setAttributeSet] = useState<ActivityAttributeDTO[][]>([]);
 
@@ -39,7 +40,15 @@ export function TrackingForm({
 
     // validation
     if (attributes.filter((a) => a.attributeValue).length) {
-      setAttributeSet([...attributeSet, attributes]);
+      if (editIdx > -1) {
+        // update existing list
+        attributeSet.splice(editIdx, 1, attributes);
+        setAttributeSet([...attributeSet]);
+        setEditIdx(-1);
+      } else {
+        // add to list
+        setAttributeSet([...attributeSet, attributes]);
+      }
       setIsModalOpen(false);
     }
   }
@@ -51,6 +60,13 @@ export function TrackingForm({
   function handleDelete(idx: number) {
     attributeSet.splice(idx, 1);
     setAttributeSet([...attributeSet]);
+  }
+
+  function handleEdit(idx: number) {
+    setEditIdx(idx);
+    // set field values
+    setAttributes([...(attributeSet[idx] as [])]);
+    setIsModalOpen(true);
   }
 
   return (
@@ -77,6 +93,7 @@ export function TrackingForm({
                   }
                   placeholder={`Enter ${attribute.title}`}
                   className="input input-bordered w-full max-w-xs"
+                  defaultValue={attribute.attributeValue}
                   onChange={(e) => handleChange(attribute.slug, e.target.value)}
                 />
               </label>
@@ -104,7 +121,7 @@ export function TrackingForm({
                 </div>
               ))}
               <div className="card-actions justify-end">
-                <button>
+                <button onClick={() => handleEdit(aInx)}>
                   <PencilIcon className="size-5 text-blue-500" />
                 </button>
                 <button onClick={() => handleDelete(aInx)}>

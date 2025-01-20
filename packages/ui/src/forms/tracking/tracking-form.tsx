@@ -4,6 +4,7 @@ import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { useFormStatus } from 'react-dom';
 import { SyntheticEvent, useState } from 'react';
 import WTModal from '@repo/ui/wt-modal';
+import { PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
 
 const initialState = {
   message: '',
@@ -29,17 +30,27 @@ export function TrackingForm({
 
   const openModal = () => {
     initialState.message = '';
+    setAttributes([...activityAttributes]);
     setIsModalOpen(true);
   };
 
   function addTrackingAttribute(e: SyntheticEvent) {
     e.preventDefault();
-    setAttributeSet([...attributeSet, attributes]);
-    setIsModalOpen(false);
+
+    // validation
+    if (attributes.filter((a) => a.attributeValue).length) {
+      setAttributeSet([...attributeSet, attributes]);
+      setIsModalOpen(false);
+    }
   }
 
   function handleChange(slug: string, value: string) {
     setAttributes(attributes.map((a) => (a.slug === slug ? { ...a, attributeValue: value } : a)));
+  }
+
+  function handleDelete(idx: number) {
+    attributeSet.splice(idx, 1);
+    setAttributeSet([...attributeSet]);
   }
 
   return (
@@ -64,7 +75,7 @@ export function TrackingForm({
                       ? 'text'
                       : 'number'
                   }
-                  placeholder="Enter value"
+                  placeholder={`Enter ${attribute.title}`}
                   className="input input-bordered w-full max-w-xs"
                   onChange={(e) => handleChange(attribute.slug, e.target.value)}
                 />
@@ -81,17 +92,25 @@ export function TrackingForm({
       </WTModal>
 
       <div className="flex flex-wrap">
-        {attributeSet.map((a, aInx) => (
+        {attributeSet.map((at, aInx) => (
           <div
             key={aInx}
             className="card card-compact border border-2 border-blue-300 m-2 basis-36 md:basis-52"
           >
             <div className="card-body capitalize">
-              {a.map((s, sInx) => (
+              {at.map((a, sInx) => (
                 <div key={sInx}>
-                  {s.title} {s.attributeValue}
+                  {a.title} {a.attributeValue}
                 </div>
               ))}
+              <div className="card-actions justify-end">
+                <button>
+                  <PencilIcon className="size-5 text-blue-500" />
+                </button>
+                <button onClick={() => handleDelete(aInx)}>
+                  <TrashIcon className="size-5 text-blue-500" />
+                </button>
+              </div>
             </div>
           </div>
         ))}

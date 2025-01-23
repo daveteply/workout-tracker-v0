@@ -1,26 +1,26 @@
 'use server';
 
-import { z } from 'zod';
+import { redirect } from 'next/navigation';
+import { API_TRACKING_URL, HTTP_STATUS_CREATED } from '../../../../constants';
+import { ActivitySetDTO } from '@repo/dto/activity-set';
 
-export async function trackActivity(prevState: { message: string }, formData: FormData) {
-  const valueName = 'attribute-value';
-  const slugName = 'attribute-slug';
-  const typeName = 'attribute-type';
+export async function updateWorkoutSession(sessionId: string, activitySet: ActivitySetDTO) {
+  const patchData = {
+    sessionId: sessionId,
+    activitySet: activitySet,
+  };
 
-  const valueValue = formData.get(valueName);
-  const slugValue = formData.get(slugName);
-  const typeValue = formData.get(typeName);
+  // add Set to existing Session
+  const result = await fetch(`${API_TRACKING_URL}/v1/workout-set/`, {
+    headers: { 'Content-Type': 'application/json' },
+    method: 'POST',
+    body: JSON.stringify(patchData),
+  });
 
-  if (valueName.length) {
-    // tracking multiple
-  } else {
+  if (result.status === HTTP_STATUS_CREATED) {
+    // TODO: review strategy here
+    redirect(`/tracking/workout-session?ses=${sessionId}`);
   }
 
-  // const attributeValue =
-
-  const schema = z.object({
-    title: z.string().min(1),
-    description: z.string().optional(),
-    activityCategorySlug: z.string(),
-  });
+  return result.status;
 }

@@ -5,29 +5,40 @@ import { useFormStatus } from 'react-dom';
 import { SyntheticEvent, useState } from 'react';
 import WTModal from '@repo/ui/wt-modal';
 import { PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
+import { ActivitySetDTO } from '@repo/dto/activity-set';
 
 const initialState = {
   message: '',
 };
 
-function SubmitButton() {
+function SubmitButton({ editMode }: { editMode: boolean }) {
   const { pending } = useFormStatus();
   return (
     <button className="btn btn-primary" type="submit" aria-disabled={pending}>
-      Track
+      {editMode ? 'Save' : 'Add'}
     </button>
   );
 }
 
 export function TrackingForm({
+  workoutSessionId,
+  activitySlug,
   activityAttributes,
+  addSessionSetAction,
 }: {
+  workoutSessionId: string;
+  activitySlug: string;
   activityAttributes: ActivityAttributeDTO[];
+  addSessionSetAction: any;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editIdx, setEditIdx] = useState(-1);
   const [attributes, setAttributes] = useState<ActivityAttributeDTO[]>([...activityAttributes]);
-  const [attributeSet, setAttributeSet] = useState<ActivityAttributeDTO[][]>([]);
+
+  const [activitySet, setActivitySet] = useState<ActivitySetDTO>({
+    activitySlug: activitySlug,
+    attributeSets: [],
+  });
 
   const openModal = () => {
     initialState.message = '';
@@ -35,38 +46,49 @@ export function TrackingForm({
     setIsModalOpen(true);
   };
 
-  function addTrackingAttribute(e: SyntheticEvent) {
+  function saveTrackingAttribute(e: SyntheticEvent) {
     e.preventDefault();
 
-    // validation
-    if (attributes.filter((a) => a.attributeValue).length) {
-      if (editIdx > -1) {
-        // update existing list
-        attributeSet.splice(editIdx, 1, attributes);
-        setAttributeSet([...attributeSet]);
-        setEditIdx(-1);
-      } else {
-        // add to list
-        setAttributeSet([...attributeSet, attributes]);
+    if (editIdx > -1) {
+      // update existing list
+      if (activitySet.attributeSets && activitySet.attributeSets[editIdx]) {
+        activitySet.attributeSets[editIdx].attributes = [...attributes];
       }
-      setIsModalOpen(false);
+      setActivitySet({ ...activitySet });
+      setEditIdx(-1);
+    } else {
+      // add to list
+      activitySet.attributeSets?.push({ attributes: [...attributes] });
+      setActivitySet({ ...activitySet });
     }
+    setIsModalOpen(false);
   }
 
-  function handleChange(slug: string, value: string) {
+  function updateTrackingAttribute(slug: string, value: string) {
     setAttributes(attributes.map((a) => (a.slug === slug ? { ...a, attributeValue: value } : a)));
   }
 
-  function handleDelete(idx: number) {
-    attributeSet.splice(idx, 1);
-    setAttributeSet([...attributeSet]);
+  function deleteTrackingAttribute(idx: number) {
+    activitySet.attributeSets?.splice(idx, 1);
+    setActivitySet({ ...activitySet });
   }
 
-  function handleEdit(idx: number) {
+  function editTrackingAttribute(idx: number) {
     setEditIdx(idx);
     // set field values
-    setAttributes([...(attributeSet[idx] as [])]);
-    setIsModalOpen(true);
+    if (activitySet.attributeSets && activitySet.attributeSets[idx]) {
+      setAttributes([...activitySet.attributeSets[idx]?.attributes]);
+      setIsModalOpen(true);
+    }
+  }
+
+  async function completeActivitySet() {
+    const actionResult = await addSessionSetAction(workoutSessionId, activitySet);
+    if (actionResult === 201) {
+      // TODO: clear localStorage when feature added
+    } else {
+      // TODO: error message
+    }
   }
 
   return (
@@ -75,10 +97,12 @@ export function TrackingForm({
         <button className="btn btn-primary mr-2" onClick={openModal}>
           Add Tracking
         </button>
-        <button className="btn btn-primary">Complete Activity</button>
+        <button className="btn btn-primary" onClick={completeActivitySet}>
+          Complete Activity
+        </button>
       </div>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
-        <form onSubmit={addTrackingAttribute}>
+        <form onSubmit={saveTrackingAttribute}>
           {attributes.map((attribute: ActivityAttributeDTO, index: number) => (
             <div key={index} className="my-5">
               <label className="form-control w-full max-w-xs">
@@ -94,7 +118,7 @@ export function TrackingForm({
                   placeholder={`Enter ${attribute.title}`}
                   className="input input-bordered w-full max-w-xs"
                   defaultValue={attribute.attributeValue}
-                  onChange={(e) => handleChange(attribute.slug, e.target.value)}
+                  onChange={(e) => updateTrackingAttribute(attribute.slug, e.target.value)}
                 />
               </label>
             </div>
@@ -103,28 +127,28 @@ export function TrackingForm({
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
-            <SubmitButton />
+            <SubmitButton editMode={editIdx > -1} />
           </div>
         </form>
       </WTModal>
 
       <div className="flex flex-wrap">
-        {attributeSet.map((at, aInx) => (
+        {activitySet?.attributeSets?.map((as, asInx) => (
           <div
-            key={aInx}
+            key={asInx}
             className="card card-compact border border-2 border-blue-300 m-2 basis-36 md:basis-52"
           >
             <div className="card-body capitalize">
-              {at.map((a, sInx) => (
-                <div key={sInx}>
+              {as.attributes?.map((a, aInx) => (
+                <div key={aInx}>
                   {a.title} {a.attributeValue}
                 </div>
               ))}
               <div className="card-actions justify-end">
-                <button onClick={() => handleEdit(aInx)}>
+                <button onClick={() => editTrackingAttribute(asInx)}>
                   <PencilIcon className="size-5 text-blue-500" />
                 </button>
-                <button onClick={() => handleDelete(aInx)}>
+                <button onClick={() => deleteTrackingAttribute(asInx)}>
                   <TrashIcon className="size-5 text-blue-500" />
                 </button>
               </div>

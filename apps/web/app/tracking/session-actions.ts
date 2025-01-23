@@ -1,6 +1,6 @@
 'use server';
 
-import { API_TRACKING_URL, HTTP_STATUS_CREATED } from '../../constants';
+import { API_TRACKING_URL, HTTP_STATUS_CREATED } from '../constants';
 import { revalidatePath } from 'next/cache';
 
 export async function createNewSession() {

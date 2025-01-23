@@ -14,7 +14,9 @@
         "./activity-category": "./src/activity-category.ts",
         "./activity": "./src/activity.ts",
         "./activity-attribute": "./src/activity-attribute.ts",
-        "./workout-session": "./src/workout-session.ts"
+        "./workout-session": "./src/workout-session.ts",
+        "./activity-set": "./src/activity-set.ts",
+        "./activity-attribute-set": "./src/activity-attribute-set.ts"
 
     },
     "devDependencies": {

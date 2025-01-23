@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongooseConfigService } from './services/mongoose-config/mongoose-config.service';
-import { WorkoutSessionService } from './tracking/services/workout-session/workout-session.service';
 import { TrackingModule } from './tracking/tracking.module';
 
 @Module({
@@ -14,6 +13,6 @@ import { TrackingModule } from './tracking/tracking.module';
     TrackingModule,
   ],
   controllers: [],
-  providers: [MongooseConfigService, WorkoutSessionService],
+  providers: [MongooseConfigService],
 })
 export class AppModule {}

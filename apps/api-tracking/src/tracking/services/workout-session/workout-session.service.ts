@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { WorkoutSessionDTO } from '@repo/dto/src/workout-session';
 import { Model } from 'mongoose';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
-import { WorkoutSessionDO } from 'src/tracking/models/workout-session';
 
 @Injectable()
 export class WorkoutSessionService {
@@ -12,14 +12,18 @@ export class WorkoutSessionService {
   ) {}
 
   async createWorkoutSession(
-    createWorkoutSessionDO: WorkoutSessionDO,
+    createWorkoutSessionDTO: WorkoutSessionDTO,
   ): Promise<WorkoutSession> {
-    const workoutSession = new this.workoutSessionModel(createWorkoutSessionDO);
+    const workoutSession = new this.workoutSessionModel(
+      createWorkoutSessionDTO,
+    );
     return await workoutSession.save();
   }
 
+  // TODO: Remove hard coded member after enabling auth
   async getWorkoutSessionByMemberId(): Promise<WorkoutSession[]> {
-    // TODO: Remove hard coded member after enabling auth
-    return await this.workoutSessionModel.where({ MemberId: 1 });
+    return await this.workoutSessionModel.where({
+      memberId: 1,
+    });
   }
 }

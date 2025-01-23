@@ -1,23 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { WorkoutSet } from './workout-set';
 import { BaseSchema } from './base-schema';
+import { ActivitySet } from './activity-set';
 
 @Schema({
   collection: 'workout_sessions',
 })
 export class WorkoutSession extends BaseSchema {
   @Prop({ required: true })
-  MemberId: number;
-
-  @Prop({ required: true })
-  SessionStart: Date;
+  memberId: number;
 
   @Prop()
-  SessionCompleted: Date;
+  sessionStart: Date;
 
-  @Prop([WorkoutSet])
-  Sets: WorkoutSet[];
+  @Prop()
+  sessionCompleted: Date;
+
+  @Prop([ActivitySet])
+  activitySets: ActivitySet[];
 }
 
 export type WorkoutSessionDocument = HydratedDocument<WorkoutSession>;

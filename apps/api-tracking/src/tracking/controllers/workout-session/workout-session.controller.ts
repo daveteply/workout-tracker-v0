@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Version } from '@nestjs/common';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
-import { WorkoutSessionDO } from 'src/tracking/models/workout-session';
 import { WorkoutSessionService } from 'src/tracking/services/workout-session/workout-session.service';
+import { WorkoutSessionDTO } from '@repo/dto/src/workout-session';
 
 @Controller('workout-session')
 export class WorkoutSessionController {
@@ -10,7 +10,7 @@ export class WorkoutSessionController {
   @Get()
   @Version('1')
   async getWorkoutSession(): Promise<WorkoutSession[]> {
-    // TODO: add member slug as paramater
+    // TODO: add member slug as parameter
     return await this.workoutSessionService.getWorkoutSessionByMemberId();
   }
 
@@ -19,10 +19,10 @@ export class WorkoutSessionController {
   async createWorkoutSession(
     @Body() body: any,
   ): Promise<WorkoutSession | null> {
-    const workoutSession: WorkoutSessionDO = {
-      MemberId: body.memberId,
-      // TODO: maybe server side?
-      SessionStart: new Date(),
+    const workoutSession: WorkoutSessionDTO = {
+      memberId: body.memberId,
+      // TODO: add to UI
+      sessionStart: new Date(),
     };
     return await this.workoutSessionService.createWorkoutSession(
       workoutSession,

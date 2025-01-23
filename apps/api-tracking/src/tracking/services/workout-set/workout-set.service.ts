@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ActivitySetDTO } from '@repo/dto/src/activity-set';
 import { Model } from 'mongoose';
+import { ActivitySet } from 'src/tracking/schemas/activity-set';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
 
 @Injectable()
@@ -37,7 +38,19 @@ export class WorkoutSetService {
       session.save();
       return session;
     }
+    return null;
+  }
 
+  async getActivitySetByActivitySlug(
+    sessionId: string,
+    activitySlug: string,
+  ): Promise<ActivitySet[] | null> {
+    const session = await this.workoutSessionModel.findOne({ id: sessionId });
+    if (session) {
+      return session.activitySets.filter(
+        (a) => a.activitySlug === activitySlug,
+      );
+    }
     return null;
   }
 }

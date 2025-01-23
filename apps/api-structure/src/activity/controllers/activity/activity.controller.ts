@@ -36,10 +36,10 @@ export class ActivityController {
     return await this.activityService.createActivity(activity);
   }
 
-  @Patch(':slug')
+  @Patch(':s')
   @Version('1')
   async updateActivityCategory(
-    @Param('slug') slug: string,
+    @Param('s') slug: string,
     @Body() body: ActivityDTO,
   ): Promise<Activity | null> {
     const activity: ActivityDTO = {
@@ -51,9 +51,9 @@ export class ActivityController {
     return await this.activityService.updateActivity(activity);
   }
 
-  @Delete(':slug')
+  @Delete(':s')
   @Version('1')
-  async deleteActivity(@Param('slug') slug: string): Promise<void> {
+  async deleteActivity(@Param('s') slug: string): Promise<void> {
     this.activityService.deleteActivity(slug);
   }
 }

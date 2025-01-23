@@ -1,4 +1,5 @@
-import { Body, Controller, Post, Version } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Version } from '@nestjs/common';
+import { ActivitySet } from 'src/tracking/schemas/activity-set';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
 import { WorkoutSetService } from 'src/tracking/services/workout-set/workout-set.service';
 
@@ -14,6 +15,18 @@ export class WorkoutSetController {
     return await this.workoutSetService.addSetsToSession(
       body.sessionId,
       body.activitySet,
+    );
+  }
+
+  @Get()
+  @Version('1')
+  async getActivitySetByActivitySlug(
+    @Query('s') sessionId: string,
+    @Query('a') activitySlug: string,
+  ): Promise<ActivitySet[] | null> {
+    return await this.workoutSetService.getActivitySetByActivitySlug(
+      sessionId,
+      activitySlug,
     );
   }
 }

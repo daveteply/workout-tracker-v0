@@ -21,8 +21,6 @@ export async function createActivityAttribute(prevState: { message: string }, fo
     return { message: 'Failed to create' };
   }
 
-  console.log(333, formData, parse);
-
   const data = parse.data;
 
   const response = await fetch(`${API_STRUCTURE_URL}/v1/attributes`, {

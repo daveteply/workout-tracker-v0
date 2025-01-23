@@ -22,7 +22,7 @@ export default async function TrackingPage() {
           >
             continue workout
           </Link>
-          {s.sessionStart?.toString()}
+          {s.sessionStart?.toString()} | {s.activitySetsCount}
         </div>
       ))}
     </section>

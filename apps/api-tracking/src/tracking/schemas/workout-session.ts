@@ -1,10 +1,12 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { BaseSchema } from './base-schema';
 import { ActivitySet } from './activity-set';
 
 @Schema({
   collection: 'workout_sessions',
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
 })
 export class WorkoutSession extends BaseSchema {
   @Prop({ required: true })
@@ -18,6 +20,13 @@ export class WorkoutSession extends BaseSchema {
 
   @Prop([ActivitySet])
   activitySets: ActivitySet[];
+
+  @Virtual({
+    get: function (this: WorkoutSession) {
+      return this.activitySets.length;
+    },
+  })
+  activitySetsCount: number;
 }
 
 export type WorkoutSessionDocument = HydratedDocument<WorkoutSession>;

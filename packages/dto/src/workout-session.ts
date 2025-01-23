@@ -6,4 +6,7 @@ export interface WorkoutSessionDTO {
   sessionStart?: Date;
   sessionCompleted?: Date;
   activitySets?: ActivitySetDTO[];
+
+  // virtual
+  activitySetsCount?: number;
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UtilsService } from 'src/services/utils/utils.service';
 import { PrismaClientActivityService } from '../prisma-client-activity/prisma-client-activity.service';
 import { Activity } from '@prisma/client';
-import { ActivityDO } from 'src/activity/models/activity';
+import { ActivityDTO } from '@repo/dto/src/activity';
 
 @Injectable()
 export class ActivityService {
@@ -11,7 +11,7 @@ export class ActivityService {
     private utilsService: UtilsService,
   ) {}
 
-  async createActivity(activity: ActivityDO): Promise<Activity | null> {
+  async createActivity(activity: ActivityDTO): Promise<Activity | null> {
     if (activity.categorySlug) {
       const categoryId = this.utilsService.getId(activity.categorySlug);
       return await this.prismaClientActivityService.client.activity.create({
@@ -44,9 +44,9 @@ export class ActivityService {
     });
   }
 
-  async updateActivity(activity: ActivityDO): Promise<Activity | null> {
-    if (activity.activitySlug) {
-      const id = this.utilsService.getId(activity.activitySlug);
+  async updateActivity(activity: ActivityDTO): Promise<Activity | null> {
+    if (activity.slug) {
+      const id = this.utilsService.getId(activity.slug);
       return await this.prismaClientActivityService.client.activity.update({
         where: { id: id },
         data: {

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UtilsService } from 'src/services/utils/utils.service';
 import { PrismaClientActivityService } from '../prisma-client-activity/prisma-client-activity.service';
-import { CategoryDO } from 'src/activity/models/category';
 import { ActivityCategory } from '@prisma/client';
+import { ActivityCategoryDTO } from '@repo/dto/src/activity-category';
 
 @Injectable()
 export class CategoryService {
@@ -11,7 +11,7 @@ export class CategoryService {
     private utilsService: UtilsService,
   ) {}
 
-  async createCategory(activityCategory: CategoryDO): Promise<ActivityCategory> {
+  async createCategory(activityCategory: ActivityCategoryDTO): Promise<ActivityCategory> {
     return await this.prismaClientActivityService.client.activityCategory.create({
       data: {
         title: activityCategory.title,
@@ -31,7 +31,7 @@ export class CategoryService {
     });
   }
 
-  async updateCategory(activityCategory: CategoryDO): Promise<ActivityCategory | null> {
+  async updateCategory(activityCategory: ActivityCategoryDTO): Promise<ActivityCategory | null> {
     if (activityCategory.slug) {
       const id = this.utilsService.getId(activityCategory.slug);
       return await this.prismaClientActivityService.client.activityCategory.update({

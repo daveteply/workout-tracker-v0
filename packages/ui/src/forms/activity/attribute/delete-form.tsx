@@ -22,7 +22,7 @@ export function ActivityAttributeDeleteForm({
   deleteActivityAttributeAction,
   slug,
 }: {
-  slug: string;
+  slug?: string;
   deleteActivityAttributeAction: any;
 }) {
   const [serverActionResult, formAction] = useActionState(

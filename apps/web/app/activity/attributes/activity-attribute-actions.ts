@@ -6,20 +6,22 @@ import { API_STRUCTURE_URL, HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../co
 
 export async function createActivityAttribute(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
-    attributeTitle: z.string().min(1),
-    attributeDescription: z.string().optional(),
+    title: z.string().min(1),
+    description: z.string().optional(),
     attributeType: z.string(),
   });
 
   const parse = schema.safeParse({
-    attributeTitle: formData.get('attribute-title'),
-    attributeDescription: formData.get('attribute-description'),
+    title: formData.get('title'),
+    description: formData.get('description'),
     attributeType: formData.get('attribute-type'),
   });
 
   if (!parse.success) {
     return { message: 'Failed to create' };
   }
+
+  console.log(333, formData, parse);
 
   const data = parse.data;
 
@@ -42,15 +44,15 @@ export async function createActivityAttribute(prevState: { message: string }, fo
 export async function updateActivityAttribute(prevState: { message: string }, formData: FormData) {
   const schema = z.object({
     slug: z.string().min(1),
-    attributeTitle: z.string().min(1),
-    attributeDescription: z.string().optional(),
+    title: z.string().min(1),
+    description: z.string().optional(),
     attributeType: z.string(),
   });
 
   const parse = schema.safeParse({
     slug: formData.get('slug'),
-    attributeTitle: formData.get('attribute-title'),
-    attributeDescription: formData.get('attribute-description'),
+    title: formData.get('title'),
+    description: formData.get('description'),
     attributeType: formData.get('attribute-type'),
   });
 

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
 import { ActivityAttribute } from '@prisma/client';
-import { AttributeDO } from 'src/activity/models/attribute';
 import { AttributeService } from 'src/activity/services/attribute/attribute.service';
+import { ActivityAttributeDTO } from '@repo/dto/src/activity-attribute';
 
 @Controller('attributes')
 export class AttributeController {
@@ -21,25 +21,27 @@ export class AttributeController {
 
   @Post()
   @Version('1')
-  async createActivity(@Body() body: any): Promise<ActivityAttribute> {
-    const activityAttributeDO: AttributeDO = {
-      title: body.attributeTitle,
-      description: body.attributeDescription,
+  async createActivity(@Body() body: ActivityAttributeDTO): Promise<ActivityAttribute> {
+    const activityAttribute: ActivityAttributeDTO = {
+      title: body.title,
+      description: body.description,
       attributeType: body.attributeType,
     };
-    return await this.attributeService.createActivityAttribute(activityAttributeDO);
+    return await this.attributeService.createActivityAttribute(activityAttribute);
   }
 
   @Patch()
   @Version('1')
-  async updateActivityCategory(@Body() body: any): Promise<ActivityAttribute | null> {
-    const activityAttributeDO: AttributeDO = {
+  async updateActivityCategory(
+    @Body() body: ActivityAttributeDTO,
+  ): Promise<ActivityAttribute | null> {
+    const activityAttribute: ActivityAttributeDTO = {
       slug: body.slug,
-      title: body.attributeTitle,
-      description: body.attributeDescription,
+      title: body.title,
+      description: body.description,
       attributeType: body.attributeType,
     };
-    return await this.attributeService.updateActivityAttribute(activityAttributeDO);
+    return await this.attributeService.updateActivityAttribute(activityAttribute);
   }
 
   @Delete(':s')

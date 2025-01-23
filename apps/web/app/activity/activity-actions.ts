@@ -8,13 +8,13 @@ export async function createActivity(prevState: { message: string }, formData: F
   const schema = z.object({
     title: z.string().min(1),
     description: z.string().optional(),
-    activityCategorySlug: z.string(),
+    categorySlug: z.string(),
   });
 
   const parse = schema.safeParse({
     title: formData.get('title'),
     description: formData.get('description'),
-    activityCategorySlug: formData.get('activity-category-slug'),
+    categorySlug: formData.get('category-slug'),
   });
 
   if (!parse.success) {

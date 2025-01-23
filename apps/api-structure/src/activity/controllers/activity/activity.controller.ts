@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Version } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
 import { Activity } from '@prisma/client';
-import { ActivityDO } from 'src/activity/models/activity';
 import { ActivityService } from 'src/activity/services/activity/activity.service';
+import { ActivityDTO } from '@repo/dto/src/activity';
 
 @Controller('activities')
 export class ActivityController {
@@ -27,11 +27,11 @@ export class ActivityController {
 
   @Post()
   @Version('1')
-  async createActivity(@Body() body: any): Promise<Activity | null> {
-    const activity: ActivityDO = {
+  async createActivity(@Body() body: ActivityDTO): Promise<Activity | null> {
+    const activity: ActivityDTO = {
       title: body.title,
       description: body.description,
-      categorySlug: body.activityCategorySlug,
+      categorySlug: body.categorySlug,
     };
     return await this.activityService.createActivity(activity);
   }
@@ -40,13 +40,13 @@ export class ActivityController {
   @Version('1')
   async updateActivityCategory(
     @Param('slug') slug: string,
-    @Body() body: any,
+    @Body() body: ActivityDTO,
   ): Promise<Activity | null> {
-    const activity: ActivityDO = {
-      activitySlug: slug,
+    const activity: ActivityDTO = {
+      slug: slug,
       title: body.title,
       description: body.description,
-      categorySlug: body.activityCategorySlug,
+      categorySlug: body.categorySlug,
     };
     return await this.activityService.updateActivity(activity);
   }

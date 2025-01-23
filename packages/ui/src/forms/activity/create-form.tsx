@@ -59,7 +59,7 @@ export function ActivityCreateForm({
             id="activity-description"
             name="description"
           />
-          <input type="hidden" name="activity-category-slug" value={activityCategorySlug} />
+          <input type="hidden" name="category-slug" value={activityCategorySlug} />
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel

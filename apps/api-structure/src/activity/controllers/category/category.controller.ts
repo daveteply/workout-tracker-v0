@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
 import { ActivityCategory } from '@prisma/client';
-import { CategoryDO } from 'src/activity/models/category';
 import { CategoryService } from 'src/activity/services/category/category.service';
+import { ActivityCategoryDTO } from '@repo/dto/src/activity-category';
 
 @Controller('categories')
 export class CategoryController {
@@ -21,8 +21,8 @@ export class CategoryController {
 
   @Post()
   @Version('1')
-  async createActivityCategory(@Body() body: CategoryDO): Promise<ActivityCategory> {
-    const activityCategory: CategoryDO = {
+  async createActivityCategory(@Body() body: ActivityCategoryDTO): Promise<ActivityCategory> {
+    const activityCategory: ActivityCategoryDTO = {
       title: body.title,
       description: body.description,
     };
@@ -33,9 +33,9 @@ export class CategoryController {
   @Version('1')
   async updateActivityCategory(
     @Param('s') slug: string,
-    @Body() body: any,
+    @Body() body: ActivityCategoryDTO,
   ): Promise<ActivityCategory | null> {
-    const activityCategory: CategoryDO = {
+    const activityCategory: ActivityCategoryDTO = {
       slug: slug,
       title: body.title,
       description: body.description,

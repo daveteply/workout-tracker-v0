@@ -12,6 +12,7 @@ enum Role {
   ADMIN
 }
 
+// ensure this matches packages\dto\src\attribute-types.ts
 enum AttributeType {
   LENGTH
   MASS
@@ -85,9 +86,9 @@ model Routine {
   title   String
   members MemberRoutine[]
 
-  started DateTime
-  completed DateTime? 
-  
+  started   DateTime
+  completed DateTime?
+
   createdAt DateTime @default(now()) @map("create_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

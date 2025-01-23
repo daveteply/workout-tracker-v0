@@ -58,7 +58,7 @@ export function ActivityAttributeUpdateForm({
             className="input input-bordered w-1/2 max-w-xs mb-5"
             type="text"
             id="activity-attribute-title"
-            name="attribute-title"
+            name="title"
             placeholder="Attribute title"
             defaultValue={dto.title}
             required
@@ -67,7 +67,7 @@ export function ActivityAttributeUpdateForm({
             className="input input-bordered w-full max-w-xs mb-5"
             type="text"
             id="activity-attribute-description"
-            name="attribute-description"
+            name="description"
             placeholder="Description"
             defaultValue={dto.description}
             maxLength={45}

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UtilsService } from 'src/services/utils/utils.service';
 import { PrismaClientActivityService } from '../prisma-client-activity/prisma-client-activity.service';
 import { ActivityAttribute } from '@prisma/client';
-import { AttributeTypes } from 'src/activity/models/attribute-types';
-import { AttributeDO } from 'src/activity/models/attribute';
+import { AttributeTypes } from '@repo/dto/src/attribute-types';
+import { ActivityAttributeDTO } from '@repo/dto/src/activity-attribute';
 
 @Injectable()
 export class AttributeService {
@@ -13,14 +13,22 @@ export class AttributeService {
   ) {}
 
   getActivityAttributeTypes(): string[] {
-    return Object.values(AttributeTypes).filter((value) => typeof value === 'string');
+    return [
+      AttributeTypes.LENGTH,
+      AttributeTypes.MASS,
+      AttributeTypes.NUMBER,
+      AttributeTypes.STRING,
+      AttributeTypes.TIME,
+    ];
   }
 
   async getActivityAttributes(): Promise<ActivityAttribute[]> {
     return await this.prismaClientActivityService.client.activityAttribute.findMany();
   }
 
-  async createActivityAttribute(activityAttribute: AttributeDO): Promise<ActivityAttribute> {
+  async createActivityAttribute(
+    activityAttribute: ActivityAttributeDTO,
+  ): Promise<ActivityAttribute> {
     return await this.prismaClientActivityService.client.activityAttribute.create({
       data: {
         title: activityAttribute.title,
@@ -30,7 +38,9 @@ export class AttributeService {
     });
   }
 
-  async updateActivityAttribute(activityAttribute: AttributeDO): Promise<ActivityAttribute | null> {
+  async updateActivityAttribute(
+    activityAttribute: ActivityAttributeDTO,
+  ): Promise<ActivityAttribute | null> {
     if (activityAttribute.slug) {
       const id = this.utilsService.getId(activityAttribute.slug);
       return await this.prismaClientActivityService.client.activityAttribute.update({

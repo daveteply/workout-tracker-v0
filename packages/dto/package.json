@@ -16,7 +16,8 @@
         "./activity-attribute": "./src/activity-attribute.ts",
         "./workout-session": "./src/workout-session.ts",
         "./activity-set": "./src/activity-set.ts",
-        "./activity-attribute-set": "./src/activity-attribute-set.ts"
+        "./activity-attribute-set": "./src/activity-attribute-set.ts",
+        "./attribute-types": "./src/attribute-types.ts"
 
     },
     "devDependencies": {

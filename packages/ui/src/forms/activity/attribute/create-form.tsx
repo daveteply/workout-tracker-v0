@@ -53,7 +53,7 @@ export function ActivityAttributeCreateForm({
             className="input input-bordered w-1/2 max-w-xs mb-5"
             type="text"
             id="activity-attribute-title"
-            name="attribute-title"
+            name="title"
             placeholder="Attribute title"
             required
           />
@@ -61,7 +61,7 @@ export function ActivityAttributeCreateForm({
             className="input input-bordered w-full max-w-xs mb-5"
             type="text"
             id="activity-attribute-description"
-            name="attribute-description"
+            name="description"
             placeholder="Description"
           />
           <select

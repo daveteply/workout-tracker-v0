@@ -1,7 +1,9 @@
+import { AttributeTypes } from './attribute-types.js';
+
 export interface ActivityAttributeDTO {
-  slug: string;
+  slug?: string;
   title: string;
   description: string;
-  attributeType: string;
+  attributeType: AttributeTypes;
   attributeValue?: string | number;
 }

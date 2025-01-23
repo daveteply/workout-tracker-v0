@@ -4,7 +4,7 @@ import { HydratedDocument } from 'mongoose';
 @Schema()
 export class ActivityAttribute {
   @Prop({ required: true })
-  attributeSlug: string;
+  attributeSlug?: string;
 
   @Prop()
   title: string;

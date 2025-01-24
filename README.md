@@ -2,13 +2,45 @@
 
 This is an application platform POC to track various types of exercise and fitness related activities.
 
-## Building and running this POC
+## Setup dependencies and running this POC
 
-1. Install dependencies: `npm i` from the root folder
-2. Update the prisma schema files: `cd apps\api\prisma` (currently uses locally running MySQL instance)
-   1. `npx prisma generate`
-3. Run the repo:
-   1. `cd /` (back to root of project)
+### [MySQL](https://www.mysql.com/)
+
+1.  Using locally installed MySQL instance (8.4.2 MySQL Community Server)
+    1. Utilize [Prisma](https://www.prisma.io/) to push the relational schema to local running instance
+       1. `cd apps/api-structure/prisma`
+       2. `npx prism db push` will create the schema from the `schema.prisma` schema definition
+    1. Update the generated classes:
+       1. `cd apps/api-structure/prisma`
+       2. `npx prisma generate`
+    1. (Optional) Seed the database with some baseline data
+       1. `cd apps/api-structure/prisma`
+       2. `npm run seed`
+
+### [MongoDB](https://www.mongodb.com/)
+
+1.  Local instance of MongoDB
+
+### .env
+
+1.  Create/update `.env` files
+    | Project folder | Reference env file |
+    | -------------------- | ----------------------------------- |
+    | `apps/api-structure` | `docs/api-structure-env-backup.txt` |
+    | `apps/api-tracking` | `docs/api-tracking-env-backup.txt`|
+    | `apps/web` | `docs/web-env-backup.txt` |
+
+### [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
+
+1.  To simplify networking for those running Windows 11 22H2:
+    1. Enable [Mirror mode networking](https://learn.microsoft.com/en-us/windows/wsl/networking#mirrored-mode-networking)
+    2. See notes in `docs/wslconfig-backup.txt`
+
+### Launch 🚀
+
+1. Install `npm` dependencies: `npm i` from the root folder
+2. Launch the local dev environment:
+   1. `cd /` (to root of project)
    2. `npm run dev`
 
 ## What's inside?

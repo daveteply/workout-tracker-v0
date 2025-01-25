@@ -3,6 +3,7 @@
     "github.copilot",
     "streetsidesoftware.code-spell-checker",
     "esbenp.prettier-vscode",
-    "prisma.prisma"
+    "prisma.prisma",
+    "hashicorp.terraform"
   ]
 }

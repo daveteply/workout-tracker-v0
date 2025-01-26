@@ -25,7 +25,7 @@ export function ActivityAttributesRemoveForm({
 }: {
   deleteActivityAttributesAction: any;
   activitySlug: string;
-  attributeSlug: string;
+  attributeSlug: string | undefined;
 }) {
   const [serverActionResult, formAction] = useActionState(
     deleteActivityAttributesAction,

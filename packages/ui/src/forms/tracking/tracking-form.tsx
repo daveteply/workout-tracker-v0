@@ -64,7 +64,7 @@ export function TrackingForm({
     setIsModalOpen(false);
   }
 
-  function updateTrackingAttribute(slug: string, value: string) {
+  function updateTrackingAttribute(slug: string | undefined, value: string) {
     setAttributes(attributes.map((a) => (a.slug === slug ? { ...a, attributeValue: value } : a)));
   }
 

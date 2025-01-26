@@ -20,5 +20,4 @@ export class ActivityAttribute {
 }
 
 export type WorkoutAttributeDocument = HydratedDocument<ActivityAttribute>;
-export const WorkoutAttributeSchema =
-  SchemaFactory.createForClass(ActivityAttribute);
+export const WorkoutAttributeSchema = SchemaFactory.createForClass(ActivityAttribute);

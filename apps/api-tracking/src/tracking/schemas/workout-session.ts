@@ -30,5 +30,4 @@ export class WorkoutSession extends BaseSchema {
 }
 
 export type WorkoutSessionDocument = HydratedDocument<WorkoutSession>;
-export const WorkoutSessionSchema =
-  SchemaFactory.createForClass(WorkoutSession);
+export const WorkoutSessionSchema = SchemaFactory.createForClass(WorkoutSession);

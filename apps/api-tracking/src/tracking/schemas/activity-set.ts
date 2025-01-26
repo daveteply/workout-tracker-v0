@@ -6,7 +6,7 @@ import { ActivityAttributeSet } from './activity-attribute-set';
 export class ActivitySet {
   // the Activity being tracked
   @Prop({ required: true })
-  activitySlug: String;
+  activitySlug: string;
 
   @Prop()
   setStart?: Date;

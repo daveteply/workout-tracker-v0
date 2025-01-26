@@ -9,13 +9,8 @@ export class WorkoutSetController {
 
   @Post()
   @Version('1')
-  async updateWorkoutSession(
-    @Body() body: any,
-  ): Promise<WorkoutSession | null> {
-    return await this.workoutSetService.addSetsToSession(
-      body.sessionId,
-      body.activitySet,
-    );
+  async updateWorkoutSession(@Body() body: any): Promise<WorkoutSession | null> {
+    return await this.workoutSetService.addSetsToSession(body.sessionId, body.activitySet);
   }
 
   @Get()
@@ -24,9 +19,6 @@ export class WorkoutSetController {
     @Query('s') sessionId: string,
     @Query('a') activitySlug: string,
   ): Promise<ActivitySet[] | null> {
-    return await this.workoutSetService.getActivitySetByActivitySlug(
-      sessionId,
-      activitySlug,
-    );
+    return await this.workoutSetService.getActivitySetByActivitySlug(sessionId, activitySlug);
   }
 }

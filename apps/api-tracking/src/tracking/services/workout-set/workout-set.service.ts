@@ -35,7 +35,7 @@ export class WorkoutSetService {
         }),
       });
 
-      session.save();
+      void session.save();
       return session;
     }
     return null;
@@ -47,9 +47,7 @@ export class WorkoutSetService {
   ): Promise<ActivitySet[] | null> {
     const session = await this.workoutSessionModel.findOne({ id: sessionId });
     if (session) {
-      return session.activitySets.filter(
-        (a) => a.activitySlug === activitySlug,
-      );
+      return session.activitySets.filter((a) => a.activitySlug === activitySlug);
     }
     return null;
   }

@@ -11,12 +11,8 @@ export class WorkoutSessionService {
     private workoutSessionModel: Model<WorkoutSession>,
   ) {}
 
-  async createWorkoutSession(
-    createWorkoutSessionDTO: WorkoutSessionDTO,
-  ): Promise<WorkoutSession> {
-    const workoutSession = new this.workoutSessionModel(
-      createWorkoutSessionDTO,
-    );
+  async createWorkoutSession(createWorkoutSessionDTO: WorkoutSessionDTO): Promise<WorkoutSession> {
+    const workoutSession = new this.workoutSessionModel(createWorkoutSessionDTO);
     return await workoutSession.save();
   }
 

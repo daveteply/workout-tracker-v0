@@ -8,7 +8,5 @@ export class ActivityAttributeSet {
   attributes?: ActivityAttribute[];
 }
 
-export type ActivityAttributeSetDocument =
-  HydratedDocument<ActivityAttributeSet>;
-export const ActivityAttributeSetSchema =
-  SchemaFactory.createForClass(ActivityAttributeSet);
+export type ActivityAttributeSetDocument = HydratedDocument<ActivityAttributeSet>;
+export const ActivityAttributeSetSchema = SchemaFactory.createForClass(ActivityAttributeSet);

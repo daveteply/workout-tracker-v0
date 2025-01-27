@@ -1,5 +1,2 @@
 PORT=8081
-
-DATABASE_HOST=localhost
-DATABASE_PORT=27017
-DATABASE=workout_tracker
+DATABASE_URL="mongodb://localhost:27017/workout_tracker"

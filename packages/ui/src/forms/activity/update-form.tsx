@@ -1,24 +1,10 @@
 'use client';
 
-import { useActionState, useEffect, useState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
 import { PencilIcon } from '@heroicons/react/16/solid';
 
 import WTModal from '@repo/ui/wt-modal';
 import { ActivityDTO } from '@repo/dto/activity';
-
-const initialState = {
-  message: '',
-};
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button className="btn btn-primary" type="submit" aria-disabled={pending}>
-      Save Changes
-    </button>
-  );
-}
 
 export function ActivityUpdateForm({
   updateActivityAction,
@@ -28,18 +14,25 @@ export function ActivityUpdateForm({
   dto: ActivityDTO;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [serverActionResult, formAction] = useActionState(updateActivityAction, initialState);
+  const [isPending, setIsPending] = useState(false);
 
   const openModal = () => {
-    initialState.message = '';
     setIsModalOpen(true);
   };
 
-  useEffect(() => {
-    if (!serverActionResult?.message) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsPending(true);
+    const formData = new FormData(event.currentTarget);
+    const result = await updateActivityAction(null, formData);
+    setIsPending(false);
+
+    if (!result) {
       setIsModalOpen(false);
+    } else {
+      // TODO toast error
     }
-  }, [serverActionResult]);
+  };
 
   return (
     <div>
@@ -48,7 +41,7 @@ export function ActivityUpdateForm({
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity</p>
-        <form action={formAction}>
+        <form onSubmit={handleSubmit}>
           <input
             className="input input-bordered w-full max-w-xs mb-5"
             type="text"
@@ -68,7 +61,14 @@ export function ActivityUpdateForm({
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
-            <SubmitButton />
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={isPending}
+              aria-disabled={isPending}
+            >
+              Save Changes
+            </button>
           </div>
         </form>
       </WTModal>

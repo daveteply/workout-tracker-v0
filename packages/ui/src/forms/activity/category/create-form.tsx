@@ -1,21 +1,7 @@
 'use client';
 
-import { useActionState, useEffect, useState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
 import WTModal from '@repo/ui/wt-modal';
-
-const initialState = {
-  message: '',
-};
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button className="btn btn-primary" type="submit" aria-disabled={pending}>
-      Add Activity Category
-    </button>
-  );
-}
 
 export function ActivityCategoryCreateForm({
   createActivityCategoryAction,
@@ -23,21 +9,25 @@ export function ActivityCategoryCreateForm({
   createActivityCategoryAction?: any;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [serverActionResult, formAction] = useActionState(
-    createActivityCategoryAction,
-    initialState,
-  );
+  const [isPending, setIsPending] = useState(false);
 
   const openModal = () => {
-    initialState.message = '';
     setIsModalOpen(true);
   };
 
-  useEffect(() => {
-    if (!serverActionResult?.message) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsPending(true);
+    const formData = new FormData(event.currentTarget);
+    const result = await createActivityCategoryAction(null, formData);
+    setIsPending(false);
+
+    if (!result) {
       setIsModalOpen(false);
+    } else {
+      // TODO: toast error
     }
-  }, [serverActionResult]);
+  };
 
   return (
     <div>
@@ -46,7 +36,7 @@ export function ActivityCategoryCreateForm({
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity Category</p>
-        <form action={formAction}>
+        <form onSubmit={handleSubmit}>
           <input
             className="input input-bordered w-full max-w-xs mb-5"
             type="text"
@@ -61,10 +51,17 @@ export function ActivityCategoryCreateForm({
             name="description"
           />
           <div className="modal-action">
-            <button className="btn" onClick={() => setIsModalOpen(false)}>
+            <button className="btn" onClick={() => setIsModalOpen(false)} disabled={isPending}>
               Cancel
             </button>
-            <SubmitButton />
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={isPending}
+              aria-disabled={isPending}
+            >
+              Add Activity Category
+            </button>
           </div>
         </form>
       </WTModal>

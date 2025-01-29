@@ -1,21 +1,7 @@
 'use client';
 
-import { useActionState, useEffect, useState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
 import WTModal from '@repo/ui/wt-modal';
-
-const initialState = {
-  message: '',
-};
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button className="btn btn-primary" type="submit" aria-disabled={pending}>
-      Add Activity Attribute
-    </button>
-  );
-}
 
 export function ActivityAttributeCreateForm({
   createActivityAttributeAction,
@@ -25,21 +11,25 @@ export function ActivityAttributeCreateForm({
   attributeTypes: string[];
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [serverActionResult, formAction] = useActionState(
-    createActivityAttributeAction,
-    initialState,
-  );
+  const [isPending, setIsPending] = useState(false);
 
   const openModal = () => {
-    initialState.message = '';
     setIsModalOpen(true);
   };
 
-  useEffect(() => {
-    if (!serverActionResult?.message) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsPending(true);
+    const formData = new FormData(event.currentTarget);
+    const result = await createActivityAttributeAction(null, formData);
+    setIsPending(false);
+
+    if (!result) {
       setIsModalOpen(false);
+    } else {
+      // TODO: toast error
     }
-  }, [serverActionResult]);
+  };
 
   return (
     <div>
@@ -48,7 +38,7 @@ export function ActivityAttributeCreateForm({
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity Attribute</p>
-        <form action={formAction}>
+        <form onSubmit={handleSubmit}>
           <input
             className="input input-bordered w-1/2 max-w-xs mb-5"
             type="text"
@@ -79,7 +69,14 @@ export function ActivityAttributeCreateForm({
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
-            <SubmitButton />
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={isPending}
+              aria-disabled={isPending}
+            >
+              Add Activity Attribute
+            </button>
           </div>
         </form>
       </WTModal>

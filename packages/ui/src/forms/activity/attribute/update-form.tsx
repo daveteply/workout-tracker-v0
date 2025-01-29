@@ -1,24 +1,10 @@
 'use client';
 
-import { useActionState, useEffect, useState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
 import { PencilIcon } from '@heroicons/react/16/solid';
 
 import WTModal from '@repo/ui/wt-modal';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-
-const initialState = {
-  message: '',
-};
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button className="btn btn-primary" type="submit" aria-disabled={pending}>
-      Save Changes
-    </button>
-  );
-}
 
 export function ActivityAttributeUpdateForm({
   updateActivityAttributeAction,
@@ -30,21 +16,25 @@ export function ActivityAttributeUpdateForm({
   dto: ActivityAttributeDTO;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [serverActionResult, formAction] = useActionState(
-    updateActivityAttributeAction,
-    initialState,
-  );
+  const [isPending, setIsPending] = useState(false);
 
   const openModal = () => {
-    initialState.message = '';
     setIsModalOpen(true);
   };
 
-  useEffect(() => {
-    if (!serverActionResult?.message) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsPending(true);
+    const formData = new FormData(event.currentTarget);
+    const result = await updateActivityAttributeAction(null, formData);
+    setIsPending(false);
+
+    if (!result) {
       setIsModalOpen(false);
+    } else {
+      // TODO toast error
     }
-  }, [serverActionResult]);
+  };
 
   return (
     <div>
@@ -53,7 +43,7 @@ export function ActivityAttributeUpdateForm({
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity Attribute</p>
-        <form action={formAction}>
+        <form onSubmit={handleSubmit}>
           <input
             className="input input-bordered w-1/2 max-w-xs mb-5"
             type="text"
@@ -89,7 +79,14 @@ export function ActivityAttributeUpdateForm({
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
-            <SubmitButton />
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={isPending}
+              aria-disabled={isPending}
+            >
+              Save Changes
+            </button>
           </div>
         </form>
       </WTModal>

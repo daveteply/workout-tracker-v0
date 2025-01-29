@@ -1,22 +1,7 @@
 'use client';
 
 import { TrashIcon } from '@heroicons/react/16/solid';
-import { useActionState, useEffect } from 'react';
-import { useFormStatus } from 'react-dom';
-
-const initialState = {
-  message: '',
-};
-
-function DeleteButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button type="submit" aria-disabled={pending}>
-      <TrashIcon className="size-5 text-blue-500"></TrashIcon>
-    </button>
-  );
-}
+import { useState } from 'react';
 
 export function ActivityAttributeDeleteForm({
   deleteActivityAttributeAction,
@@ -25,22 +10,27 @@ export function ActivityAttributeDeleteForm({
   slug?: string;
   deleteActivityAttributeAction: any;
 }) {
-  const [serverActionResult, formAction] = useActionState(
-    deleteActivityAttributeAction,
-    initialState,
-  );
+  const [isPending, setIsPending] = useState(false);
 
-  useEffect(() => {
-    // TODO: create toast system
-    if (serverActionResult?.message) {
-      console.error('server action result: ', serverActionResult);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsPending(true);
+    const formData = new FormData(event.currentTarget);
+
+    const result = await deleteActivityAttributeAction(null, formData);
+    if (result) {
+      console.error('Bummer!', result);
     }
-  }, [serverActionResult]);
+
+    setIsPending(false);
+  };
 
   return (
-    <form action={formAction}>
+    <form onSubmit={handleSubmit}>
       <input type="hidden" id="activity-slug" name="slug" value={slug} />
-      <DeleteButton />
+      <button type="submit" disabled={isPending} aria-disabled={isPending}>
+        <TrashIcon className="size-5 text-blue-500"></TrashIcon>
+      </button>
     </form>
   );
 }

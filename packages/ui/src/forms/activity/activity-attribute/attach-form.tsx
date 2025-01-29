@@ -1,22 +1,8 @@
 'use client';
 
-import { useActionState, useEffect, useState } from 'react';
-import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
 import WTModal from '@repo/ui/wt-modal';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-
-const initialState = {
-  message: '',
-};
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <button className="btn btn-primary" type="submit" aria-disabled={pending}>
-      Attach Attribute
-    </button>
-  );
-}
 
 export function ActivityAttributesAttachForm({
   createActivityAttributesAction,
@@ -28,21 +14,25 @@ export function ActivityAttributesAttachForm({
   activitySlug: string;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [serverActionResult, formAction] = useActionState(
-    createActivityAttributesAction,
-    initialState,
-  );
+  const [isPending, setIsPending] = useState(false);
 
   const openModal = () => {
-    initialState.message = '';
     setIsModalOpen(true);
   };
 
-  useEffect(() => {
-    if (!serverActionResult?.message) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsPending(true);
+    const formData = new FormData(event.currentTarget);
+    const result = await createActivityAttributesAction(null, formData);
+    setIsPending(false);
+
+    if (!result) {
       setIsModalOpen(false);
+    } else {
+      // TODO: toast error
     }
-  }, [serverActionResult]);
+  };
 
   return (
     <div>
@@ -51,7 +41,7 @@ export function ActivityAttributesAttachForm({
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <p>Activity Attribute</p>
-        <form action={formAction}>
+        <form onSubmit={handleSubmit}>
           <input type="hidden" name="activity-slug" value={activitySlug} />
           <select
             className="select select-bordered w-1/3 max-w-xs mb-5 w-full"
@@ -68,7 +58,14 @@ export function ActivityAttributesAttachForm({
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
-            <SubmitButton />
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={isPending}
+              aria-disabled={isPending}
+            >
+              Attach Attribute
+            </button>
           </div>
         </form>
       </WTModal>

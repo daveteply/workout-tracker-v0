@@ -10,6 +10,7 @@ import { ActivityCategoryCreateForm } from '@repo/ui/activity-category-create-fo
 import { ActivityCategoryDeleteForm } from '@repo/ui/activity-category-delete-form';
 import { ActivityCategoryUpdateForm } from '@repo/ui/activity-category-update-form';
 import { API_STRUCTURE_URL } from '../../constants';
+import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
 
 export default async function ActivityCategoryPage() {
   const activityCategoryResponse = await fetch(`${API_STRUCTURE_URL}/v1/categories`);
@@ -34,13 +35,7 @@ export default async function ActivityCategoryPage() {
                 <td className="capitalize">{ac.title}</td>
                 <td>{ac.description}</td>
                 <td>
-                  <div className="flex justify-end">
-                    <Link
-                      className="btn btn-sm mx-1"
-                      href={{ pathname: '/activity/category/activities', query: { cs: ac.slug } }}
-                    >
-                      Activities
-                    </Link>
+                  <div className="flex flex-col sm:flex-row sm:justify-end">
                     <ActivityCategoryUpdateForm
                       dto={ac}
                       updateActivityCategoryAction={updateActivityCategory}
@@ -51,6 +46,13 @@ export default async function ActivityCategoryPage() {
                         deleteActivityCategoryAction={deleteActivityCategory}
                       />
                     )}
+                    <Link
+                      className="btn btn-sm"
+                      href={{ pathname: '/activity/category/activities', query: { cs: ac.slug } }}
+                    >
+                      <div className="hidden sm:inline">Activities</div>
+                      <EllipsisVerticalIcon className="size-5 text-blue-500 sm:hidden" />
+                    </Link>
                   </div>
                 </td>
               </tr>

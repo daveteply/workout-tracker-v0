@@ -28,7 +28,7 @@ export function ActivityCategoryDeleteForm({
   return (
     <form onSubmit={handleSubmit}>
       <input type="hidden" id="activity-category-slug" name="slug" value={slug} />
-      <button type="submit" disabled={isPending} aria-disabled={isPending}>
+      <button className="btn btn-sm" type="submit" disabled={isPending} aria-disabled={isPending}>
         <TrashIcon className="size-5 text-blue-500"></TrashIcon>
       </button>
     </form>

@@ -18,7 +18,7 @@ export async function createActivity(prevState: { message: string }, formData: F
   });
 
   if (!parse.success) {
-    return { message: 'Failed to create' };
+    return { message: 'Failed to create Activity' };
   }
 
   const data = parse.data;
@@ -31,11 +31,11 @@ export async function createActivity(prevState: { message: string }, formData: F
 
   if (response.status === HTTP_STATUS_CREATED) {
     // TODO: toast
-    console.info(`Created new activity category: ${data.title}`);
+    console.info(`Created new Activity: ${data.title}`);
     revalidatePath('/');
   } else {
     return {
-      message: `Failed to delete activity category: ${response.statusText}`,
+      message: `Failed to create Activity: ${response.statusText}`,
     };
   }
 }
@@ -50,11 +50,11 @@ export async function updateActivity(prevState: { message: string }, formData: F
   const parse = schema.safeParse({
     title: formData.get('title'),
     description: formData.get('description'),
-    activitySlug: formData.get('activity-slug'),
+    activitySlug: formData.get('category-slug'),
   });
 
   if (!parse.success) {
-    return { message: 'Failed to update' };
+    return { message: 'Failed to update Activity' };
   }
 
   const data = parse.data;
@@ -67,11 +67,11 @@ export async function updateActivity(prevState: { message: string }, formData: F
 
   if (response.status === HTTP_STATUS_OK) {
     // TODO: toast
-    console.info(`Created new activity: ${data.title}`);
+    console.info(`Updated Activity: ${data.title}`);
     revalidatePath('/');
   } else {
     return {
-      message: `Failed to delete activity: ${response.statusText}`,
+      message: `Failed to update Activity: ${response.statusText}`,
     };
   }
 }
@@ -86,7 +86,7 @@ export async function deleteActivity(prevState: { message: string }, formData: F
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete' };
+    return { message: 'Failed to delete Activity' };
   }
 
   const data = parse.data;
@@ -99,7 +99,7 @@ export async function deleteActivity(prevState: { message: string }, formData: F
     // nothing to return
   } else {
     return {
-      message: 'Failed to delete activity category: ' + response.statusText,
+      message: 'Failed to delete Activity: ' + response.statusText,
     };
   }
 }

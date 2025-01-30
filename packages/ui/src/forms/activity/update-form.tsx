@@ -30,7 +30,7 @@ export function ActivityUpdateForm({
     if (!result) {
       setIsModalOpen(false);
     } else {
-      // TODO toast error
+      // TODO: toast error
     }
   };
 
@@ -40,23 +40,38 @@ export function ActivityUpdateForm({
         <PencilIcon className="size-5 text-blue-500" />
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
-        <p>Activity</p>
         <form onSubmit={handleSubmit}>
-          <input
-            className="input input-bordered w-full max-w-xs mb-5"
-            type="text"
-            id="activity-title"
-            name="title"
-            defaultValue={dto?.title}
-            required
-          />
-          <textarea
-            className="input input-bordered w-full max-w-xs mb-5"
-            id="activity-description"
-            name="description"
-            defaultValue={dto?.description}
-          />
-          <input type="hidden" name="activity-slug" value={dto.slug} />
+          <label className="form-control w-full max-w-xs mb-2">
+            <div className="label">
+              <span className="label-text">Activity Title</span>
+            </div>
+            <input
+              className="input input-bordered w-full max-w-xs"
+              type="text"
+              id="activity-title"
+              name="title"
+              defaultValue={dto?.title}
+              placeholder="Enter Activity Title"
+              required
+            />
+          </label>
+
+          <label className="form-control w-full max-w-xs mb-2">
+            <div className="label">
+              <span className="label-text">Description</span>
+            </div>
+            <textarea
+              className="textarea textarea-bordered w-full max-w-xs"
+              id="activity-description"
+              name="description"
+              rows={3}
+              defaultValue={dto?.description}
+              placeholder="Describe this Activity"
+            />
+          </label>
+
+          <input type="hidden" name="category-slug" value={dto.slug} />
+
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
@@ -67,7 +82,7 @@ export function ActivityUpdateForm({
               disabled={isPending}
               aria-disabled={isPending}
             >
-              Save Changes
+              Save Activity changes
             </button>
           </div>
         </form>

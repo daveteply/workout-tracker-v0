@@ -30,7 +30,7 @@ export function ActivityCategoryUpdateForm({
     if (!result) {
       setIsModalOpen(false);
     } else {
-      // TODO toast error
+      // TODO: toast error
     }
   };
 
@@ -40,23 +40,37 @@ export function ActivityCategoryUpdateForm({
         <PencilIcon className="size-5 text-blue-500" />
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
-        <p>Activity Category</p>
         <form onSubmit={handleSubmit}>
-          <input
-            className="input input-bordered w-full max-w-xs mb-5"
-            type="text"
-            id="activity-category-title"
-            name="attribute-title"
-            defaultValue={dto?.title}
-            required
-          />
-          <textarea
-            className="input input-bordered w-full max-w-xs mb-5"
-            id="activity-category-description"
-            name="attribute-description"
-            defaultValue={dto?.description}
-          />
+          <label className="form-control w-full max-w-xs mb-2">
+            <div className="label">
+              <span className="label-text">Activity Category Title</span>
+            </div>
+            <input
+              className="input input-bordered w-full max-w-xs"
+              type="text"
+              id="activity-category-title"
+              name="title"
+              defaultValue={dto?.title}
+              required
+            />
+          </label>
+
+          <label className="form-control w-full max-w-xs mb-2">
+            <div className="label">
+              <span className="label-text">Description</span>
+            </div>
+            <textarea
+              className="textarea textarea-bordered w-full max-w-xs"
+              id="activity-category-description"
+              name="description"
+              defaultValue={dto?.description}
+              placeholder="Describe the Category"
+              rows={3}
+            />
+          </label>
+
           <input type="hidden" id="activity-category-slug" name="slug" value={dto?.slug} />
+
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)} disabled={isPending}>
               Cancel
@@ -67,7 +81,7 @@ export function ActivityCategoryUpdateForm({
               disabled={isPending}
               aria-disabled={isPending}
             >
-              Save Changes
+              Save Activity Category changes
             </button>
           </div>
         </form>

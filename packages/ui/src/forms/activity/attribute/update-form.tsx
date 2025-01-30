@@ -32,7 +32,7 @@ export function ActivityAttributeUpdateForm({
     if (!result) {
       setIsModalOpen(false);
     } else {
-      // TODO toast error
+      // TODO: toast error
     }
   };
 
@@ -42,39 +42,57 @@ export function ActivityAttributeUpdateForm({
         <PencilIcon className="size-5 text-blue-500" />
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
-        <p>Activity Attribute</p>
         <form onSubmit={handleSubmit}>
-          <input
-            className="input input-bordered w-1/2 max-w-xs mb-5"
-            type="text"
-            id="activity-attribute-title"
-            name="title"
-            placeholder="Attribute title"
-            defaultValue={dto.title}
-            required
-          />
-          <input
-            className="input input-bordered w-full max-w-xs mb-5"
-            type="text"
-            id="activity-attribute-description"
-            name="description"
-            placeholder="Description"
-            defaultValue={dto.description}
-            maxLength={45}
-          />
-          <select
-            className="select select-bordered w-1/3 max-w-xs mb-5"
-            id="activity-attribute-type"
-            name="attribute-type"
-            defaultValue={dto.attributeType}
-          >
-            {attributeTypes.map((attributeType) => (
-              <option key={attributeType} value={attributeType}>
-                {attributeType}
-              </option>
-            ))}
-          </select>
+          <label className="form-control w-full max-w-xs mb-2">
+            <div className="label">
+              <span className="label-text">Attribute Title</span>
+            </div>
+            <input
+              className="input input-bordered w-full max-w-xs"
+              type="text"
+              id="activity-attribute-title"
+              name="title"
+              placeholder="Enter Attribute title"
+              defaultValue={dto.title}
+              required
+            />
+          </label>
+
+          <label className="form-control w-full max-w-xs mb-2">
+            <div className="label">
+              <span className="label-text">Description</span>
+            </div>
+            <input
+              className="input input-bordered w-full max-w-xs"
+              type="text"
+              id="activity-attribute-description"
+              name="description"
+              placeholder="Enter Description"
+              defaultValue={dto.description}
+              maxLength={45}
+            />
+          </label>
+
+          <label className="form-control w-full max-w-xs mb-2">
+            <div className="label">
+              <span className="label-text">Attribute Type</span>
+            </div>
+            <select
+              className="select select-bordered w-2/3 max-w-xs"
+              id="activity-attribute-type"
+              name="attribute-type"
+              defaultValue={dto.attributeType}
+            >
+              {attributeTypes.map((attributeType) => (
+                <option key={attributeType} value={attributeType}>
+                  {attributeType}
+                </option>
+              ))}
+            </select>
+          </label>
+
           <input type="hidden" id="activity-attribute-slug" name="slug" value={dto?.slug} />
+
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel
@@ -85,7 +103,7 @@ export function ActivityAttributeUpdateForm({
               disabled={isPending}
               aria-disabled={isPending}
             >
-              Save Changes
+              Save Attribute Attribute changes
             </button>
           </div>
         </form>

@@ -40,20 +40,26 @@ export function ActivityAttributesAttachForm({
         Attach Attribute to Activity
       </button>
       <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
-        <p>Activity Attribute</p>
         <form onSubmit={handleSubmit}>
+          <label className="form-control w-full max-w-xs mb-2">
+            <div className="label">
+              <span className="label-text">Attribute</span>
+            </div>
+            <select
+              className="select select-bordered w-1/3 max-w-xs mb-5 w-full"
+              id="activity-attribute-type"
+              name="attribute-slug"
+            >
+              {attributes.map((attribute) => (
+                <option key={attribute.slug} value={attribute.slug}>
+                  {attribute.title} ({attribute.attributeType})
+                </option>
+              ))}
+            </select>
+          </label>
+
           <input type="hidden" name="activity-slug" value={activitySlug} />
-          <select
-            className="select select-bordered w-1/3 max-w-xs mb-5 w-full"
-            id="activity-attribute-type"
-            name="attribute-slug"
-          >
-            {attributes.map((attribute) => (
-              <option key={attribute.slug} value={attribute.slug}>
-                {attribute.title} ({attribute.attributeType})
-              </option>
-            ))}
-          </select>
+
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>
               Cancel

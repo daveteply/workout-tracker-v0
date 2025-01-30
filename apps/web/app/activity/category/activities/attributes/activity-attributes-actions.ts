@@ -16,7 +16,7 @@ export async function attachActivityAttributes(prevState: { message: string }, f
   });
 
   if (!parse.success) {
-    return { message: 'Failed to create' };
+    return { message: 'Failed to create Activity Attributes' };
   }
 
   const data = parse.data;
@@ -29,11 +29,10 @@ export async function attachActivityAttributes(prevState: { message: string }, f
 
   if (response.status === HTTP_STATUS_CREATED) {
     // TODO: toast
-    console.info('Created new activity attributes');
     revalidatePath('/');
   } else {
     return {
-      message: `Failed to create activity attributes: ${response.statusText}`,
+      message: `Failed to create Activity Attributes: ${response.statusText}`,
     };
   }
 }
@@ -50,7 +49,7 @@ export async function removeActivityAttributes(prevState: { message: string }, f
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete' };
+    return { message: 'Failed to delete Activity Attributes' };
   }
 
   const data = parse.data;
@@ -63,7 +62,7 @@ export async function removeActivityAttributes(prevState: { message: string }, f
     // nothing to return
   } else {
     return {
-      message: 'Failed to delete activity category: ' + response.statusText,
+      message: 'Failed to delete Activity Attributes: ' + response.statusText,
     };
   }
 }

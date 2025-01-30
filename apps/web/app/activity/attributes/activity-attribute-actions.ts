@@ -18,7 +18,7 @@ export async function createActivityAttribute(prevState: { message: string }, fo
   });
 
   if (!parse.success) {
-    return { message: 'Failed to create' };
+    return { message: 'Failed to create Activity Attribute' };
   }
 
   const data = parse.data;
@@ -34,7 +34,7 @@ export async function createActivityAttribute(prevState: { message: string }, fo
     // nothing to return
   } else {
     return {
-      message: 'Failed to add activity Attribute: ' + response.statusText,
+      message: 'Failed to create Activity Attribute: ' + response.statusText,
     };
   }
 }
@@ -55,7 +55,7 @@ export async function updateActivityAttribute(prevState: { message: string }, fo
   });
 
   if (!parse.success) {
-    return { message: 'Failed to update' };
+    return { message: 'Failed to update Activity Attribute' };
   }
 
   const data = parse.data;
@@ -71,7 +71,7 @@ export async function updateActivityAttribute(prevState: { message: string }, fo
     // nothing to return
   } else {
     return {
-      message: 'Failed to delete activity attribute: ' + response.statusText,
+      message: 'Failed to update Activity Attribute: ' + response.statusText,
     };
   }
 }
@@ -86,7 +86,7 @@ export async function deleteActivityAttribute(prevState: { message: string }, fo
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete' };
+    return { message: 'Failed to delete Activity Attribute' };
   }
 
   const data = parse.data;
@@ -99,7 +99,7 @@ export async function deleteActivityAttribute(prevState: { message: string }, fo
     // nothing to return
   } else {
     return {
-      message: 'Failed to delete activity Attribute: ' + response.statusText,
+      message: 'Failed to delete Activity Attribute: ' + response.statusText,
     };
   }
 }

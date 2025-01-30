@@ -16,7 +16,7 @@ export async function createActivityCategory(prevState: { message: string }, for
   });
 
   if (!parse.success) {
-    return { message: 'Failed to create' };
+    return { message: 'Failed to create Activity Category' };
   }
 
   const data = parse.data;
@@ -32,7 +32,7 @@ export async function createActivityCategory(prevState: { message: string }, for
     // nothing to return
   } else {
     return {
-      message: 'Failed to add activity category: ' + response.statusText,
+      message: 'Failed to create Activity Category: ' + response.statusText,
     };
   }
 }
@@ -45,13 +45,13 @@ export async function updateActivityCategory(prevState: { message: string }, for
   });
 
   const parse = schema.safeParse({
-    title: formData.get('attribute-title'),
-    description: formData.get('attribute-description'),
+    title: formData.get('title'),
+    description: formData.get('description'),
     slug: formData.get('slug'),
   });
 
   if (!parse.success) {
-    return { message: 'Failed to update' };
+    return { message: 'Failed to update Activity Category' };
   }
 
   const data = parse.data;
@@ -67,7 +67,7 @@ export async function updateActivityCategory(prevState: { message: string }, for
     // nothing to return
   } else {
     return {
-      message: 'Failed to delete activity category: ' + response.statusText,
+      message: 'Failed to update Activity Category: ' + response.statusText,
     };
   }
 }
@@ -82,7 +82,7 @@ export async function deleteActivityCategory(prevState: { message: string }, for
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete' };
+    return { message: 'Failed to delete Activity Category' };
   }
 
   const data = parse.data;
@@ -95,7 +95,7 @@ export async function deleteActivityCategory(prevState: { message: string }, for
     // nothing to return
   } else {
     return {
-      message: 'Failed to delete activity category: ' + response.statusText,
+      message: 'Failed to delete Activity Category: ' + response.statusText,
     };
   }
 }

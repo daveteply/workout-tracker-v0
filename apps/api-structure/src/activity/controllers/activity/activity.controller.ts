@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
-import { Activity } from '@prisma/client';
+import { Activity, Prisma } from '@prisma/client';
 import { ActivityService } from 'src/activity/services/activity/activity.service';
 import { ActivityDTO } from '@repo/dto/src/activity';
 
@@ -53,7 +53,16 @@ export class ActivityController {
 
   @Delete(':s')
   @Version('1')
-  async deleteActivity(@Param('s') slug: string): Promise<void> {
-    this.activityService.deleteActivity(slug);
+  async deleteActivity(@Param('s') slug: string): Promise<Activity | null> {
+    try {
+      return await this.activityService.deleteActivity(slug);
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2003') {
+          throw new Error('Cannot delete Activity while it has Activity Attributes');
+        }
+      }
+      return e;
+    }
   }
 }

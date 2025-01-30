@@ -61,8 +61,13 @@ export class ActivityService {
 
   async deleteActivity(slug: string): Promise<Activity | null> {
     const id = this.utilsService.getId(slug);
-    return await this.prismaClientActivityService.client.activity.delete({
-      where: { id: id },
-    });
+    try {
+      return await this.prismaClientActivityService.client.activity.delete({
+        where: { id: id },
+      });
+    } catch (e) {
+      throw e;
+    }
+    return null;
   }
 }

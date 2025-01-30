@@ -89,10 +89,9 @@ export async function deleteActivity(prevState: { message: string }, formData: F
     return { message: 'Failed to delete Activity' };
   }
 
-  const data = parse.data;
-  const url = `${API_STRUCTURE_URL}/v1/activities/${data.slug}`;
-
-  const response = await fetch(url, { method: 'DELETE' });
+  const response = await fetch(`${API_STRUCTURE_URL}/v1/activities/${parse.data.slug}`, {
+    method: 'DELETE',
+  });
 
   if (response.status === HTTP_STATUS_OK) {
     revalidatePath('/');

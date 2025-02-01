@@ -107,10 +107,8 @@ export function TrackingForm({
         <form onSubmit={saveTrackingAttribute}>
           {attributes.map((attribute: ActivityAttributeDTO, index: number) => (
             <div key={index} className="my-5">
-              <label className="form-control">
-                <div className="label">
-                  <span className="label-text">{attribute.title}</span>
-                </div>
+              <label className="floating-label mb-2">
+                <span>{attribute.title}</span>
                 <input
                   type={
                     attribute.attributeType === 'TIME' || attribute.attributeType === 'STRING'

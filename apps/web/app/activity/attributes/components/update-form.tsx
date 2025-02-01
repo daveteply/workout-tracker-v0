@@ -43,12 +43,10 @@ export function ActivityAttributeUpdateForm({
       </button>
       <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleSubmit}>
-          <label className="form-control w-full max-w-xs mb-2">
-            <div className="label">
-              <span className="label-text">Attribute Title</span>
-            </div>
+          <label className="floating-label mb-2">
+            <span>Attribute Title</span>
             <input
-              className="input input-bordered w-full max-w-xs"
+              className="input input-bordered"
               type="text"
               id="activity-attribute-title"
               name="title"
@@ -58,13 +56,10 @@ export function ActivityAttributeUpdateForm({
             />
           </label>
 
-          <label className="form-control w-full max-w-xs mb-2">
-            <div className="label">
-              <span className="label-text">Description</span>
-            </div>
-            <input
-              className="input input-bordered w-full max-w-xs"
-              type="text"
+          <label className="floating-label mt-4">
+            <span>Description</span>
+            <textarea
+              className="textarea textarea-bordered"
               id="activity-attribute-description"
               name="description"
               placeholder="Enter Description"
@@ -73,10 +68,8 @@ export function ActivityAttributeUpdateForm({
             />
           </label>
 
-          <label className="form-control w-full max-w-xs mb-2">
-            <div className="label">
-              <span className="label-text">Attribute Type</span>
-            </div>
+          <label className="floating-label mt-4">
+            <span>Attribute Type</span>
             <select
               className="select select-bordered w-2/3 max-w-xs"
               id="activity-attribute-type"
@@ -103,7 +96,7 @@ export function ActivityAttributeUpdateForm({
               disabled={isPending}
               aria-disabled={isPending}
             >
-              Save Attribute Attribute changes
+              Save Attribute
             </button>
           </div>
         </form>

@@ -41,12 +41,10 @@ export function ActivityUpdateForm({
       </button>
       <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleSubmit}>
-          <label className="form-control w-full max-w-xs mb-2">
-            <div className="label">
-              <span className="label-text">Activity Title</span>
-            </div>
+          <label className="floating-label mb-2">
+            <span>Activity Title</span>
             <input
-              className="input input-bordered w-full max-w-xs"
+              className="input input-bordered"
               type="text"
               id="activity-title"
               name="title"
@@ -56,12 +54,10 @@ export function ActivityUpdateForm({
             />
           </label>
 
-          <label className="form-control w-full max-w-xs mb-2">
-            <div className="label">
-              <span className="label-text">Description</span>
-            </div>
+          <label className="floating-label mt-4">
+            <span>Description</span>
             <textarea
-              className="textarea textarea-bordered w-full max-w-xs"
+              className="textarea textarea-bordered"
               id="activity-description"
               name="description"
               rows={3}
@@ -82,7 +78,7 @@ export function ActivityUpdateForm({
               disabled={isPending}
               aria-disabled={isPending}
             >
-              Save Activity changes
+              Save Activity
             </button>
           </div>
         </form>

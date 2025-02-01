@@ -107,7 +107,7 @@ export function TrackingForm({
         <form onSubmit={saveTrackingAttribute}>
           {attributes.map((attribute: ActivityAttributeDTO, index: number) => (
             <div key={index} className="my-5">
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control">
                 <div className="label">
                   <span className="label-text">{attribute.title}</span>
                 </div>
@@ -118,7 +118,7 @@ export function TrackingForm({
                       : 'number'
                   }
                   placeholder={`Enter ${attribute.title}`}
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered"
                   defaultValue={attribute.attributeValue}
                   onChange={(e) => updateTrackingAttribute(attribute.slug, e.target.value)}
                 />

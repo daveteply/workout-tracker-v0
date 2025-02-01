@@ -41,12 +41,10 @@ export function ActivityAttributesAttachForm({
       </button>
       <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleSubmit}>
-          <label className="form-control w-full max-w-xs mb-2">
-            <div className="label">
-              <span className="label-text">Attribute</span>
-            </div>
+          <label className="floating-label mt-4">
+            <span>Attribute</span>
             <select
-              className="select select-bordered w-1/3 max-w-xs mb-5 w-full"
+              className="select select-bordered"
               id="activity-attribute-type"
               name="attribute-slug"
             >

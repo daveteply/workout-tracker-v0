@@ -27,7 +27,7 @@ export function ActivityDeleteForm({
   return (
     <form onSubmit={handleSubmit}>
       <input type="hidden" id="activity-slug" name="slug" value={slug} />
-      <button type="submit" disabled={isPending} aria-disabled={isPending}>
+      <button className="btn btn-sm" type="submit" disabled={isPending} aria-disabled={isPending}>
         <TrashIcon className="size-5 text-blue-500"></TrashIcon>
       </button>
     </form>

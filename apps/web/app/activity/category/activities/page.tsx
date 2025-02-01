@@ -6,6 +6,7 @@ import { ActivityCreateForm } from './components/create-form';
 import { ActivityDeleteForm } from './components/delete-form';
 import { ActivityUpdateForm } from './components/update-form';
 import { API_STRUCTURE_URL } from '../../../constants';
+import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
 
 export default async function ActivityPage({
   searchParams,
@@ -52,20 +53,21 @@ export default async function ActivityPage({
                 <td className="capitalize">{a.title}</td>
                 <td>{a.description}</td>
                 <td>
-                  <div className="flex justify-end">
+                  <div className="flex flex-col sm:flex-row sm:justify-end">
+                    <ActivityUpdateForm updateActivityAction={updateActivity} dto={a} />
+                    {a.slug && (
+                      <ActivityDeleteForm deleteActivityAction={deleteActivity} slug={a.slug} />
+                    )}
                     <Link
-                      className="btn btn-sm mx-1"
+                      className="btn btn-sm no-underline text-blue-500"
                       href={{
                         pathname: '/activity/category/activities/attributes',
                         query: { s: a.slug },
                       }}
                     >
-                      Attributes
+                      <div className="hidden sm:inline">Attributes</div>
+                      <EllipsisVerticalIcon className="size-5 text-blue-500 sm:hidden" />
                     </Link>
-                    <ActivityUpdateForm updateActivityAction={updateActivity} dto={a} />
-                    {a.slug && (
-                      <ActivityDeleteForm deleteActivityAction={deleteActivity} slug={a.slug} />
-                    )}
                   </div>
                 </td>
               </tr>

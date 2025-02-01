@@ -47,7 +47,7 @@ export default async function ActivityCategoryPage() {
                       />
                     )}
                     <Link
-                      className="btn btn-sm"
+                      className="btn btn-sm no-underline text-blue-500"
                       href={{ pathname: '/activity/category/activities', query: { cs: ac.slug } }}
                     >
                       <div className="hidden sm:inline">Activities</div>

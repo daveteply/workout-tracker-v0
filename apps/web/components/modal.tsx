@@ -2,14 +2,14 @@
 
 import React, { useRef, useEffect } from 'react';
 
-interface WTModalProps {
+interface ModalProps {
   isOpen: boolean;
   hideClose?: boolean;
   onClose: () => void;
   children: React.ReactNode;
 }
 
-const WTModal: React.FC<WTModalProps> = ({ isOpen, hideClose = false, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, hideClose = false, onClose, children }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -58,4 +58,4 @@ const WTModal: React.FC<WTModalProps> = ({ isOpen, hideClose = false, onClose, c
   );
 };
 
-export default WTModal;
+export default Modal;

@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 import { ActivityDTO } from '@repo/dto/activity';
 import { createActivity, deleteActivity, updateActivity } from '../../activity-actions';
-import { ActivityCreateForm } from '@repo/ui/activity-create-form';
-import { ActivityDeleteForm } from '@repo/ui/activity-delete-form';
-import { ActivityUpdateForm } from '@repo/ui/activity-update-form';
+import { ActivityCreateForm } from './components/create-form';
+import { ActivityDeleteForm } from './components/delete-form';
+import { ActivityUpdateForm } from './components/update-form';
 import { API_STRUCTURE_URL } from '../../../constants';
 
 export default async function ActivityPage({

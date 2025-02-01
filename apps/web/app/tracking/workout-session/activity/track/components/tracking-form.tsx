@@ -1,11 +1,13 @@
 'use client';
 
-import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-import { useFormStatus } from 'react-dom';
 import { SyntheticEvent, useState } from 'react';
-import WTModal from '@repo/ui/wt-modal';
-import { PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
+import { useFormStatus } from 'react-dom';
+
+import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ActivitySetDTO } from '@repo/dto/activity-set';
+import { PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
+
+import Modal from '../../../../../../components/modal';
 
 const initialState = {
   message: '',
@@ -101,7 +103,7 @@ export function TrackingForm({
           Complete Activity
         </button>
       </div>
-      <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={saveTrackingAttribute}>
           {attributes.map((attribute: ActivityAttributeDTO, index: number) => (
             <div key={index} className="my-5">
@@ -130,7 +132,7 @@ export function TrackingForm({
             <SubmitButton editMode={editIdx > -1} />
           </div>
         </form>
-      </WTModal>
+      </Modal>
 
       <div className="flex flex-wrap">
         {activitySet?.attributeSets?.map((as, asInx) => (

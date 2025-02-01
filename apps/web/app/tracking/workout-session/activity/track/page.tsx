@@ -1,9 +1,9 @@
-import { TrackingForm } from '@repo/ui/tracking-form';
 import { API_STRUCTURE_URL, API_TRACKING_URL } from '../../../../constants';
 import { updateWorkoutSession } from './track-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ActivitySetDTO } from '@repo/dto/activity-set';
 import { ActivityAttributeSetDTO } from '@repo/dto/activity-attribute-set';
+import { TrackingForm } from './components/tracking-form';
 
 export default async function TrackingActivityPage({
   searchParams,

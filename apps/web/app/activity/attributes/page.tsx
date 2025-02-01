@@ -4,9 +4,9 @@ import {
   updateActivityAttribute,
 } from './activity-attribute-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-import { ActivityAttributeCreateForm } from '@repo/ui/activity-attribute-create-form';
-import { ActivityAttributeDeleteForm } from '@repo/ui/activity-attribute-delete-form';
-import { ActivityAttributeUpdateForm } from '@repo/ui/activity-attribute-update-form';
+import { ActivityAttributeCreateForm } from './components/create-form';
+import { ActivityAttributeDeleteForm } from './components/delete-form';
+import { ActivityAttributeUpdateForm } from './components/update-form';
 import { API_STRUCTURE_URL } from '../../constants';
 
 /**

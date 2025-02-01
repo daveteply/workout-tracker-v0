@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { PencilIcon } from '@heroicons/react/16/solid';
 
-import WTModal from '@repo/ui/wt-modal';
+import Modal from '../../../../components/modal';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 
 export function ActivityCategoryUpdateForm({
@@ -39,7 +39,7 @@ export function ActivityCategoryUpdateForm({
       <button className="btn btn-sm" onClick={openModal}>
         <PencilIcon className="size-5 text-blue-500" />
       </button>
-      <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleSubmit}>
           <label className="form-control w-full max-w-xs mb-2">
             <div className="label">
@@ -85,7 +85,7 @@ export function ActivityCategoryUpdateForm({
             </button>
           </div>
         </form>
-      </WTModal>
+      </Modal>
     </div>
   );
 }

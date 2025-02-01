@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import WTModal from '@repo/ui/wt-modal';
+import Modal from '../../../../../components/modal';
 
 export function ActivityCreateForm({
   createActivityAction,
@@ -36,7 +36,7 @@ export function ActivityCreateForm({
       <button className="btn btn-primary" onClick={openModal}>
         Add Activity
       </button>
-      <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleSubmit}>
           <label className="form-control w-full max-w-xs mb-2">
             <div className="label">
@@ -81,7 +81,7 @@ export function ActivityCreateForm({
             </button>
           </div>
         </form>
-      </WTModal>
+      </Modal>
     </div>
   );
 }

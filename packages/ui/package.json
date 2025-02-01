@@ -13,49 +13,26 @@
     "./styles.css": "./dist/index.css",
     "./button": "./src/button.tsx",
     "./card": "./src/card.tsx",
-    "./code": "./src/code.tsx",
-    "./wt-modal": "./src/wt-modal.tsx",
-    "./activity-create-form": "./src/forms/activity/create-form.tsx",
-    "./activity-delete-form": "./src/forms/activity/delete-form.tsx",
-    "./activity-update-form": "./src/forms/activity/update-form.tsx",
-    "./activity-attribute-create-form": "./src/forms/activity/attribute/create-form.tsx",
-    "./activity-attribute-delete-form": "./src/forms/activity/attribute/delete-form.tsx",
-    "./activity-attribute-update-form": "./src/forms/activity/attribute/update-form.tsx",
-    "./activity-category-create-form": "./src/forms/activity/category/create-form.tsx",
-    "./activity-category-delete-form": "./src/forms/activity/category/delete-form.tsx",
-    "./activity-category-update-form": "./src/forms/activity/category/update-form.tsx",
-    "./activity-activity-attribute-attach-form": "./src/forms/activity/activity-attribute/attach-form.tsx",
-    "./activity-activity-attribute-remove-form": "./src/forms/activity/activity-attribute/remove-form.tsx",
-    "./tracking-form": "./src/forms/tracking/tracking-form.tsx",
-    "./start-session": "./src/tracking/start-session.tsx"
+    "./code": "./src/code.tsx"
   },
   "scripts": {
-    "build": "tailwindcss -i ./src/index.css -o ./dist/index.css",
     "lint": "eslint . --max-warnings 0",
-    "dev": "tailwindcss -i ./src/index.css -o ./dist/index.css --watch",
     "generate:component": "turbo gen react-component",
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
     "@repo/eslint-config": "^0.0.0",
-    "@repo/tailwind-config": "^0.0.0",
     "@repo/typescript-config": "^0.0.0",
-    "@repo/dto": "^0.0.0",
-    "@tailwindcss/typography": "^0.5.15",
     "@turbo/gen": "^2.3.3",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "autoprefixer": "^10.4.20",
-    "daisyui": "^4.12.23",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
     "typescript": "5.7.2"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "zod": "^3.24.1"
+    "react-dom": "^19.0.0"
   }
 }

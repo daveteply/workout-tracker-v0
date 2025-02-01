@@ -1,29 +1,27 @@
 {
-    "name": "@repo/dto",
-    "version": "0.0.0",
-    "type": "module",
-    "private": true,
-    "files": [
-      "dist"
-    ],
-    "scripts": {
-      "dev": "tsc --watch",
-      "build": "tsc"
-    },
-    "exports": {
-        "./activity-category": "./src/activity-category.ts",
-        "./activity": "./src/activity.ts",
-        "./activity-attribute": "./src/activity-attribute.ts",
-        "./workout-session": "./src/workout-session.ts",
-        "./activity-set": "./src/activity-set.ts",
-        "./activity-attribute-set": "./src/activity-attribute-set.ts",
-        "./attribute-types": "./src/attribute-types.ts"
-
-    },
-    "devDependencies": {
-      "@repo/eslint-config": "^0.0.0",
-      "@repo/tailwind-config": "^0.0.0",
-      "@repo/typescript-config": "^0.0.0",
-      "typescript": "5.7.2"
-    }
+  "name": "@repo/dto",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc"
+  },
+  "exports": {
+    "./activity-category": "./src/activity-category.ts",
+    "./activity": "./src/activity.ts",
+    "./activity-attribute": "./src/activity-attribute.ts",
+    "./workout-session": "./src/workout-session.ts",
+    "./activity-set": "./src/activity-set.ts",
+    "./activity-attribute-set": "./src/activity-attribute-set.ts",
+    "./attribute-types": "./src/attribute-types.ts"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "^0.0.0",
+    "@repo/typescript-config": "^0.0.0",
+    "typescript": "5.7.2"
   }
+}

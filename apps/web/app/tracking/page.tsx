@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { StartSessionComponent } from '@repo/ui/start-session';
+import { StartSessionComponent } from './components/start-session';
 import { API_TRACKING_URL } from '../constants';
 import { createNewSession } from './session-actions';
 import { WorkoutSessionDTO } from '@repo/dto/workout-session';

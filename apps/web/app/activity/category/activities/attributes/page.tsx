@@ -1,7 +1,7 @@
 import { attachActivityAttributes, removeActivityAttributes } from './activity-attributes-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-import { ActivityAttributesAttachForm } from '@repo/ui/activity-activity-attribute-attach-form';
-import { ActivityAttributesRemoveForm } from '@repo/ui/activity-activity-attribute-remove-form';
+import { ActivityAttributesAttachForm } from './components/attach-form';
+import { ActivityAttributesRemoveForm } from './components/remove-form';
 import { API_STRUCTURE_URL } from '../../../../constants';
 
 /**

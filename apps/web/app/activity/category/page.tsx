@@ -6,9 +6,9 @@ import {
   deleteActivityCategory,
   updateActivityCategory,
 } from './activity-category-actions';
-import { ActivityCategoryCreateForm } from '@repo/ui/activity-category-create-form';
-import { ActivityCategoryDeleteForm } from '@repo/ui/activity-category-delete-form';
-import { ActivityCategoryUpdateForm } from '@repo/ui/activity-category-update-form';
+import { ActivityCategoryCreateForm } from './components/create-form';
+import { ActivityCategoryDeleteForm } from './components/delete-form';
+import { ActivityCategoryUpdateForm } from './components/update-form';
 import { API_STRUCTURE_URL } from '../../constants';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
 

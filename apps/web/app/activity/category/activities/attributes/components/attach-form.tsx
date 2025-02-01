@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import WTModal from '@repo/ui/wt-modal';
+import Modal from '../../../../../../components/modal';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 
 export function ActivityAttributesAttachForm({
@@ -39,7 +39,7 @@ export function ActivityAttributesAttachForm({
       <button className="btn btn-primary" onClick={openModal}>
         Attach Attribute to Activity
       </button>
-      <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleSubmit}>
           <label className="form-control w-full max-w-xs mb-2">
             <div className="label">
@@ -74,7 +74,7 @@ export function ActivityAttributesAttachForm({
             </button>
           </div>
         </form>
-      </WTModal>
+      </Modal>
     </div>
   );
 }

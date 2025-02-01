@@ -1,14 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import WTModal from '@repo/ui/wt-modal';
+import { PencilIcon } from '@heroicons/react/16/solid';
 
-export function ActivityAttributeCreateForm({
-  createActivityAttributeAction,
+import Modal from '../../../../components/modal';
+import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
+
+export function ActivityAttributeUpdateForm({
+  updateActivityAttributeAction,
   attributeTypes,
+  dto,
 }: {
-  createActivityAttributeAction: any;
+  updateActivityAttributeAction: any;
   attributeTypes: string[];
+  dto: ActivityAttributeDTO;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -21,7 +26,7 @@ export function ActivityAttributeCreateForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await createActivityAttributeAction(null, formData);
+    const result = await updateActivityAttributeAction(null, formData);
     setIsPending(false);
 
     if (!result) {
@@ -33,10 +38,10 @@ export function ActivityAttributeCreateForm({
 
   return (
     <div>
-      <button className="btn btn-primary" onClick={openModal}>
-        Add Activity Attribute
+      <button onClick={openModal}>
+        <PencilIcon className="size-5 text-blue-500" />
       </button>
-      <WTModal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={handleSubmit}>
           <label className="form-control w-full max-w-xs mb-2">
             <div className="label">
@@ -48,6 +53,7 @@ export function ActivityAttributeCreateForm({
               id="activity-attribute-title"
               name="title"
               placeholder="Enter Attribute title"
+              defaultValue={dto.title}
               required
             />
           </label>
@@ -62,6 +68,7 @@ export function ActivityAttributeCreateForm({
               id="activity-attribute-description"
               name="description"
               placeholder="Enter Description"
+              defaultValue={dto.description}
               maxLength={45}
             />
           </label>
@@ -74,6 +81,7 @@ export function ActivityAttributeCreateForm({
               className="select select-bordered w-2/3 max-w-xs"
               id="activity-attribute-type"
               name="attribute-type"
+              defaultValue={dto.attributeType}
             >
               {attributeTypes.map((attributeType) => (
                 <option key={attributeType} value={attributeType}>
@@ -82,6 +90,8 @@ export function ActivityAttributeCreateForm({
               ))}
             </select>
           </label>
+
+          <input type="hidden" id="activity-attribute-slug" name="slug" value={dto?.slug} />
 
           <div className="modal-action">
             <button className="btn" onClick={() => setIsModalOpen(false)}>
@@ -93,11 +103,11 @@ export function ActivityAttributeCreateForm({
               disabled={isPending}
               aria-disabled={isPending}
             >
-              Add Activity Attribute
+              Save Attribute Attribute changes
             </button>
           </div>
         </form>
-      </WTModal>
+      </Modal>
     </div>
   );
 }

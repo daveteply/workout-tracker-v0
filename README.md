@@ -33,7 +33,7 @@ This is an application platform POC to track various types of exercise and fitne
 ### [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)
 
 1.  To simplify networking for those running Windows 11 22H2:
-    1. Enable [Mirror mode networking](https://learn.microsoft.com/en-us/windows/wsl/networking#mirrored-mode-networking)
+    1. Enable [Mirror mode networking](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configuration-settings-for-wslconfig)
     2. See notes in `docs/wslconfig-backup.txt`
 
 ### Launch 🚀

@@ -1,0 +1,39 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "Debug Start All",
+      "configurations": ["Launch Chrome", "Start Nextjs"],
+      "stopAll": true
+    }
+  ],
+  "configurations": [
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome",
+      "url": "http://localhost:3500",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "/turbopack/[project]/*": "${webRoot}/*"
+      },
+      "presentation": {
+        "hidden": true
+      }
+    },
+    {
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "name": "Start Nextjs",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "/turbopack/[project]/*": "${webRoot}/*"
+      },
+      "presentation": {
+        "hidden": true
+      }
+    }
+  ]
+}

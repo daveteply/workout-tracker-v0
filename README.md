@@ -48,7 +48,7 @@ This is an application platform POC to track various types of exercise and fitne
 - [Turborepo](https://turbo.build/) monorepo
 - [Next.js](https://nextjs.org/) UI
 - [Nest.js](https://nestjs.com/) microservice API
-- [Prisma](https://www.prisma.io/) OBM [:information_source:](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping)
+- [Prisma](https://www.prisma.io/) ORM [:information_source:](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping)
 - [Tailwind CSS](https://tailwindcss.com/)
 
 ### Utilities

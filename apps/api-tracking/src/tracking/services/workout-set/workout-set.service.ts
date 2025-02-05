@@ -4,12 +4,14 @@ import { ActivitySetDTO } from '@repo/dto/src/activity-set';
 import { Model } from 'mongoose';
 import { ActivitySet } from 'src/tracking/schemas/activity-set';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
+import { DataTransformsService } from '../data-transforms/data-transforms.service';
 
 @Injectable()
 export class WorkoutSetService {
   constructor(
     @InjectModel(WorkoutSession.name)
     private workoutSessionModel: Model<WorkoutSession>,
+    private dataTransforms: DataTransformsService,
   ) {}
 
   async addSetsToSession(
@@ -18,25 +20,9 @@ export class WorkoutSetService {
   ): Promise<WorkoutSession | null> {
     const session = await this.workoutSessionModel.findOne({ id: sessionId });
     if (session) {
-      session.activitySets?.push({
-        activitySlug: activityData.activitySlug,
-        attributeSets: activityData.attributeSets?.map((attributeSet) => {
-          return {
-            attributes: attributeSet.attributes.map((attribute) => {
-              return {
-                attributeSlug: attribute.slug,
-                title: attribute.title,
-                description: attribute.description,
-                attributeType: attribute.attributeType,
-                attributeValue: attribute.attributeValue,
-              };
-            }),
-          };
-        }),
-      });
-
-      void session.save();
-      return session;
+      const sets: ActivitySet[] = this.dataTransforms.setsToSets([activityData]);
+      session.activitySets?.push(...sets);
+      return await session.save();
     }
     return null;
   }

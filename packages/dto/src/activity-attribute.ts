@@ -5,5 +5,5 @@ export interface ActivityAttributeDTO {
   title: string;
   description: string;
   attributeType: AttributeTypes;
-  attributeValue?: string | number;
+  value?: string | number;
 }

@@ -8,13 +8,14 @@ import { WorkoutSession, WorkoutSessionSchema } from './schemas/workout-session'
 
 import { WorkoutSessionService } from './services/workout-session/workout-session.service';
 import { WorkoutSetService } from './services/workout-set/workout-set.service';
+import { DataTransformsService } from './services/data-transforms/data-transforms.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: WorkoutSession.name, schema: WorkoutSessionSchema }]),
   ],
   controllers: [WorkoutSessionController, WorkoutSetController],
-  providers: [WorkoutSessionService, WorkoutSetService],
+  providers: [WorkoutSessionService, WorkoutSetService, DataTransformsService],
   exports: [MongooseModule],
 })
 export class TrackingModule {}

@@ -50,7 +50,7 @@ export function ActivityAttributesAttachForm({
             >
               {attributes.map((attribute) => (
                 <option key={attribute.slug} value={attribute.slug}>
-                  {attribute.title} ({attribute.attributeType})
+                  {attribute.title} - {attribute.attributeType}
                 </option>
               ))}
             </select>

@@ -46,6 +46,7 @@ export default async function TrackingActivityPage({
       <TrackingForm
         workoutSessionId={sessionId}
         activitySlug={activitySlug}
+        activityTitle={activity.title}
         activityAttributes={activityAttributeDTOs}
         addSessionSetAction={updateWorkoutSession}
       />
@@ -62,7 +63,7 @@ export default async function TrackingActivityPage({
                         {acts.attributes.map((aa: ActivityAttributeDTO, aaInx: number) => (
                           <tr key={aaInx}>
                             <td>{aa.title}</td>
-                            <td>{aa.attributeValue}</td>
+                            <td>{aa.value}</td>
                           </tr>
                         ))}
                       </tbody>

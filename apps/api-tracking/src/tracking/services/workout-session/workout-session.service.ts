@@ -3,16 +3,28 @@ import { InjectModel } from '@nestjs/mongoose';
 import { WorkoutSessionDTO } from '@repo/dto/src/workout-session';
 import { Model } from 'mongoose';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
+import { DataTransformsService } from '../data-transforms/data-transforms.service';
 
 @Injectable()
 export class WorkoutSessionService {
   constructor(
     @InjectModel(WorkoutSession.name)
     private workoutSessionModel: Model<WorkoutSession>,
+    private dataTransforms: DataTransformsService,
   ) {}
 
   async createWorkoutSession(createWorkoutSessionDTO: WorkoutSessionDTO): Promise<WorkoutSession> {
-    const workoutSession = new this.workoutSessionModel(createWorkoutSessionDTO);
+    // transform object
+    const workoutSessionData: WorkoutSession = {
+      memberId: createWorkoutSessionDTO.memberId,
+      sessionStart: createWorkoutSessionDTO.sessionStart,
+      sessionCompleted: createWorkoutSessionDTO.sessionCompleted,
+      activitySets: this.dataTransforms.setsToSets(createWorkoutSessionDTO.activitySets as []),
+      activitySetsCount: 0,
+      id: '', // populated by document store
+    };
+
+    const workoutSession = new this.workoutSessionModel(workoutSessionData);
     return await workoutSession.save();
   }
 

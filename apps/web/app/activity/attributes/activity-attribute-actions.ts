@@ -8,13 +8,13 @@ export async function createActivityAttribute(prevState: { message: string }, fo
   const schema = z.object({
     title: z.string().min(1),
     description: z.string().optional(),
-    attributeType: z.string(),
+    type: z.string(),
   });
 
   const parse = schema.safeParse({
     title: formData.get('title'),
     description: formData.get('description'),
-    attributeType: formData.get('attribute-type'),
+    type: formData.get('attribute-type'),
   });
 
   if (!parse.success) {
@@ -44,14 +44,14 @@ export async function updateActivityAttribute(prevState: { message: string }, fo
     slug: z.string().min(1),
     title: z.string().min(1),
     description: z.string().optional(),
-    attributeType: z.string(),
+    type: z.string(),
   });
 
   const parse = schema.safeParse({
     slug: formData.get('slug'),
     title: formData.get('title'),
     description: formData.get('description'),
-    attributeType: formData.get('attribute-type'),
+    type: formData.get('attribute-type'),
   });
 
   if (!parse.success) {

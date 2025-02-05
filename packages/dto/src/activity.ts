@@ -1,6 +1,10 @@
 export interface ActivityDTO {
+  id?: number;
   slug?: string;
-  categorySlug: string;
-  description: string;
+
+  categoryId?: number;
+  categorySlug?: string;
+
   title: string;
+  description?: string;
 }

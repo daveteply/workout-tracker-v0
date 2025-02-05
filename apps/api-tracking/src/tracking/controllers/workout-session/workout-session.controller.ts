@@ -16,12 +16,7 @@ export class WorkoutSessionController {
 
   @Post()
   @Version('1')
-  async createWorkoutSession(@Body() body: any): Promise<WorkoutSession | null> {
-    const workoutSession: WorkoutSessionDTO = {
-      memberId: body.memberId,
-      // TODO: add to UI
-      sessionStart: new Date(),
-    };
-    return await this.workoutSessionService.createWorkoutSession(workoutSession);
+  async createWorkoutSession(@Body() body: WorkoutSessionDTO): Promise<WorkoutSession | null> {
+    return await this.workoutSessionService.createWorkoutSession(body);
   }
 }

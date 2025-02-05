@@ -25,11 +25,13 @@ function SubmitButton({ editMode }: { editMode: boolean }) {
 export function TrackingForm({
   workoutSessionId,
   activitySlug,
+  activityTitle,
   activityAttributes,
   addSessionSetAction,
 }: {
   workoutSessionId: string;
   activitySlug: string;
+  activityTitle: string;
   activityAttributes: ActivityAttributeDTO[];
   addSessionSetAction: any;
 }) {
@@ -38,7 +40,8 @@ export function TrackingForm({
   const [attributes, setAttributes] = useState<ActivityAttributeDTO[]>([...activityAttributes]);
 
   const [activitySet, setActivitySet] = useState<ActivitySetDTO>({
-    activitySlug: activitySlug,
+    slug: activitySlug,
+    title: activityTitle,
     attributeSets: [],
   });
 
@@ -66,8 +69,8 @@ export function TrackingForm({
     setIsModalOpen(false);
   }
 
-  function updateTrackingAttribute(slug: string | undefined, value: string) {
-    setAttributes(attributes.map((a) => (a.slug === slug ? { ...a, attributeValue: value } : a)));
+  function updateTrackingAttribute(slug: string | undefined, type: string, value: string) {
+    setAttributes(attributes.map((a) => (a.slug === slug ? { ...a, value, type } : a)));
   }
 
   function deleteTrackingAttribute(idx: number) {
@@ -117,8 +120,10 @@ export function TrackingForm({
                   }
                   placeholder={`Enter ${attribute.title}`}
                   className="input input-bordered"
-                  defaultValue={attribute.attributeValue}
-                  onChange={(e) => updateTrackingAttribute(attribute.slug, e.target.value)}
+                  defaultValue={attribute.value}
+                  onChange={(e) =>
+                    updateTrackingAttribute(attribute.slug, attribute.attributeType, e.target.value)
+                  }
                 />
               </label>
             </div>
@@ -141,7 +146,7 @@ export function TrackingForm({
             <div className="card-body capitalize">
               {as.attributes?.map((a, aInx) => (
                 <div key={aInx}>
-                  {a.title} {a.attributeValue}
+                  {a.title} {a.value}
                 </div>
               ))}
               <div className="card-actions justify-end">

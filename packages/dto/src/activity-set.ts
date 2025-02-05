@@ -1,9 +1,9 @@
 import { ActivityAttributeSetDTO } from './activity-attribute-set.js';
 
 export interface ActivitySetDTO {
-  activitySlug: string;
-  activityTitle: string;
-  setStart?: Date;
-  setCompleted?: Date;
+  slug: string;
+  title: string;
+  start?: Date;
+  completed?: Date;
   attributeSets?: ActivityAttributeSetDTO[];
 }

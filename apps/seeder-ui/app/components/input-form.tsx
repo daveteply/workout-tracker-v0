@@ -21,7 +21,6 @@ export function InputForm({
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
     const seedData = await seedServerAction(formData);
-    console.log('seed data:', seedData);
     setIsPending(false);
   };
 

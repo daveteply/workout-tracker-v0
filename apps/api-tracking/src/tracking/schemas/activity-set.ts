@@ -9,6 +9,9 @@ export class ActivitySet {
   activitySlug: string;
 
   @Prop()
+  activityTitle: string;
+
+  @Prop()
   setStart?: Date;
 
   @Prop()

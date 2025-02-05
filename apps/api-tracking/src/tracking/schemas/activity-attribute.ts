@@ -4,7 +4,7 @@ import { HydratedDocument } from 'mongoose';
 @Schema()
 export class ActivityAttribute {
   @Prop({ required: true })
-  attributeSlug?: string;
+  slug?: string;
 
   @Prop()
   title: string;
@@ -13,10 +13,10 @@ export class ActivityAttribute {
   description: string;
 
   @Prop({ required: true })
-  attributeType: string;
+  type: string;
 
   @Prop({ required: true, type: 'Mixed' })
-  attributeValue?: string | number;
+  value?: string | number;
 }
 
 export type WorkoutAttributeDocument = HydratedDocument<ActivityAttribute>;

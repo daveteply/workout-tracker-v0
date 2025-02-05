@@ -1,40 +1,14 @@
 'use server';
 
-import { parse, diffDays, addDay, addHour, addMinute } from '@formkit/tempo';
-import { API_STRUCTURE_URL } from '../constants';
+import { parse, diffDays, addDay, addHour } from '@formkit/tempo';
+import { API_STRUCTURE_URL, API_TRACKING_URL } from '../constants';
 import { faker } from '@faker-js/faker';
 import { WorkoutSessionDTO } from '@repo/dto/workout-session';
 import { ActivitySetDTO } from '@repo/dto/activity-set';
 import { ActivityDTO } from '@repo/dto/activity';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { AttributeTypes } from '@repo/dto/attribute-types';
-
-function randStartTime(startTime: Date, endTime: Date): Date {
-  const startMs = startTime.getTime();
-  const endMs = endTime.getTime();
-  const randomMs = Math.random() * (endMs - startMs) + startMs;
-  return new Date(randomMs);
-}
-
-function advanceTime(targetDate: Date): Date {
-  return addMinute(targetDate, faker.helpers.rangeToNumber({ min: 2, max: 5 }));
-}
-
-function multipleOfFive(min: number, max: number): number {
-  // Ensure the range is valid for the multiple
-  const multiple = 5;
-  if (min % multiple !== 0) {
-    min = Math.ceil(min / multiple) * multiple;
-  }
-  if (max % multiple !== 0) {
-    max = Math.floor(max / multiple) * multiple;
-  }
-  const range = (max - min) / multiple + 1;
-  return Math.floor(Math.random() * range) * multiple + min;
-}
-function incrementByFive(target: number): number {
-  return target + multipleOfFive(0, 5);
-}
+import { advanceTime, incrementByFive, multipleOfFive, randStartTime, shuffleArray } from './utils';
 
 async function getActivityAttributes(activitySlug: string): Promise<ActivityAttributeDTO[]> {
   const response = await fetch(
@@ -51,44 +25,40 @@ export async function seedFromActivityCategory(formData: FormData) {
   const complete = parse(formData.get('usage-complete') as string);
   const days = Math.abs(diffDays(start, complete));
 
-  // start Session
-  const session: WorkoutSessionDTO = {
-    // TODO: expand UI to allow member selection
-    memberId: 1,
-    activitySets: [],
-  };
-
   // get category activities
   const activityResult = await fetch(
     `${API_STRUCTURE_URL}/v1/activities/category/${activityCategorySlug}`,
   );
-  const activities = await activityResult.json();
+  let activities = await activityResult.json();
 
   if (genSetData) {
     // Generate Style 1: Generate data based on a Mon, Tues, Wed routine
+    // TODO: explore other patterns of mocking data
     for (let dayIndex = 0; dayIndex < days; dayIndex++) {
       const targetDate = addDay(start, dayIndex);
       const monWedFri = [1, 3, 5]; //getDay() Sunday = 0, Monday = 1, ...
 
       if (monWedFri.includes(targetDate.getDay())) {
-        debugger;
-
         // start time between 5 and 7 pm
         let startTime = randStartTime(addHour(targetDate, 17), addHour(targetDate, 19));
-        console.log(0, startTime);
+
+        // start Session
+        const session: WorkoutSessionDTO = {
+          // TODO: expand UI to allow member selection
+          memberId: 1,
+          activitySets: [],
+          sessionStart: startTime,
+        };
 
         // start Session
         if (!session.sessionStart) {
           session.sessionStart = startTime;
         }
 
-        const activitySets: ActivitySetDTO[] = [];
-
         // Activities
-        for (let actIndex = 0; actIndex < activities.length; actIndex++) {
-          const activity: ActivityDTO = faker.helpers.arrayElement(activities);
-          console.log(1, `  ${activity.title}`);
-
+        activities = shuffleArray<ActivityDTO>(activities);
+        debugger;
+        for (const activity of activities) {
           // account for set up time for Activity
           startTime = advanceTime(startTime);
 
@@ -97,15 +67,15 @@ export async function seedFromActivityCategory(formData: FormData) {
 
           // start Set
           const activitySet: ActivitySetDTO = {
-            activitySlug: activity.slug as string,
-            activityTitle: activity.title,
-            setStart: startTime,
+            slug: activity.slug as string,
+            title: activity.title,
+            start: startTime,
             attributeSets: [],
           };
 
           // Sets
           const numberOfSets = faker.helpers.rangeToNumber({ min: 2, max: 4 });
-          console.log(2, `    number of sets ${numberOfSets}`);
+
           for (let setIndex = 0; setIndex < numberOfSets; setIndex++) {
             const activityAttributeSet: ActivityAttributeDTO[] = [];
 
@@ -122,7 +92,7 @@ export async function seedFromActivityCategory(formData: FormData) {
                     slug: attribute.slug,
                     description: attribute.description,
                     attributeType: attribute.attributeType,
-                    attributeValue: mass,
+                    value: mass,
                   });
                   break;
                 case AttributeTypes.NUMBER:
@@ -131,7 +101,7 @@ export async function seedFromActivityCategory(formData: FormData) {
                     slug: attribute.slug,
                     description: attribute.description,
                     attributeType: attribute.attributeType,
-                    attributeValue: faker.helpers.rangeToNumber({ min: 6, max: 10 }),
+                    value: faker.helpers.rangeToNumber({ min: 6, max: 10 }),
                   });
                   break;
                 case AttributeTypes.LENGTH:
@@ -153,15 +123,25 @@ export async function seedFromActivityCategory(formData: FormData) {
               attributes: activityAttributeSet,
             });
           }
-          activitySets.push(activitySet);
+
+          session.activitySets?.push(activitySet);
         }
-        console.log(3, activitySets);
-        // session.activitySets?.push( activitySets);
+
+        // account for time to pack up equipment, etc
+        startTime = advanceTime(startTime);
+
+        // complete session
+        session.sessionCompleted = startTime;
+
+        // push into tracking database
+        await fetch(`${API_TRACKING_URL}/v1/workout-session`, {
+          headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          body: JSON.stringify(session),
+        });
       }
     }
   } else {
     //TODO
   }
-
-  console.log(session);
 }

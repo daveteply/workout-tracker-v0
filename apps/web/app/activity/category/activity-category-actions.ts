@@ -2,9 +2,14 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { API_STRUCTURE_URL, HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../constants';
+import {
+  API_STRUCTURE_URL,
+  HTTP_STATUS_CREATED,
+  HTTP_STATUS_OK,
+  ServerActionResponse,
+} from '../../constants';
 
-export async function createActivityCategory(prevState: { message: string }, formData: FormData) {
+export async function createActivityCategory(formData: FormData): Promise<ServerActionResponse> {
   const schema = z.object({
     title: z.string().min(1),
     description: z.string().optional(),
@@ -16,7 +21,7 @@ export async function createActivityCategory(prevState: { message: string }, for
   });
 
   if (!parse.success) {
-    return { message: 'Failed to create Activity Category' };
+    return { success: false, message: 'Failed to create Activity Category' };
   }
 
   const data = parse.data;
@@ -29,15 +34,16 @@ export async function createActivityCategory(prevState: { message: string }, for
 
   if (response.status === HTTP_STATUS_CREATED) {
     revalidatePath('/');
-    // nothing to return
+    return { success: true };
   } else {
     return {
+      success: false,
       message: 'Failed to create Activity Category: ' + response.statusText,
     };
   }
 }
 
-export async function updateActivityCategory(prevState: { message: string }, formData: FormData) {
+export async function updateActivityCategory(formData: FormData): Promise<ServerActionResponse> {
   const schema = z.object({
     title: z.string().min(1),
     description: z.string().optional(),
@@ -51,7 +57,7 @@ export async function updateActivityCategory(prevState: { message: string }, for
   });
 
   if (!parse.success) {
-    return { message: 'Failed to update Activity Category' };
+    return { success: false, message: 'Failed to update Activity Category' };
   }
 
   const data = parse.data;
@@ -64,15 +70,16 @@ export async function updateActivityCategory(prevState: { message: string }, for
 
   if (response.status === HTTP_STATUS_OK) {
     revalidatePath('/');
-    // nothing to return
+    return { success: true };
   } else {
     return {
+      success: false,
       message: 'Failed to update Activity Category: ' + response.statusText,
     };
   }
 }
 
-export async function deleteActivityCategory(prevState: { message: string }, formData: FormData) {
+export async function deleteActivityCategory(formData: FormData): Promise<ServerActionResponse> {
   const schema = z.object({
     slug: z.string().min(1),
   });
@@ -82,7 +89,7 @@ export async function deleteActivityCategory(prevState: { message: string }, for
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete Activity Category' };
+    return { success: false, message: 'Failed to delete Activity Category' };
   }
 
   const data = parse.data;
@@ -92,9 +99,10 @@ export async function deleteActivityCategory(prevState: { message: string }, for
 
   if (response.status === HTTP_STATUS_OK) {
     revalidatePath('/');
-    // nothing to return
+    return { success: true };
   } else {
     return {
+      success: false,
       message: 'Failed to delete Activity Category: ' + response.statusText,
     };
   }

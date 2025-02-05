@@ -9,7 +9,7 @@ export function InputForm({
   seedServerAction,
 }: {
   activityCategories: ActivityCategoryDTO[];
-  seedServerAction: any;
+  seedServerAction: (formData: FormData) => Promise<void>;
 }) {
   const [isPending, setIsPending] = useState(false);
 
@@ -20,7 +20,7 @@ export function InputForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const seedData = await seedServerAction(formData);
+    await seedServerAction(formData);
     setIsPending(false);
   };
 

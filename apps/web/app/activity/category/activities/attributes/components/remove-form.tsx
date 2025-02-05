@@ -2,13 +2,15 @@
 
 import { XCircleIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
+import { ServerActionResponse } from '../../../../../constants';
+import toast from 'react-hot-toast';
 
 export function ActivityAttributesRemoveForm({
   deleteActivityAttributesAction,
   activitySlug,
   attributeSlug,
 }: {
-  deleteActivityAttributesAction: any;
+  deleteActivityAttributesAction: (formData: FormData) => Promise<ServerActionResponse>;
   activitySlug: string;
   attributeSlug: string | undefined;
 }) {
@@ -18,11 +20,13 @@ export function ActivityAttributesRemoveForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await deleteActivityAttributesAction(null, formData);
+    const result = await deleteActivityAttributesAction(formData);
     setIsPending(false);
 
-    if (result) {
-      console.error('Bummer!', result);
+    if (!result.success) {
+      toast.error(result.message);
+    } else {
+      toast.success('Successfully removed');
     }
   };
 
@@ -32,7 +36,7 @@ export function ActivityAttributesRemoveForm({
       <input type="hidden" id="attribute-slug" name="attribute-slug" value={attributeSlug} />
       <button type="submit" disabled={isPending} aria-disabled={isPending}>
         <XCircleIcon className="size-5 text-blue-500"></XCircleIcon>
-      </button>{' '}
+      </button>
     </form>
   );
 }

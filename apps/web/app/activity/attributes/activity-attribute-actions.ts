@@ -2,9 +2,14 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { API_STRUCTURE_URL, HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../constants';
+import {
+  API_STRUCTURE_URL,
+  HTTP_STATUS_CREATED,
+  HTTP_STATUS_OK,
+  ServerActionResponse,
+} from '../../constants';
 
-export async function createActivityAttribute(prevState: { message: string }, formData: FormData) {
+export async function createActivityAttribute(formData: FormData): Promise<ServerActionResponse> {
   const schema = z.object({
     title: z.string().min(1),
     description: z.string().optional(),
@@ -18,7 +23,7 @@ export async function createActivityAttribute(prevState: { message: string }, fo
   });
 
   if (!parse.success) {
-    return { message: 'Failed to create Activity Attribute' };
+    return { success: false, message: 'Failed to create Activity Attribute' };
   }
 
   const data = parse.data;
@@ -31,15 +36,16 @@ export async function createActivityAttribute(prevState: { message: string }, fo
 
   if (response.status === HTTP_STATUS_CREATED) {
     revalidatePath('/');
-    // nothing to return
+    return { success: true };
   } else {
     return {
+      success: false,
       message: 'Failed to create Activity Attribute: ' + response.statusText,
     };
   }
 }
 
-export async function updateActivityAttribute(prevState: { message: string }, formData: FormData) {
+export async function updateActivityAttribute(formData: FormData): Promise<ServerActionResponse> {
   const schema = z.object({
     slug: z.string().min(1),
     title: z.string().min(1),
@@ -55,7 +61,7 @@ export async function updateActivityAttribute(prevState: { message: string }, fo
   });
 
   if (!parse.success) {
-    return { message: 'Failed to update Activity Attribute' };
+    return { success: false, message: 'Failed to update Activity Attribute' };
   }
 
   const data = parse.data;
@@ -68,15 +74,16 @@ export async function updateActivityAttribute(prevState: { message: string }, fo
 
   if (response.status === HTTP_STATUS_OK) {
     revalidatePath('/');
-    // nothing to return
+    return { success: true };
   } else {
     return {
+      success: false,
       message: 'Failed to update Activity Attribute: ' + response.statusText,
     };
   }
 }
 
-export async function deleteActivityAttribute(prevState: { message: string }, formData: FormData) {
+export async function deleteActivityAttribute(formData: FormData): Promise<ServerActionResponse> {
   const schema = z.object({
     slug: z.string().min(1),
   });
@@ -86,7 +93,7 @@ export async function deleteActivityAttribute(prevState: { message: string }, fo
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete Activity Attribute' };
+    return { success: false, message: 'Failed to delete Activity Attribute' };
   }
 
   const data = parse.data;
@@ -96,9 +103,10 @@ export async function deleteActivityAttribute(prevState: { message: string }, fo
 
   if (response.status === HTTP_STATUS_OK) {
     revalidatePath('/');
-    // nothing to return
+    return { success: true };
   } else {
     return {
+      success: false,
       message: 'Failed to delete Activity Attribute: ' + response.statusText,
     };
   }

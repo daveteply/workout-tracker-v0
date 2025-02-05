@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import Modal from '../../../../components/modal';
+import { ServerActionResponse } from '../../../constants';
+import toast from 'react-hot-toast';
 
 export function ActivityAttributeCreateForm({
   createActivityAttributeAction,
   attributeTypes,
 }: {
-  createActivityAttributeAction: any;
+  createActivityAttributeAction: (formData: FormData) => Promise<ServerActionResponse>;
   attributeTypes: string[];
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,13 +23,14 @@ export function ActivityAttributeCreateForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await createActivityAttributeAction(null, formData);
+    const result = await createActivityAttributeAction(formData);
     setIsPending(false);
 
-    if (!result) {
-      setIsModalOpen(false);
+    if (!result.success) {
+      toast.error(result.message);
     } else {
-      // TODO: toast error
+      setIsModalOpen(false);
+      toast.success('Created Activity Attribute');
     }
   };
 
@@ -86,7 +89,7 @@ export function ActivityAttributeCreateForm({
               disabled={isPending}
               aria-disabled={isPending}
             >
-              Add Attribute
+              Add Activity Attribute
             </button>
           </div>
         </form>

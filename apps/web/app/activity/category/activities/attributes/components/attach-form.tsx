@@ -3,13 +3,15 @@
 import { useState } from 'react';
 import Modal from '../../../../../../components/modal';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
+import { ServerActionResponse } from '../../../../../constants';
+import toast from 'react-hot-toast';
 
 export function ActivityAttributesAttachForm({
   createActivityAttributesAction,
   attributes,
   activitySlug,
 }: {
-  createActivityAttributesAction: any;
+  createActivityAttributesAction: (formData: FormData) => Promise<ServerActionResponse>;
   attributes: ActivityAttributeDTO[];
   activitySlug: string;
 }) {
@@ -24,13 +26,14 @@ export function ActivityAttributesAttachForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await createActivityAttributesAction(null, formData);
+    const result = await createActivityAttributesAction(formData);
     setIsPending(false);
 
-    if (!result) {
-      setIsModalOpen(false);
+    if (!result.success) {
+      toast.error(result.message);
     } else {
-      // TODO: toast error
+      setIsModalOpen(false);
+      toast.success('Attached Attribute');
     }
   };
 

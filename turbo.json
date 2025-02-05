@@ -6,14 +6,7 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"],
-      "env": [
-        "API_STRUCTURE_SCHEMA",
-        "API_STRUCTURE_HOST",
-        "API_STRUCTURE_PORT",
-        "API_TRACKING_SCHEMA",
-        "API_TRACKING_HOST",
-        "API_TRACKING_PORT"
-      ]
+      "env": ["DATABASE_URL", "API_STRUCTURE_URL", "API_TRACKING_URL"]
     },
     "lint": {
       "dependsOn": ["^lint"]

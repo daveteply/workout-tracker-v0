@@ -2,9 +2,14 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { API_STRUCTURE_URL, HTTP_STATUS_CREATED, HTTP_STATUS_OK } from '../../../../constants';
+import {
+  API_STRUCTURE_URL,
+  HTTP_STATUS_CREATED,
+  HTTP_STATUS_OK,
+  ServerActionResponse,
+} from '../../../../constants';
 
-export async function attachActivityAttributes(prevState: { message: string }, formData: FormData) {
+export async function attachActivityAttributes(formData: FormData): Promise<ServerActionResponse> {
   const schema = z.object({
     activitySlug: z.string(),
     attributeSlug: z.string(),
@@ -16,7 +21,7 @@ export async function attachActivityAttributes(prevState: { message: string }, f
   });
 
   if (!parse.success) {
-    return { message: 'Failed to create Activity Attributes' };
+    return { success: false, message: 'Failed to create Activity Attributes' };
   }
 
   const data = parse.data;
@@ -28,16 +33,17 @@ export async function attachActivityAttributes(prevState: { message: string }, f
   });
 
   if (response.status === HTTP_STATUS_CREATED) {
-    // TODO: toast
     revalidatePath('/');
+    return { success: true };
   } else {
     return {
+      success: false,
       message: `Failed to create Activity Attributes: ${response.statusText}`,
     };
   }
 }
 
-export async function removeActivityAttributes(prevState: { message: string }, formData: FormData) {
+export async function removeActivityAttributes(formData: FormData): Promise<ServerActionResponse> {
   const schema = z.object({
     activitySlug: z.string().min(1),
     attributeSlug: z.string().min(1),
@@ -49,7 +55,7 @@ export async function removeActivityAttributes(prevState: { message: string }, f
   });
 
   if (!parse.success) {
-    return { message: 'Failed to delete Activity Attributes' };
+    return { success: false, message: 'Failed to delete Activity Attributes' };
   }
 
   const data = parse.data;
@@ -59,9 +65,10 @@ export async function removeActivityAttributes(prevState: { message: string }, f
 
   if (response.status === HTTP_STATUS_OK) {
     revalidatePath('/');
-    // nothing to return
+    return { success: true };
   } else {
     return {
+      success: false,
       message: 'Failed to delete Activity Attributes: ' + response.statusText,
     };
   }

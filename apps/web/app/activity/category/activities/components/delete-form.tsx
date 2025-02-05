@@ -2,13 +2,15 @@
 
 import { TrashIcon } from '@heroicons/react/16/solid';
 import { useState } from 'react';
+import { ServerActionResponse } from '../../../../constants';
+import toast from 'react-hot-toast';
 
 export function ActivityDeleteForm({
   deleteActivityAction,
   slug,
 }: {
   slug: string;
-  deleteActivityAction: any;
+  deleteActivityAction: (formData: FormData) => Promise<ServerActionResponse>;
 }) {
   const [isPending, setIsPending] = useState(false);
 
@@ -16,12 +18,14 @@ export function ActivityDeleteForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await deleteActivityAction(null, formData);
-    setIsPending(false);
-
-    if (result) {
-      console.error('Bummer!', result);
+    const result = await deleteActivityAction(formData);
+    if (!result.success) {
+      toast.error(result.message);
+    } else {
+      toast.success('Deleted Activity Attribute');
     }
+
+    setIsPending(false);
   };
 
   return (

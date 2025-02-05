@@ -5,13 +5,15 @@ import { PencilIcon } from '@heroicons/react/16/solid';
 
 import Modal from '../../../../components/modal';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
+import { ServerActionResponse } from '../../../constants';
+import toast from 'react-hot-toast';
 
 export function ActivityAttributeUpdateForm({
   updateActivityAttributeAction,
   attributeTypes,
   dto,
 }: {
-  updateActivityAttributeAction: any;
+  updateActivityAttributeAction: (formData: FormData) => Promise<ServerActionResponse>;
   attributeTypes: string[];
   dto: ActivityAttributeDTO;
 }) {
@@ -26,13 +28,14 @@ export function ActivityAttributeUpdateForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await updateActivityAttributeAction(null, formData);
+    const result = await updateActivityAttributeAction(formData);
     setIsPending(false);
 
-    if (!result) {
-      setIsModalOpen(false);
+    if (!result.success) {
+      toast.error(result.message);
     } else {
-      // TODO: toast error
+      setIsModalOpen(false);
+      toast.success('Updated Activity Attribute');
     }
   };
 
@@ -96,7 +99,7 @@ export function ActivityAttributeUpdateForm({
               disabled={isPending}
               aria-disabled={isPending}
             >
-              Save Attribute
+              Save Activity Attribute
             </button>
           </div>
         </form>

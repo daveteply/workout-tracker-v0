@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { StartSessionComponent } from './components/start-session';
+import { CreateSessionComponent } from './components/start-session';
 import { API_TRACKING_URL } from '../constants';
 import { createNewSession } from './session-actions';
 import { WorkoutSessionDTO } from '@repo/dto/workout-session';
@@ -12,7 +12,7 @@ export default async function TrackingPage() {
     <section>
       <h3>Workout Sessions</h3>
       <div className="mb-5">
-        <StartSessionComponent startSessionAction={createNewSession} />
+        <CreateSessionComponent createSessionAction={createNewSession} />
       </div>
       {workoutSessions.map((s: WorkoutSessionDTO, index: number) => (
         <div key={index} className="mb-3">

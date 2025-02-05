@@ -5,12 +5,14 @@ import { PencilIcon } from '@heroicons/react/16/solid';
 
 import Modal from '../../../../../components/modal';
 import { ActivityDTO } from '@repo/dto/activity';
+import { ServerActionResponse } from '../../../../constants';
+import toast from 'react-hot-toast';
 
 export function ActivityUpdateForm({
   updateActivityAction,
   dto,
 }: {
-  updateActivityAction: any;
+  updateActivityAction: (formData: FormData) => Promise<ServerActionResponse>;
   dto: ActivityDTO;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,13 +26,14 @@ export function ActivityUpdateForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await updateActivityAction(null, formData);
+    const result = await updateActivityAction(formData);
     setIsPending(false);
 
-    if (!result) {
-      setIsModalOpen(false);
+    if (!result.success) {
+      toast.error(result.message);
     } else {
-      // TODO: toast error
+      setIsModalOpen(false);
+      toast.success('Updated Activity');
     }
   };
 

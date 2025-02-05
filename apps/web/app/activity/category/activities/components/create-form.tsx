@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import Modal from '../../../../../components/modal';
+import { ServerActionResponse } from '../../../../constants';
+import toast from 'react-hot-toast';
 
 export function ActivityCreateForm({
   createActivityAction,
   activityCategorySlug,
 }: {
-  createActivityAction: any;
+  createActivityAction: (formData: FormData) => Promise<ServerActionResponse>;
   activityCategorySlug: string;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,13 +23,14 @@ export function ActivityCreateForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await createActivityAction(null, formData);
+    const result = await createActivityAction(formData);
     setIsPending(false);
 
-    if (!result) {
-      setIsModalOpen(false);
+    if (!result.success) {
+      toast.error(result.message);
     } else {
-      // TODO: toast error
+      setIsModalOpen(false);
+      toast.success('Created Activity');
     }
   };
 

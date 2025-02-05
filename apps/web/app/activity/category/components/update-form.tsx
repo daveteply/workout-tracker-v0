@@ -5,12 +5,14 @@ import { PencilIcon } from '@heroicons/react/16/solid';
 
 import Modal from '../../../../components/modal';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
+import { ServerActionResponse } from '../../../constants';
+import toast from 'react-hot-toast';
 
 export function ActivityCategoryUpdateForm({
   updateActivityCategoryAction,
   dto,
 }: {
-  updateActivityCategoryAction: any;
+  updateActivityCategoryAction: (formData: FormData) => Promise<ServerActionResponse>;
   dto: ActivityCategoryDTO;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,13 +26,14 @@ export function ActivityCategoryUpdateForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await updateActivityCategoryAction(null, formData);
+    const result = await updateActivityCategoryAction(formData);
     setIsPending(false);
 
-    if (!result) {
-      setIsModalOpen(false);
+    if (!result.success) {
+      toast.error(result.message);
     } else {
-      // TODO: toast error
+      setIsModalOpen(false);
+      toast.success('Updated Activity Category');
     }
   };
 

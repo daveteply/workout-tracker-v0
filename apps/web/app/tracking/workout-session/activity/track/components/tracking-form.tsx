@@ -8,10 +8,7 @@ import { ActivitySetDTO } from '@repo/dto/activity-set';
 import { PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
 
 import Modal from '../../../../../../components/modal';
-
-const initialState = {
-  message: '',
-};
+import toast from 'react-hot-toast';
 
 function SubmitButton({ editMode }: { editMode: boolean }) {
   const { pending } = useFormStatus();
@@ -33,7 +30,7 @@ export function TrackingForm({
   activitySlug: string;
   activityTitle: string;
   activityAttributes: ActivityAttributeDTO[];
-  addSessionSetAction: any;
+  addSessionSetAction: (sessionId: string, activitySet: ActivitySetDTO) => Promise<number>;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editIdx, setEditIdx] = useState(-1);
@@ -46,7 +43,6 @@ export function TrackingForm({
   });
 
   const openModal = () => {
-    initialState.message = '';
     setAttributes([...activityAttributes]);
     setIsModalOpen(true);
   };
@@ -82,8 +78,10 @@ export function TrackingForm({
     setEditIdx(idx);
     // set field values
     if (activitySet.attributeSets && activitySet.attributeSets[idx]) {
-      setAttributes([...activitySet.attributeSets[idx]?.attributes]);
-      setIsModalOpen(true);
+      if (activitySet.attributeSets[idx]?.attributes) {
+        setAttributes([...activitySet.attributeSets[idx].attributes]);
+        setIsModalOpen(true);
+      }
     }
   }
 
@@ -93,6 +91,7 @@ export function TrackingForm({
       // TODO: clear localStorage when feature added
     } else {
       // TODO: error message
+      toast.error('Something went wrong');
     }
   }
 

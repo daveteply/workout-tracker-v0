@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import Modal from '../../../../components/modal';
+import { ServerActionResponse } from '../../../constants';
+import toast from 'react-hot-toast';
 
 export function ActivityCategoryCreateForm({
   createActivityCategoryAction,
 }: {
-  createActivityCategoryAction?: any;
+  createActivityCategoryAction: (formData: FormData) => Promise<ServerActionResponse>;
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -19,13 +21,14 @@ export function ActivityCategoryCreateForm({
     event.preventDefault();
     setIsPending(true);
     const formData = new FormData(event.currentTarget);
-    const result = await createActivityCategoryAction(null, formData);
+    const result = await createActivityCategoryAction(formData);
     setIsPending(false);
 
-    if (!result) {
-      setIsModalOpen(false);
+    if (!result.success) {
+      toast.error(result.message);
     } else {
-      // TODO: toast error
+      setIsModalOpen(false);
+      toast.success('Created Activity Category');
     }
   };
 

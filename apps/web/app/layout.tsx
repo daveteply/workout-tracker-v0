@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Bars3Icon } from '@heroicons/react/16/solid';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -69,6 +70,7 @@ export default function RootLayout({
         <footer className="footer bg-neutral text-neutral-content p-5 sticky bottom-0">
           Footer content
         </footer>
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );

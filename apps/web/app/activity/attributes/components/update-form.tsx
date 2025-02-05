@@ -38,7 +38,7 @@ export function ActivityAttributeUpdateForm({
 
   return (
     <div>
-      <button onClick={openModal}>
+      <button className="btn btn-sm" onClick={openModal}>
         <PencilIcon className="size-5 text-blue-500" />
       </button>
       <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>

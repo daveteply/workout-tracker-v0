@@ -6,6 +6,8 @@ This is an application platform POC to track various types of exercise and fitne
 
 ### [MySQL](https://www.mysql.com/)
 
+#### MySQL Community Server - GPL
+
 1.  Using locally installed MySQL instance (8.4.2 MySQL Community Server)
     1. Utilize [Prisma](https://www.prisma.io/) to push the relational schema to local running instance
        1. `cd apps/api-structure/prisma`
@@ -18,6 +20,8 @@ This is an application platform POC to track various types of exercise and fitne
        2. `npm run seed`
 
 ### [MongoDB](https://www.mongodb.com/)
+
+#### MongoDB Community Server
 
 1.  Local instance of MongoDB
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Options } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { WorkoutSessionDTO } from '@repo/dto/src/workout-session';
 import { Model } from 'mongoose';
@@ -17,11 +17,11 @@ export class WorkoutSessionService {
     // transform object
     const workoutSessionData: WorkoutSession = {
       memberId: createWorkoutSessionDTO.memberId,
-      sessionStart: createWorkoutSessionDTO.sessionStart,
+      // default to current date if none provided
+      sessionStart: createWorkoutSessionDTO.sessionStart || new Date(),
       sessionCompleted: createWorkoutSessionDTO.sessionCompleted,
       activitySets: this.dataTransforms.setsToSets(createWorkoutSessionDTO.activitySets as []),
       activitySetsCount: 0,
-      id: '', // populated by document store
     };
 
     const workoutSession = new this.workoutSessionModel(workoutSessionData);
@@ -30,8 +30,10 @@ export class WorkoutSessionService {
 
   // TODO: Remove hard coded member after enabling auth
   async getWorkoutSessionByMemberId(): Promise<WorkoutSession[]> {
-    return await this.workoutSessionModel.where({
-      memberId: 1,
-    });
+    return await this.workoutSessionModel
+      .where({
+        memberId: 1,
+      })
+      .sort({ ['sessionStart']: -1 });
   }
 }

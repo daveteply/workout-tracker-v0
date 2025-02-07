@@ -11,10 +11,10 @@ export class ActivitySet {
   @Prop()
   activityTitle: string;
 
-  @Prop()
+  @Prop({ type: Date })
   setStart?: Date;
 
-  @Prop()
+  @Prop({ type: Date })
   setCompleted?: Date;
 
   @Prop([ActivityAttributeSet])

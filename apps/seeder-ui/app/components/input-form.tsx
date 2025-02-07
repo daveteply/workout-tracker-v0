@@ -2,7 +2,7 @@
 
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import { useState } from 'react';
-import { addYear } from '@formkit/tempo';
+import { addMonth, addYear } from '@formkit/tempo';
 
 export function InputForm({
   activityCategories,
@@ -13,7 +13,7 @@ export function InputForm({
 }) {
   const [isPending, setIsPending] = useState(false);
 
-  const startDate = addYear(new Date(), -1);
+  const startDate = addMonth(new Date(), -4);
   const endDate = new Date();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

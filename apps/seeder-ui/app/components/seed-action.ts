@@ -57,7 +57,6 @@ export async function seedFromActivityCategory(formData: FormData) {
 
         // Activities
         activities = shuffleArray<ActivityDTO>(activities);
-        debugger;
         for (const activity of activities) {
           // account for set up time for Activity
           startTime = advanceTime(startTime);

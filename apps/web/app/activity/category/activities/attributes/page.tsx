@@ -2,7 +2,7 @@ import { attachActivityAttributes, removeActivityAttributes } from './activity-a
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ActivityAttributesAttachForm } from './components/attach-form';
 import { ActivityAttributesRemoveForm } from './components/remove-form';
-import { API_STRUCTURE_URL } from '../../../../constants';
+import { getActivity, getActivityAttributes, getAttributes } from '../../../../../utils/data-fetch';
 
 /**
  * Associate Attributes to an Activity
@@ -15,19 +15,12 @@ export default async function ActivityCategoryActivitiesAttributesPage({
   searchParams: Promise<{ s: string }>;
 }) {
   const activitySlug = (await searchParams).s;
-  // Activity
-  const activityResponse = await fetch(`${API_STRUCTURE_URL}/v1/activities/${activitySlug}`);
-  const activity = await activityResponse.json();
 
-  // Attributes
-  const attributesResponse = await fetch(`${API_STRUCTURE_URL}/v1/attributes`);
-  const attributes = await attributesResponse.json();
-
-  // Attributes for Activity
-  const activityAttributesResponse = await fetch(
-    `${API_STRUCTURE_URL}/v1/activity-attributes/activity/${activitySlug}`,
-  );
-  const activityAttributes = await activityAttributesResponse.json();
+  const [attributes, activity, activityAttributes] = await Promise.all([
+    getAttributes(),
+    getActivity(activitySlug),
+    getActivityAttributes(activitySlug),
+  ]);
 
   return (
     <div>

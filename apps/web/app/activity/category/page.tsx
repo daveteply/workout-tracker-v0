@@ -9,12 +9,11 @@ import {
 import { ActivityCategoryCreateForm } from './components/create-form';
 import { ActivityCategoryDeleteForm } from './components/delete-form';
 import { ActivityCategoryUpdateForm } from './components/update-form';
-import { API_STRUCTURE_URL } from '../../constants';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
+import { getCategories } from '../../../utils/data-fetch';
 
 export default async function ActivityCategoryPage() {
-  const activityCategoryResponse = await fetch(`${API_STRUCTURE_URL}/v1/categories`);
-  const activityCategories = await activityCategoryResponse.json();
+  const activityCategories = await getCategories();
 
   return (
     <div>

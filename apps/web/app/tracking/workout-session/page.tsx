@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
-import { API_STRUCTURE_URL } from '../../constants';
+import { getCategories } from '../../../utils/data-fetch';
 
 export default async function WorkoutSessionPage({
   searchParams,
@@ -9,8 +9,7 @@ export default async function WorkoutSessionPage({
 }) {
   const sessionId = (await searchParams).ses;
 
-  const categoryResponse = await fetch(`${API_STRUCTURE_URL}/v1/categories`);
-  const activityCategories = await categoryResponse.json();
+  const activityCategories = await getCategories();
 
   return (
     <div>

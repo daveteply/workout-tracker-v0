@@ -1,9 +1,10 @@
-import { API_STRUCTURE_URL, API_TRACKING_URL } from '../../../../constants';
+import { API_TRACKING_URL } from '../../../../constants';
 import { updateWorkoutSession } from './track-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ActivitySetDTO } from '@repo/dto/activity-set';
 import { ActivityAttributeSetDTO } from '@repo/dto/activity-attribute-set';
 import { TrackingForm } from './components/tracking-form';
+import { getActivity, getActivityAttributes } from '../../../../../utils/data-fetch';
 
 export default async function TrackingActivityPage({
   searchParams,
@@ -14,15 +15,10 @@ export default async function TrackingActivityPage({
   const activitySlug = params.s;
   const sessionId = params.secs;
 
-  // Activity
-  const activityResponse = await fetch(`${API_STRUCTURE_URL}/v1/activities/${activitySlug}`);
-  const activity = await activityResponse.json();
-
-  // Activity Attributes
-  const activityAttributesResponse = await fetch(
-    `${API_STRUCTURE_URL}/v1/activity-attributes/activity/${activitySlug}`,
-  );
-  const activityAttributes = await activityAttributesResponse.json();
+  const [activity, activityAttributes] = await Promise.all([
+    getActivity(activitySlug),
+    getActivityAttributes(activitySlug),
+  ]);
 
   // stripe out attribute related meta data
   const activityAttributeDTOs = activityAttributes.map((aa: ActivityAttributeDTO) => {

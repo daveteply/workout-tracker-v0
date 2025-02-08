@@ -5,26 +5,20 @@ import { createActivity, deleteActivity, updateActivity } from '../../activity-a
 import { ActivityCreateForm } from './components/create-form';
 import { ActivityDeleteForm } from './components/delete-form';
 import { ActivityUpdateForm } from './components/update-form';
-import { API_STRUCTURE_URL } from '../../../constants';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
+import { getCategory, getCategoryActivities } from '../../../../utils/data-fetch';
 
 export default async function ActivityPage({
   searchParams,
 }: {
   searchParams: Promise<{ cs: string }>;
 }) {
-  // Activity Category
   const activityCategorySlug = (await searchParams).cs;
-  const categoryResponse = await fetch(
-    `${API_STRUCTURE_URL}/v1/categories/${activityCategorySlug}`,
-  );
-  const activityCategory = await categoryResponse.json();
 
-  // Activities for Category
-  const activityResponse = await fetch(
-    `${API_STRUCTURE_URL}/v1/activities/category/${activityCategorySlug}`,
-  );
-  const activities = await activityResponse.json();
+  const [activityCategory, activities] = await Promise.all([
+    getCategory(activityCategorySlug),
+    getCategoryActivities(activityCategorySlug),
+  ]);
 
   return (
     <div>

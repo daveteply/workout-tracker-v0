@@ -17,7 +17,9 @@
     "./workout-session": "./src/workout-session.ts",
     "./activity-set": "./src/activity-set.ts",
     "./activity-attribute-set": "./src/activity-attribute-set.ts",
-    "./attribute-types": "./src/attribute-types.ts"
+    "./attribute-types": "./src/attribute-types.ts",
+    "./member": "./src/member.ts",
+    "./member-roles": "./src/member-roles.ts"
   },
   "devDependencies": {
     "@repo/eslint-config": "^0.0.0",

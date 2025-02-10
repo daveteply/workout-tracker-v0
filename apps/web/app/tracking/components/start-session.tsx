@@ -1,14 +1,17 @@
 'use client';
 
-import { MouseEventHandler } from 'react';
-
 export function CreateSessionComponent({
   createSessionAction,
+  memberSlug,
 }: {
-  createSessionAction: MouseEventHandler<HTMLButtonElement>;
+  createSessionAction: (memberSlug: string | undefined) => Promise<void>;
+  memberSlug: string | undefined;
 }) {
   return (
-    <button className="btn btn-primary text-xs sm:text-sm capitalize" onClick={createSessionAction}>
+    <button
+      className="btn btn-primary text-xs sm:text-sm capitalize"
+      onClick={() => createSessionAction(memberSlug)}
+    >
       start a new workout session
     </button>
   );

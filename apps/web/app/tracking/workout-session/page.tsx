@@ -8,33 +8,23 @@ export default async function WorkoutSessionPage({
   searchParams: Promise<{ ses: string }>;
 }) {
   const sessionId = (await searchParams).ses;
-
   const activityCategories = await getCategories();
 
   return (
     <div>
       <h3>Select a Category</h3>
-      <div className="flex flex-wrap justify-center">
+      <div className="flex flex-wrap sm:justify-start justify-center">
         {activityCategories.map((c: ActivityCategoryDTO) => (
-          <div
-            className="card card-compact border border-2 border-blue-300 m-2 basis-36 md:basis-52"
+          <Link
+            className="btn btn-secondary no-underline m-3 h-30 w-30 sm:h-35 sm:w-35"
             key={c.slug}
+            href={{
+              pathname: './workout-session/activity/',
+              query: { cs: c.slug, ses: sessionId },
+            }}
           >
-            <div className="card-body capitalize">
-              <h4 className="card-title text-sm md:text-lg">{c.title}</h4>
-              <div className="card-actions justify-end">
-                <Link
-                  className="btn btn-primary btn-sm md:btn-lg"
-                  href={{
-                    pathname: './workout-session/activity/',
-                    query: { cs: c.slug, ses: sessionId },
-                  }}
-                >
-                  Select
-                </Link>
-              </div>
-            </div>
-          </div>
+            {c.title}
+          </Link>
         ))}
       </div>
     </div>

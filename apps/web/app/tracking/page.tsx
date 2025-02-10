@@ -1,12 +1,16 @@
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+
 import { CreateSessionComponent } from './components/start-session';
-import { API_TRACKING_URL } from '../constants';
 import { createNewSession } from './session-actions';
 import { WorkoutSessionDTO } from '@repo/dto/workout-session';
+import { getSessionByMember } from '../../utils/data-fetch';
+import { MEMBER_COOKIE_KEY } from '../constants';
 
 export default async function TrackingPage() {
-  const workoutSessionResponse = await fetch(`${API_TRACKING_URL}/v1/workout-session`);
-  const workoutSessions = await workoutSessionResponse.json();
+  const cookieStore = await cookies();
+  const memberSlug = cookieStore.get(MEMBER_COOKIE_KEY)?.value;
+  const workoutSessions = await getSessionByMember(memberSlug);
 
   const locale = 'en-US'; // TODO: replace with i18n
   const dateFormatter = new Intl.DateTimeFormat(locale, {
@@ -29,7 +33,7 @@ export default async function TrackingPage() {
     <section>
       <h3>Workout Sessions</h3>
       <div className="mb-5">
-        <CreateSessionComponent createSessionAction={createNewSession} />
+        <CreateSessionComponent createSessionAction={createNewSession} memberSlug={memberSlug} />
       </div>
       <div className="overflow-x-auto">
         {workoutSessions.length !== 0 && (
@@ -37,7 +41,7 @@ export default async function TrackingPage() {
             <thead>
               <tr>
                 <th>Session Started</th>
-                <th>Sets</th>
+                <th className="text-center">Sets</th>
                 <td></td>
               </tr>
             </thead>
@@ -45,7 +49,7 @@ export default async function TrackingPage() {
               {workoutSessions.map((session: WorkoutSessionDTO) => (
                 <tr key={session.id}>
                   <td>{session.sessionStart && formattedSessionStart(session.sessionStart)}</td>
-                  <td>{session.activitySetsCount}</td>
+                  <td className="text-center">{session.activitySetsCount}</td>
                   <td>
                     <Link
                       className="btn btn-secondary text-xs sm:text-sm capitalize mr-3 no-underline"

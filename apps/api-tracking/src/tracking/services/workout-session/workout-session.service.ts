@@ -1,9 +1,10 @@
-import { Injectable, Options } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { WorkoutSessionDTO } from '@repo/dto/src/workout-session';
 import { Model } from 'mongoose';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
 import { DataTransformsService } from '../data-transforms/data-transforms.service';
+import { UtilsService } from 'src/services/utils/utils.service';
 
 @Injectable()
 export class WorkoutSessionService {
@@ -11,12 +12,14 @@ export class WorkoutSessionService {
     @InjectModel(WorkoutSession.name)
     private workoutSessionModel: Model<WorkoutSession>,
     private dataTransforms: DataTransformsService,
+    private utilsService: UtilsService,
   ) {}
 
   async createWorkoutSession(createWorkoutSessionDTO: WorkoutSessionDTO): Promise<WorkoutSession> {
+    const memberId = this.utilsService.getId(createWorkoutSessionDTO.memberSlug as string);
     // transform object
     const workoutSessionData: WorkoutSession = {
-      memberId: createWorkoutSessionDTO.memberId,
+      memberId: memberId,
       // default to current date if none provided
       sessionStart: createWorkoutSessionDTO.sessionStart || new Date(),
       sessionCompleted: createWorkoutSessionDTO.sessionCompleted,
@@ -28,12 +31,8 @@ export class WorkoutSessionService {
     return await workoutSession.save();
   }
 
-  // TODO: Remove hard coded member after enabling auth
-  async getWorkoutSessionByMemberId(): Promise<WorkoutSession[]> {
-    return await this.workoutSessionModel
-      .where({
-        memberId: 1,
-      })
-      .sort({ ['sessionStart']: -1 });
+  async getWorkoutSessionByMemberId(memberSlug: string): Promise<WorkoutSession[]> {
+    const memberId = this.utilsService.getId(memberSlug);
+    return await this.workoutSessionModel.where({ memberId }).sort({ ['sessionStart']: -1 });
   }
 }

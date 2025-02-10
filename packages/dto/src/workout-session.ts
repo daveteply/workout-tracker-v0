@@ -2,7 +2,10 @@ import { ActivitySetDTO } from './activity-set.js';
 
 export interface WorkoutSessionDTO {
   id?: string;
-  memberId: number; // TODO change this to slug
+
+  memberId?: number;
+  memberSlug?: string;
+
   sessionStart?: Date;
   sessionCompleted?: Date;
   activitySets?: ActivitySetDTO[];

@@ -1,7 +1,9 @@
 import { ActivityDTO } from '@repo/dto/activity';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-import { API_STRUCTURE_URL } from '../app/constants';
+import { API_STRUCTURE_URL, API_TRACKING_URL } from '../app/constants';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
+import { WorkoutSessionDTO } from '@repo/dto/workout-session';
+import { MemberDTO } from '@repo/dto/member';
 
 export async function getActivity(slug: string): Promise<ActivityDTO> {
   const res = await fetch(`${API_STRUCTURE_URL}/v1/activities/${slug}`);
@@ -35,5 +37,20 @@ export async function getCategories(): Promise<ActivityCategoryDTO[]> {
 
 export async function getCategoryActivities(activityCategorySlug: string): Promise<ActivityDTO[]> {
   const res = await fetch(`${API_STRUCTURE_URL}/v1/activities/category/${activityCategorySlug}`);
+  return res.json();
+}
+
+// Tracking
+
+export async function getSessionByMember(
+  memberSlug: string | undefined,
+): Promise<WorkoutSessionDTO[]> {
+  const res = await fetch(`${API_TRACKING_URL}/v1/workout-session/${memberSlug}`);
+  return res.json();
+}
+
+// Member
+export async function getMembers(): Promise<MemberDTO[]> {
+  const res = await fetch(`${API_STRUCTURE_URL}/v1/members`);
   return res.json();
 }

@@ -37,6 +37,14 @@ export class PrismaClientActivityService {
             },
           },
         },
+        member: {
+          slug: {
+            needs: { id: true },
+            compute(member) {
+              return utilsService.getSqid(member.id);
+            },
+          },
+        },
       },
     });
   }

@@ -49,7 +49,9 @@ export default async function RootLayout({
                   width={32}
                   height={32}
                 />
-                <span className="capitalize font-bold text-xl no-underline">workout tracker</span>
+                <span className="hidden sm:inline capitalize font-bold text-xl no-underline">
+                  workout tracker
+                </span>
               </Link>
             </div>
             <div className="flex-none">

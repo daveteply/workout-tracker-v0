@@ -1,8 +1,5 @@
-import { API_TRACKING_URL } from '../../../../constants';
 import { updateWorkoutSession } from './track-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-import { ActivitySetDTO } from '@repo/dto/activity-set';
-import { ActivityAttributeSetDTO } from '@repo/dto/activity-attribute-set';
 import { TrackingForm } from './components/tracking-form';
 import { getActivity, getActivityAttributes } from '../../../../../utils/data-fetch';
 
@@ -31,10 +28,10 @@ export default async function TrackingActivityPage({
   });
 
   // load existing Sets from the current Session
-  const activitySetResult = await fetch(
-    `${API_TRACKING_URL}/v1/workout-set?s=${sessionId}&a=${activitySlug}`,
-  );
-  const activitySet = await activitySetResult.json();
+  // const activitySetResult = await fetch(
+  //   `${API_TRACKING_URL}/v1/workout-set?s=${sessionId}&a=${activitySlug}`,
+  // );
+  // const activitySet = await activitySetResult.json();
 
   return (
     <div>
@@ -46,7 +43,7 @@ export default async function TrackingActivityPage({
         activityAttributes={activityAttributeDTOs}
         addSessionSetAction={updateWorkoutSession}
       />
-      {activitySet.length > 0 && (
+      {/* {activitySet.length > 0 && (
         <div>
           <h4>Already in this Session</h4>
           <div className="flex flex-wrap">
@@ -70,7 +67,7 @@ export default async function TrackingActivityPage({
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

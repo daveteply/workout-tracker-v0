@@ -24,7 +24,7 @@ export default async function TrackingPage() {
     hour12: true,
   });
 
-  const formattedSessionStart = (sessionStart: Date): string => {
+  const formatDate = (sessionStart: Date): string => {
     const start = new Date(sessionStart);
     return `${dateFormatter.format(start)} ${timeFormatter.format(start)}`;
   };
@@ -40,7 +40,8 @@ export default async function TrackingPage() {
           <table className="table">
             <thead>
               <tr>
-                <th>Session Started</th>
+                <th>Started</th>
+                <th>Completed</th>
                 <th className="text-center">Sets</th>
                 <td></td>
               </tr>
@@ -48,15 +49,18 @@ export default async function TrackingPage() {
             <tbody>
               {workoutSessions.map((session: WorkoutSessionDTO) => (
                 <tr key={session.id}>
-                  <td>{session.sessionStart && formattedSessionStart(session.sessionStart)}</td>
+                  <td>{session.sessionStart && formatDate(session.sessionStart)}</td>
+                  <td>{session.sessionCompleted && formatDate(session.sessionCompleted)}</td>
                   <td className="text-center">{session.activitySetsCount}</td>
                   <td>
-                    <Link
-                      className="btn btn-secondary text-xs sm:text-sm capitalize mr-3 no-underline"
-                      href={{ pathname: '/tracking/workout-session', query: { ses: session.id } }}
-                    >
-                      continue workout
-                    </Link>
+                    {!session.sessionCompleted && (
+                      <Link
+                        className="btn btn-secondary text-xs sm:text-sm capitalize mr-3 no-underline"
+                        href={{ pathname: '/tracking/workout-session', query: { ses: session.id } }}
+                      >
+                        continue workout
+                      </Link>
+                    )}
                   </td>
                 </tr>
               ))}

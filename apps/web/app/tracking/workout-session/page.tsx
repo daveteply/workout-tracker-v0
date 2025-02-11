@@ -12,7 +12,16 @@ export default async function WorkoutSessionPage({
 
   return (
     <div>
-      <h3>Select a Category</h3>
+      <div className="text-xs">
+        <Link className="no-underline hover:underline" href={'/tracking/'}>
+          Workout Sessions
+        </Link>
+        &nbsp;&gt;&nbsp;
+        <span>Categories</span>
+      </div>
+
+      <h3>What are you working on today?</h3>
+
       <div className="flex flex-wrap sm:justify-start justify-center">
         {activityCategories.map((c: ActivityCategoryDTO) => (
           <Link

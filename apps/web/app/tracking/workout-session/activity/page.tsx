@@ -18,10 +18,24 @@ export default async function WorkoutActivityPage({
 
   return (
     <div>
+      <div className="text-xs">
+        <Link className="no-underline hover:underline" href={'/tracking/'}>
+          Workout Sessions
+        </Link>
+        &nbsp;&gt;&nbsp;
+        <Link
+          className="no-underline hover:underline"
+          href={{ pathname: '/tracking/workout-session/', query: { ses: sessionId } }}
+        >
+          Categories
+        </Link>
+        &nbsp;&gt;&nbsp;
+        <span>Activities</span>
+      </div>
       <h3>
-        Workout Category - <span className="capitalize italic">{activityCategory?.title}</span>
+        Which <span className="capitalize">{activityCategory?.title}</span> activity is next for
+        you?
       </h3>
-      <h4>Select an Activity:</h4>
       <div className="flex flex-wrap sm:justify-start justify-center">
         {activities.map((a: ActivityDTO) => (
           <Link

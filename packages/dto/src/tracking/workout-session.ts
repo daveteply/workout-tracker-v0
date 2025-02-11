@@ -1,4 +1,4 @@
-import { ActivitySetDTO } from './activity-set.js';
+import { ActivitySetDTO } from '../activity-set.js';
 
 export interface WorkoutSessionDTO {
   id?: string;

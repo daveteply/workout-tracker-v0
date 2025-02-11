@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { WorkoutSessionDTO } from '@repo/dto/src/workout-session';
+import { WorkoutSessionDTO } from '@repo/dto/src/tracking/workout-session';
 import { Model } from 'mongoose';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
 import { DataTransformsService } from '../data-transforms/data-transforms.service';
@@ -31,8 +31,36 @@ export class WorkoutSessionService {
     return await workoutSession.save();
   }
 
-  async getWorkoutSessionByMemberId(memberSlug: string): Promise<WorkoutSession[]> {
+  async getWorkoutSession(memberSlug: string): Promise<WorkoutSession[]> {
     const memberId = this.utilsService.getId(memberSlug);
     return await this.workoutSessionModel.where({ memberId }).sort({ ['sessionStart']: -1 });
+  }
+
+  async getWorkoutSessionCategoryHistory(
+    memberSlug: string,
+    limit: number,
+  ): Promise<{ categorySlug: string; categoryTitle: string }[]> {
+    const memberId = this.utilsService.getId(memberSlug);
+    return await this.workoutSessionModel.aggregate([
+      { $match: { memberId: Number(memberId) } },
+      { $sort: { sessionStart: -1 } },
+      { $limit: Number(limit) },
+      { $unwind: { path: '$activitySets' } },
+      {
+        $group: {
+          _id: {
+            categorySlug: '$activitySets.categorySlug',
+            categoryTitle: '$activitySets.categoryTitle',
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          categorySlug: '$_id.categorySlug',
+          categoryTitle: '$_id.categoryTitle',
+        },
+      },
+    ]);
   }
 }

@@ -4,13 +4,13 @@ import { cookies } from 'next/headers';
 import { CreateSessionComponent } from './components/start-session';
 import { createNewSession } from './session-actions';
 import { WorkoutSessionDTO } from '@repo/dto/workout-session';
-import { getSessionByMember } from '../../utils/data-fetch';
+import { getSessions } from '../../utils/data-fetch';
 import { MEMBER_COOKIE_KEY } from '../constants';
 
 export default async function TrackingPage() {
   const cookieStore = await cookies();
   const memberSlug = cookieStore.get(MEMBER_COOKIE_KEY)?.value;
-  const workoutSessions = await getSessionByMember(memberSlug);
+  const workoutSessions = await getSessions(memberSlug);
 
   const locale = 'en-US'; // TODO: replace with i18n
   const dateFormatter = new Intl.DateTimeFormat(locale, {

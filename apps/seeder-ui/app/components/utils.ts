@@ -1,5 +1,12 @@
 import { addMinute } from '@formkit/tempo';
 import { faker } from '@faker-js/faker';
+import { API_STRUCTURE_URL, DOW } from '../constants';
+import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
+
+export async function getActivityAttributes(activitySlug: string): Promise<ActivityAttributeDTO[]> {
+  const res = await fetch(`${API_STRUCTURE_URL}/v1/activity-attributes/activity/${activitySlug}`);
+  return res.json();
+}
 
 export function randStartTime(startTime: Date, endTime: Date): Date {
   const startMs = startTime.getTime();
@@ -35,4 +42,17 @@ export function shuffleArray<T>(array: T[]): T[] {
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
+}
+
+export function getDowIndexList(formData: FormData): number[] {
+  const list: number[] = [];
+
+  const dowList = Object.values(DOW).filter((value) => typeof value === 'string');
+  dowList.forEach((d, inx) => {
+    if (formData.get(d) === 'true') {
+      list.push(inx);
+    }
+  });
+
+  return list;
 }

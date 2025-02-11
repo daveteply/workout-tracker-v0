@@ -10,7 +10,7 @@ export class ActivityAttribute {
   title: string;
 
   @Prop()
-  description: string;
+  description?: string;
 
   @Prop({ required: true })
   type: string;

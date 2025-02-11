@@ -11,6 +11,13 @@ export class ActivitySet {
   @Prop()
   activityTitle: string;
 
+  // Category
+  @Prop({ required: true })
+  categorySlug: string;
+
+  @Prop()
+  categoryTitle: string;
+
   @Prop({ type: Date })
   setStart?: Date;
 

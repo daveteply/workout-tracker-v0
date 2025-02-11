@@ -40,7 +40,10 @@ export default async function WorkoutActivityPage({
         {activities.map((a: ActivityDTO) => (
           <Link
             className="btn btn-secondary no-underline m-3 h-30 w-30 sm:h-35 sm:w-35"
-            href={{ pathname: './activity/track', query: { s: a.slug, secs: sessionId } }}
+            href={{
+              pathname: './activity/track',
+              query: { s: a.slug, cs: activityCategorySlug, secs: sessionId },
+            }}
             key={a.slug}
           >
             {a.title}

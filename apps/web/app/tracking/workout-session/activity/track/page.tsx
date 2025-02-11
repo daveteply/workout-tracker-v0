@@ -1,19 +1,21 @@
 import { updateWorkoutSession } from './track-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { TrackingForm } from './components/tracking-form';
-import { getActivity, getActivityAttributes } from '../../../../../utils/data-fetch';
+import { getActivity, getActivityAttributes, getCategory } from '../../../../../utils/data-fetch';
 
 export default async function TrackingActivityPage({
   searchParams,
 }: {
-  searchParams: Promise<{ s: string; secs: string }>;
+  searchParams: Promise<{ s: string; cs: string; secs: string }>;
 }) {
   const params = await searchParams;
   const activitySlug = params.s;
+  const activityCategorySlug = params.cs;
   const sessionId = params.secs;
 
-  const [activity, activityAttributes] = await Promise.all([
+  const [activity, category, activityAttributes] = await Promise.all([
     getActivity(activitySlug),
+    getCategory(activityCategorySlug),
     getActivityAttributes(activitySlug),
   ]);
 
@@ -38,8 +40,8 @@ export default async function TrackingActivityPage({
       <h3>Tracking Activity - {activity.title}</h3>
       <TrackingForm
         workoutSessionId={sessionId}
-        activitySlug={activitySlug}
-        activityTitle={activity.title}
+        activity={activity}
+        category={category}
         activityAttributes={activityAttributeDTOs}
         addSessionSetAction={updateWorkoutSession}
       />

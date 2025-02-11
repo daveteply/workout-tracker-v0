@@ -14,12 +14,14 @@ import {
   incrementByFive,
   getActivityAttributes,
 } from './utils';
+import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 
 export async function generateSetData(
   memberSlug: string,
   start: Date,
   totalDays: number,
   daysOfWeek: number[],
+  category: ActivityCategoryDTO,
   activities: ActivityDTO[],
 ) {
   for (let dayIndex = 0; dayIndex < totalDays; dayIndex++) {
@@ -55,6 +57,8 @@ export async function generateSetData(
         const activitySet: ActivitySetDTO = {
           slug: activity.slug as string,
           title: activity.title,
+          categorySlug: category.slug as string,
+          categoryTitle: category.title,
           start: startTime,
           attributeSets: [],
         };

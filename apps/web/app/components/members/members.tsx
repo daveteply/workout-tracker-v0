@@ -27,7 +27,8 @@ export function MemberSelector({
 
   useEffect(() => {
     updateCurrentMember(currentMemberSlug);
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // TODO: investigate further to remove eslint error
 
   useEffect(() => {
     setIsOpen(false);

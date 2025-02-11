@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Version } from '@nestjs/common';
+import { Controller, Get, Version } from '@nestjs/common';
 import { MemberService } from 'src/activity/services/member/member.service';
 
 @Controller('members')

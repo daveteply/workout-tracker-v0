@@ -16,12 +16,13 @@ import {
 } from './utils';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 
-export async function generateSetData(
+export async function generateSession(
   memberSlug: string,
   start: Date,
   totalDays: number,
   daysOfWeek: number[],
   category: ActivityCategoryDTO,
+  genSetData: boolean,
   activities: ActivityDTO[],
 ) {
   for (let dayIndex = 0; dayIndex < totalDays; dayIndex++) {
@@ -39,13 +40,11 @@ export async function generateSetData(
         sessionStart: startTime,
       };
 
-      // start Session
-      if (!session.sessionStart) {
-        session.sessionStart = startTime;
-      }
-
       // Activities
       activities = shuffleArray<ActivityDTO>(activities);
+      if (!genSetData) {
+        activities = [faker.helpers.arrayElement(activities)];
+      }
       for (const activity of activities) {
         // account for set up time for Activity
         startTime = advanceTime(startTime);
@@ -64,7 +63,10 @@ export async function generateSetData(
         };
 
         // Sets
-        const numberOfSets = faker.helpers.rangeToNumber({ min: 2, max: 4 });
+        let numberOfSets = faker.helpers.rangeToNumber({ min: 2, max: 4 });
+        if (!genSetData) {
+          numberOfSets = 1;
+        }
 
         for (let setIndex = 0; setIndex < numberOfSets; setIndex++) {
           const activityAttributeSet: ActivityAttributeDTO[] = [];
@@ -75,35 +77,32 @@ export async function generateSetData(
           // Activity Attributes
           const activityAttributes = await getActivityAttributes(activity.slug as string);
           for (const attribute of activityAttributes) {
+            let value: string | number = 0;
             switch (attribute.attributeType) {
               case AttributeTypes.MASS:
-                activityAttributeSet.push({
-                  title: attribute.title,
-                  slug: attribute.slug,
-                  description: attribute.description,
-                  attributeType: attribute.attributeType,
-                  value: mass,
-                });
+                value = mass;
                 break;
               case AttributeTypes.NUMBER:
-                activityAttributeSet.push({
-                  title: attribute.title,
-                  slug: attribute.slug,
-                  description: attribute.description,
-                  attributeType: attribute.attributeType,
-                  value: faker.helpers.rangeToNumber({ min: 6, max: 10 }),
-                });
+                value = faker.helpers.rangeToNumber({ min: 6, max: 10 });
                 break;
               case AttributeTypes.LENGTH:
-                // TODO
+                value = faker.helpers.rangeToNumber({ min: 10, max: 100 });
                 break;
               case AttributeTypes.TIME:
-                // TODO
+                value = faker.helpers.rangeToNumber({ min: 3, max: 70 });
                 break;
               case AttributeTypes.STRING:
-                // TODO
+                value = faker.word.noun();
                 break;
             }
+
+            activityAttributeSet.push({
+              title: attribute.title,
+              slug: attribute.slug,
+              description: attribute.description,
+              attributeType: attribute.attributeType,
+              value: value,
+            });
           }
 
           // account for time needed to perform Set

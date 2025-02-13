@@ -4,7 +4,7 @@ import { parse, diffDays } from '@formkit/tempo';
 import { API_STRUCTURE_URL } from '../constants';
 import { ActivityDTO } from '@repo/dto/activity';
 import { getDowIndexList } from './utils';
-import { generateSetData } from './data-gen';
+import { generateSession } from './data-gen';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 
 async function getCategoryActivities(activityCategorySlug: string): Promise<ActivityDTO[]> {
@@ -19,7 +19,7 @@ async function getCategory(slug: string): Promise<ActivityCategoryDTO> {
 
 export async function seedFromActivityCategory(formData: FormData) {
   const activityCategorySlug = formData.get('activity-category') as string;
-  const genSetData = formData.get('gen-set-data');
+  const genSetData = formData.get('gen-set-data') as unknown as boolean;
   const daysOfWeek = getDowIndexList(formData);
 
   const start = parse(formData.get('usage-start') as string);
@@ -33,8 +33,5 @@ export async function seedFromActivityCategory(formData: FormData) {
     getCategoryActivities(activityCategorySlug),
   ]);
 
-  if (genSetData) {
-    generateSetData(memberSlug, start, totalDays, daysOfWeek, category, activities);
-  } else {
-  }
+  generateSession(memberSlug, start, totalDays, daysOfWeek, category, genSetData, activities);
 }

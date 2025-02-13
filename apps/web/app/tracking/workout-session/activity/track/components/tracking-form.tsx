@@ -9,6 +9,8 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/16/solid';
 
 import Modal from '../../../../../../components/modal';
 import toast from 'react-hot-toast';
+import { ActivityDTO } from '@repo/dto/activity';
+import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 
 function SubmitButton({ editMode }: { editMode: boolean }) {
   const { pending } = useFormStatus();
@@ -21,14 +23,14 @@ function SubmitButton({ editMode }: { editMode: boolean }) {
 
 export function TrackingForm({
   workoutSessionId,
-  activitySlug,
-  activityTitle,
+  activity,
+  category,
   activityAttributes,
   addSessionSetAction,
 }: {
   workoutSessionId: string;
-  activitySlug: string;
-  activityTitle: string;
+  activity: ActivityDTO;
+  category: ActivityCategoryDTO;
   activityAttributes: ActivityAttributeDTO[];
   addSessionSetAction: (sessionId: string, activitySet: ActivitySetDTO) => Promise<number>;
 }) {
@@ -37,8 +39,10 @@ export function TrackingForm({
   const [attributes, setAttributes] = useState<ActivityAttributeDTO[]>([...activityAttributes]);
 
   const [activitySet, setActivitySet] = useState<ActivitySetDTO>({
-    slug: activitySlug,
-    title: activityTitle,
+    slug: activity.slug as string,
+    title: activity.title,
+    categorySlug: category.slug as string,
+    categoryTitle: category.title,
     attributeSets: [],
   });
 

@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post, Query, Version } from '@nestjs/common';
+import { ActivitySetDTO } from '@repo/dto/src/activity-set';
 import { ActivitySet } from 'src/tracking/schemas/activity-set';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
 import { WorkoutSetService } from 'src/tracking/services/workout-set/workout-set.service';
@@ -9,7 +10,9 @@ export class WorkoutSetController {
 
   @Post()
   @Version('1')
-  async updateWorkoutSession(@Body() body: any): Promise<WorkoutSession | null> {
+  async updateWorkoutSession(
+    @Body() body: { sessionId: string; activitySet: ActivitySetDTO },
+  ): Promise<WorkoutSession | null> {
     return await this.workoutSetService.addSetsToSession(body.sessionId, body.activitySet);
   }
 

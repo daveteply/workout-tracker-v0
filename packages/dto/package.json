@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "files": [
-    "dist"
-  ],
+  "files": [ "dist" ],
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc"
@@ -14,10 +12,14 @@
     "./activity-category": "./src/activity-category.ts",
     "./activity": "./src/activity.ts",
     "./activity-attribute": "./src/activity-attribute.ts",
-    "./workout-session": "./src/workout-session.ts",
+    "./workout-session": "./src/tracking/workout-session.ts",
     "./activity-set": "./src/activity-set.ts",
     "./activity-attribute-set": "./src/activity-attribute-set.ts",
-    "./attribute-types": "./src/attribute-types.ts"
+    "./attribute-types": "./src/attribute-types.ts",
+    "./category-history": "./src/tracking/category-history.ts",
+    "./activity-history": "./src/tracking/activity-history.ts",
+    "./member": "./src/member.ts",
+    "./member-roles": "./src/member-roles.ts"
   },
   "devDependencies": {
     "@repo/eslint-config": "^0.0.0",

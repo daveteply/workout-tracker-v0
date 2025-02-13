@@ -14,7 +14,9 @@ export class ActivityAttributeController {
 
   @Post()
   @Version('1')
-  async attachActivityAttribute(@Body() body: any): Promise<ActivityActivityAttributes> {
+  async attachActivityAttribute(
+    @Body() body: { activitySlug: string; attributeSlug: string },
+  ): Promise<ActivityActivityAttributes> {
     return await this.activityAttributeService.attachActivityAttribute(
       body.activitySlug,
       body.attributeSlug,

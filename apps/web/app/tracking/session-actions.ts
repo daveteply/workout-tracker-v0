@@ -1,11 +1,13 @@
 'use server';
 
+import { WorkoutSessionDTO } from '@repo/dto/workout-session';
 import { API_TRACKING_URL, HTTP_STATUS_CREATED } from '../constants';
 import { revalidatePath } from 'next/cache';
 
-export async function createNewSession() {
-  // TODO: Remove hard coded member after enabling auth
-  const body = { memberId: 1 };
+export async function createNewSession(memberSlug: string | undefined) {
+  const body: WorkoutSessionDTO = {
+    memberSlug: memberSlug,
+  };
 
   const createWorkoutSessionResponse = await fetch(`${API_TRACKING_URL}/v1/workout-session`, {
     headers: { 'Content-Type': 'application/json' },

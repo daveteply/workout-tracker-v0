@@ -15,7 +15,7 @@ export class DataTransformsService {
         attributes.push({
           slug: a.slug,
           title: a.title,
-          description: a.description,
+          // description: a.description,
           type: a.attributeType,
           value: a.value,
         });
@@ -41,6 +41,8 @@ export class DataTransformsService {
         activitySets.push({
           activitySlug: s.slug,
           activityTitle: s.title,
+          categorySlug: s.categorySlug,
+          categoryTitle: s.categoryTitle,
           setStart: s.start,
           setCompleted: s.completed,
           attributeSets: this.attribSetsToAttribSets(s.attributeSets as []),

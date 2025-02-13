@@ -282,12 +282,39 @@ async function main() {
   });
 
   // Members
-  const defaultMember = await prisma.member.create({
-    data: {
-      name: 'Default Member',
-      email: 'member@member.com',
-      role: 'MEMBER',
-    },
+  await prisma.member.createMany({
+    data: [
+      {
+        name: 'Default Member',
+        email: 'member@member.com',
+        role: 'MEMBER',
+      },
+      {
+        name: 'Gabriella Prohaska',
+        email: 'Gabriella.Prohaska53@yahoo.com',
+        role: 'MEMBER',
+      },
+      {
+        name: 'Antonia Predovic',
+        email: 'Antonia.Predovic@hotmail.com',
+        role: 'MEMBER',
+      },
+      {
+        name: 'Gwendolyn Kulas',
+        email: 'Gwendolyn.Kulas93@hotmail.com',
+        role: 'MEMBER',
+      },
+      {
+        name: 'Clifford Hane',
+        email: 'Clifford.Hane@yahoo.com',
+        role: 'MEMBER',
+      },
+      {
+        name: 'Boris Walker',
+        email: 'Boris.Walker@hotmail.com',
+        role: 'MEMBER',
+      },
+    ],
   });
 }
 

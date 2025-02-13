@@ -28,3 +28,7 @@ form {
   flex-direction: column;
   align-items: start;
 }
+
+.dow-group {
+  display: flex;
+}

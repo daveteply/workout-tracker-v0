@@ -1,28 +1,23 @@
-import { API_STRUCTURE_URL, API_TRACKING_URL } from '../../../../constants';
 import { updateWorkoutSession } from './track-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-import { ActivitySetDTO } from '@repo/dto/activity-set';
-import { ActivityAttributeSetDTO } from '@repo/dto/activity-attribute-set';
 import { TrackingForm } from './components/tracking-form';
+import { getActivity, getActivityAttributes, getCategory } from '../../../../../utils/data-fetch';
 
 export default async function TrackingActivityPage({
   searchParams,
 }: {
-  searchParams: Promise<{ s: string; secs: string }>;
+  searchParams: Promise<{ s: string; cs: string; secs: string }>;
 }) {
   const params = await searchParams;
   const activitySlug = params.s;
+  const activityCategorySlug = params.cs;
   const sessionId = params.secs;
 
-  // Activity
-  const activityResponse = await fetch(`${API_STRUCTURE_URL}/v1/activities/${activitySlug}`);
-  const activity = await activityResponse.json();
-
-  // Activity Attributes
-  const activityAttributesResponse = await fetch(
-    `${API_STRUCTURE_URL}/v1/activity-attributes/activity/${activitySlug}`,
-  );
-  const activityAttributes = await activityAttributesResponse.json();
+  const [activity, category, activityAttributes] = await Promise.all([
+    getActivity(activitySlug),
+    getCategory(activityCategorySlug),
+    getActivityAttributes(activitySlug),
+  ]);
 
   // stripe out attribute related meta data
   const activityAttributeDTOs = activityAttributes.map((aa: ActivityAttributeDTO) => {
@@ -35,22 +30,22 @@ export default async function TrackingActivityPage({
   });
 
   // load existing Sets from the current Session
-  const activitySetResult = await fetch(
-    `${API_TRACKING_URL}/v1/workout-set?s=${sessionId}&a=${activitySlug}`,
-  );
-  const activitySet = await activitySetResult.json();
+  // const activitySetResult = await fetch(
+  //   `${API_TRACKING_URL}/v1/workout-set?s=${sessionId}&a=${activitySlug}`,
+  // );
+  // const activitySet = await activitySetResult.json();
 
   return (
     <div>
       <h3>Tracking Activity - {activity.title}</h3>
       <TrackingForm
         workoutSessionId={sessionId}
-        activitySlug={activitySlug}
-        activityTitle={activity.title}
+        activity={activity}
+        category={category}
         activityAttributes={activityAttributeDTOs}
         addSessionSetAction={updateWorkoutSession}
       />
-      {activitySet.length > 0 && (
+      {/* {activitySet.length > 0 && (
         <div>
           <h4>Already in this Session</h4>
           <div className="flex flex-wrap">
@@ -74,7 +69,7 @@ export default async function TrackingActivityPage({
             ))}
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

@@ -12,10 +12,10 @@ export class WorkoutSession extends BaseSchema {
   @Prop({ required: true })
   memberId: number;
 
-  @Prop()
+  @Prop({ type: Date })
   sessionStart?: Date;
 
-  @Prop()
+  @Prop({ type: Date })
   sessionCompleted?: Date;
 
   @Prop([ActivitySet])

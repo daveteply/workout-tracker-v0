@@ -7,7 +7,7 @@ import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ActivityAttributeCreateForm } from './components/create-form';
 import { ActivityAttributeDeleteForm } from './components/delete-form';
 import { ActivityAttributeUpdateForm } from './components/update-form';
-import { API_STRUCTURE_URL } from '../../constants';
+import { getAttributes, getAttributeTypes } from '../../../utils/data-fetch';
 
 /**
  * General use Activity Attributes to be attached to an Activity
@@ -15,13 +15,10 @@ import { API_STRUCTURE_URL } from '../../constants';
  * @returns
  */
 export default async function ActivityAttributesPage() {
-  // Activity Attribute Types
-  const activityAttributeTypesResponse = await fetch(`${API_STRUCTURE_URL}/v1/attributes/types`);
-  const activityAttributeTypes = await activityAttributeTypesResponse.json();
-
-  // Activity Attributes
-  const activityAttributesResponse = await fetch(`${API_STRUCTURE_URL}/v1/attributes`);
-  const activityAttributes = await activityAttributesResponse.json();
+  const [activityAttributeTypes, activityAttributes] = await Promise.all([
+    getAttributeTypes(),
+    getAttributes(),
+  ]);
 
   return (
     <div>

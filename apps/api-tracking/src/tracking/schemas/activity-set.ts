@@ -11,10 +11,17 @@ export class ActivitySet {
   @Prop()
   activityTitle: string;
 
-  @Prop()
-  setStart?: Date;
+  // Category
+  @Prop({ required: true })
+  categorySlug: string;
 
   @Prop()
+  categoryTitle: string;
+
+  @Prop({ type: Date })
+  setStart?: Date;
+
+  @Prop({ type: Date })
   setCompleted?: Date;
 
   @Prop([ActivityAttributeSet])

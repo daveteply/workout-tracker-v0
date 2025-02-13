@@ -1,17 +1,34 @@
-import { Body, Controller, Get, Post, Version } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Version } from '@nestjs/common';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
 import { WorkoutSessionService } from 'src/tracking/services/workout-session/workout-session.service';
-import { WorkoutSessionDTO } from '@repo/dto/src/workout-session';
+import { WorkoutSessionDTO } from '@repo/dto/src/tracking/workout-session';
 
 @Controller('workout-session')
 export class WorkoutSessionController {
   constructor(private workoutSessionService: WorkoutSessionService) {}
 
-  @Get()
+  @Get(':m')
   @Version('1')
-  async getWorkoutSession(): Promise<WorkoutSession[]> {
-    // TODO: add member slug as parameter
-    return await this.workoutSessionService.getWorkoutSessionByMemberId();
+  async getWorkoutSession(@Param('m') memberSlug: string): Promise<WorkoutSession[]> {
+    return await this.workoutSessionService.getWorkoutSession(memberSlug);
+  }
+
+  @Get(':m/category-history')
+  @Version('1')
+  async getWorkSessionCategoryHistory(
+    @Param('m') memberSlug: string,
+    @Query('l') limit: number,
+  ): Promise<{ categorySlug: string; categoryTitle: string }[]> {
+    return await this.workoutSessionService.getWorkoutSessionCategoryHistory(memberSlug, limit);
+  }
+
+  @Get(':m/activity-history')
+  @Version('1')
+  async getWorkSessionActivityHistory(
+    @Param('m') memberSlug: string,
+    @Query('l') limit: number,
+  ): Promise<{ activitySlug: string; activityTitle: string }[]> {
+    return await this.workoutSessionService.getWorkoutSessionActivityHistory(memberSlug, limit);
   }
 
   @Post()

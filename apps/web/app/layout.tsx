@@ -2,10 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { Inter } from 'next/font/google';
 import './globals.css';
+import { Inter } from 'next/font/google';
 import { Bars3Icon } from '@heroicons/react/16/solid';
 import { Toaster } from 'react-hot-toast';
+
+import { MemberSelector } from './components/members/members';
+import { getMembers } from '../utils/data-fetch';
+import { getCurrentMember, updateCurrentMember } from './components/members/member-actions';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,26 +27,40 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const members = await getMembers();
+  const currentMember = await getCurrentMember();
+
   return (
     <html lang="en" className={inter.className + ' h-full'} data-theme="dark">
       <body className="h-full flex flex-col max-w-none">
         <header className="sticky top-0 z-10">
           <nav className="navbar bg-base-100 shadow-sm">
-            <Link className="flex items-center flex-1 navbar-start btn btn-ghost text-xl" href="/">
-              <Image
-                className="mx-2"
-                src={'/favicon/favicon-32x32.png'}
-                alt={'Workout Tracker Logo Icon'}
-                width={32}
-                height={32}
+            <div className="flex items-center flex-1 navbar-start">
+              <Link className="btn btn-ghost text-xl" href="/">
+                <Image
+                  className="mx-2"
+                  src={'/favicon/favicon-32x32.png'}
+                  alt={'Workout Tracker Logo Icon'}
+                  width={32}
+                  height={32}
+                />
+                <span className="hidden sm:inline capitalize font-bold text-xl no-underline">
+                  workout tracker
+                </span>
+              </Link>
+            </div>
+            <div className="flex-none">
+              <MemberSelector
+                members={members}
+                currentMemberSlug={currentMember}
+                updateMemberAction={updateCurrentMember}
               />
-              <span className="capitalize font-bold text-xl no-underline">workout tracker</span>
-            </Link>
+            </div>
             <div className="flex-none">
               <div className="dropdown dropdown-end">
                 <div className="dropdown dropdown-end">

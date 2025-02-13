@@ -1,58 +1,70 @@
 import Link from 'next/link';
 import { ActivityDTO } from '@repo/dto/activity';
-import { API_STRUCTURE_URL } from '../../../constants';
+import {
+  getCategory,
+  getCategoryActivities,
+  getSessionActivityHistory,
+} from '../../../../utils/data-fetch';
+import { cookies } from 'next/headers';
+import { MEMBER_COOKIE_KEY, SESSION_HISTORY_LIMIT } from '../../../constants';
 
 export default async function WorkoutActivityPage({
   searchParams,
 }: {
   searchParams: Promise<{ cs: string; ses: string }>;
 }) {
-  // Activity Category
   const params = await searchParams;
   const activityCategorySlug = params.cs;
   const sessionId = params.ses;
 
-  const categoryResponse = await fetch(
-    `${API_STRUCTURE_URL}/v1/categories/${activityCategorySlug}`,
-  );
-  const activityCategory = await categoryResponse.json();
+  const cookieStore = await cookies();
+  const memberSlug = cookieStore.get(MEMBER_COOKIE_KEY)?.value;
 
-  // Activities for category
-  const activityResponse = await fetch(
-    `${API_STRUCTURE_URL}/v1/activities/category/${activityCategorySlug}`,
-  );
-  const activities = await activityResponse.json();
+  const [activityCategory, activities, activityHistory] = await Promise.all([
+    getCategory(activityCategorySlug),
+    getCategoryActivities(activityCategorySlug),
+    getSessionActivityHistory(memberSlug as string, SESSION_HISTORY_LIMIT),
+  ]);
+
+  const buttonClasses = (activitySlug: string): string => {
+    return `btn no-underline m-3 h-30 w-30 sm:h-35 sm:w-35 ${activityHistory.find((a) => a.activitySlug === activitySlug) ? 'btn-secondary' : ''}`;
+  };
 
   return (
     <div>
+      <div className="text-xs">
+        <Link className="no-underline hover:underline" href={'/tracking/'}>
+          Workout Sessions
+        </Link>
+        &nbsp;&gt;&nbsp;
+        <Link
+          className="no-underline hover:underline"
+          href={{ pathname: '/tracking/workout-session/', query: { ses: sessionId } }}
+        >
+          Categories
+        </Link>
+        &nbsp;&gt;&nbsp;
+        <span>Activities</span>
+      </div>
       <h3>
-        Workout Category - <span className="capitalize italic">{activityCategory?.title}</span>
+        Which <span className="capitalize">{activityCategory?.title}</span> activity is next for
+        you?
       </h3>
-      <h4>Select an Activity:</h4>
-      <div className="flex flex-wrap justify-center md:justify-start">
+      <div className="flex flex-wrap sm:justify-start justify-center">
         {activities.map((a: ActivityDTO) => (
-          <div
-            className="card card-compact border border-2 border-blue-300 m-2 basis-36 md:basis-52"
+          <Link
+            className={buttonClasses(a.slug as string)}
+            href={{
+              pathname: './activity/track',
+              query: { s: a.slug, cs: activityCategorySlug, secs: sessionId },
+            }}
             key={a.slug}
           >
-            <figure>
-              <div className="after:content-['\01F3A0'] text-4xl md:text-6xl"></div>
-            </figure>
-
-            <div className="card-body capitalize">
-              <h4 className="card-title text-sm md:text-lg">{a.title}</h4>
-              <div className="card-actions justify-end">
-                <Link
-                  className="btn btn-primary m1 capitalize"
-                  href={{ pathname: './activity/track', query: { s: a.slug, secs: sessionId } }}
-                >
-                  Track
-                </Link>
-              </div>
-            </div>
-          </div>
+            {a.title}
+          </Link>
         ))}
       </div>
+      <span className="text-xs">Recently Used Activities are highlighted</span>
     </div>
   );
 }

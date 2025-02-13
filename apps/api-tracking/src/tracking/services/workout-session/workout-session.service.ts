@@ -63,4 +63,32 @@ export class WorkoutSessionService {
       },
     ]);
   }
+
+  async getWorkoutSessionActivityHistory(
+    memberSlug: string,
+    limit: number,
+  ): Promise<{ activitySlug: string; activityTitle: string }[]> {
+    const memberId = this.utilsService.getId(memberSlug);
+    return await this.workoutSessionModel.aggregate([
+      { $match: { memberId: Number(memberId) } },
+      { $sort: { sessionStart: -1 } },
+      { $limit: Number(limit) },
+      { $unwind: { path: '$activitySets' } },
+      {
+        $group: {
+          _id: {
+            activitySlug: '$activitySets.activitySlug',
+            activityTitle: '$activitySets.activityTitle',
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          activitySlug: '$_id.activitySlug',
+          activityTitle: '$_id.activityTitle',
+        },
+      },
+    ]);
+  }
 }

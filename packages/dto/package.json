@@ -17,6 +17,7 @@
     "./activity-attribute-set": "./src/activity-attribute-set.ts",
     "./attribute-types": "./src/attribute-types.ts",
     "./category-history": "./src/tracking/category-history.ts",
+    "./activity-history": "./src/tracking/activity-history.ts",
     "./member": "./src/member.ts",
     "./member-roles": "./src/member-roles.ts"
   },

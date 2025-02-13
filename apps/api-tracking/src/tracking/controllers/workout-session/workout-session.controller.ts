@@ -15,11 +15,20 @@ export class WorkoutSessionController {
 
   @Get(':m/category-history')
   @Version('1')
-  async getWorkSessionHistory(
+  async getWorkSessionCategoryHistory(
     @Param('m') memberSlug: string,
     @Query('l') limit: number,
   ): Promise<{ categorySlug: string; categoryTitle: string }[]> {
     return await this.workoutSessionService.getWorkoutSessionCategoryHistory(memberSlug, limit);
+  }
+
+  @Get(':m/activity-history')
+  @Version('1')
+  async getWorkSessionActivityHistory(
+    @Param('m') memberSlug: string,
+    @Query('l') limit: number,
+  ): Promise<{ activitySlug: string; activityTitle: string }[]> {
+    return await this.workoutSessionService.getWorkoutSessionActivityHistory(memberSlug, limit);
   }
 
   @Post()

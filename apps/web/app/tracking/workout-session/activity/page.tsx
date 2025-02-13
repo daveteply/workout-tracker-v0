@@ -1,6 +1,12 @@
 import Link from 'next/link';
 import { ActivityDTO } from '@repo/dto/activity';
-import { getCategory, getCategoryActivities } from '../../../../utils/data-fetch';
+import {
+  getCategory,
+  getCategoryActivities,
+  getSessionActivityHistory,
+} from '../../../../utils/data-fetch';
+import { cookies } from 'next/headers';
+import { MEMBER_COOKIE_KEY, SESSION_HISTORY_LIMIT } from '../../../constants';
 
 export default async function WorkoutActivityPage({
   searchParams,
@@ -11,10 +17,18 @@ export default async function WorkoutActivityPage({
   const activityCategorySlug = params.cs;
   const sessionId = params.ses;
 
-  const [activityCategory, activities] = await Promise.all([
+  const cookieStore = await cookies();
+  const memberSlug = cookieStore.get(MEMBER_COOKIE_KEY)?.value;
+
+  const [activityCategory, activities, activityHistory] = await Promise.all([
     getCategory(activityCategorySlug),
     getCategoryActivities(activityCategorySlug),
+    getSessionActivityHistory(memberSlug as string, SESSION_HISTORY_LIMIT),
   ]);
+
+  const buttonClasses = (activitySlug: string): string => {
+    return `btn no-underline m-3 h-30 w-30 sm:h-35 sm:w-35 ${activityHistory.find((a) => a.activitySlug === activitySlug) ? 'btn-secondary' : ''}`;
+  };
 
   return (
     <div>
@@ -39,7 +53,7 @@ export default async function WorkoutActivityPage({
       <div className="flex flex-wrap sm:justify-start justify-center">
         {activities.map((a: ActivityDTO) => (
           <Link
-            className="btn btn-secondary no-underline m-3 h-30 w-30 sm:h-35 sm:w-35"
+            className={buttonClasses(a.slug as string)}
             href={{
               pathname: './activity/track',
               query: { s: a.slug, cs: activityCategorySlug, secs: sessionId },
@@ -50,6 +64,7 @@ export default async function WorkoutActivityPage({
           </Link>
         ))}
       </div>
+      <span className="text-xs">Recently Used Activities are highlighted</span>
     </div>
   );
 }

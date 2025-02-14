@@ -1,7 +1,7 @@
 'use client';
 
 import { TrashIcon } from '@heroicons/react/16/solid';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { ServerActionResponse } from '../../../constants';
 import toast from 'react-hot-toast';
 
@@ -14,26 +14,28 @@ export function ActivityAttributeDeleteForm({
 }) {
   const [isPending, setIsPending] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsPending(true);
-    const formData = new FormData(event.currentTarget);
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setIsPending(true);
+      const formData = new FormData(event.currentTarget);
+      const result = await deleteActivityAttributeAction(formData);
+      setIsPending(false);
 
-    const result = await deleteActivityAttributeAction(formData);
-    if (!result.success) {
-      toast.error(result.message);
-    } else {
-      toast.success('Deleted Activity Attribute');
-    }
-
-    setIsPending(false);
-  };
+      if (!result.success) {
+        toast.error(result.message);
+      } else {
+        toast.success('Deleted Activity Attribute');
+      }
+    },
+    [deleteActivityAttributeAction],
+  );
 
   return (
     <form onSubmit={handleSubmit}>
       <input type="hidden" id="activity-slug" name="slug" value={slug} />
       <button className="btn btn-sm" type="submit" disabled={isPending} aria-disabled={isPending}>
-        <TrashIcon className="size-5 text-blue-500"></TrashIcon>
+        <TrashIcon className="size-5 text-blue-500" />
       </button>
     </form>
   );

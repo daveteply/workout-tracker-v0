@@ -7,33 +7,33 @@ import { WorkoutSessionDTO } from '@repo/dto/src/tracking/workout-session';
 export class WorkoutSessionController {
   constructor(private workoutSessionService: WorkoutSessionService) {}
 
-  @Get(':m')
+  @Get(':memberSlug')
   @Version('1')
-  async getWorkoutSession(@Param('m') memberSlug: string): Promise<WorkoutSession[]> {
-    return await this.workoutSessionService.getWorkoutSession(memberSlug);
+  getWorkoutSession(@Param('memberSlug') memberSlug: string): Promise<WorkoutSession[]> {
+    return this.workoutSessionService.getWorkoutSession(memberSlug);
   }
 
-  @Get(':m/category-history')
+  @Get(':memberSlug/category-history')
   @Version('1')
-  async getWorkSessionCategoryHistory(
-    @Param('m') memberSlug: string,
+  getWorkSessionCategoryHistory(
+    @Param('memberSlug') memberSlug: string,
     @Query('l') limit: number,
   ): Promise<{ categorySlug: string; categoryTitle: string }[]> {
-    return await this.workoutSessionService.getWorkoutSessionCategoryHistory(memberSlug, limit);
+    return this.workoutSessionService.getWorkoutSessionCategoryHistory(memberSlug, limit);
   }
 
-  @Get(':m/activity-history')
+  @Get(':memberSlug/activity-history')
   @Version('1')
-  async getWorkSessionActivityHistory(
-    @Param('m') memberSlug: string,
+  getWorkSessionActivityHistory(
+    @Param('memberSlug') memberSlug: string,
     @Query('l') limit: number,
   ): Promise<{ activitySlug: string; activityTitle: string }[]> {
-    return await this.workoutSessionService.getWorkoutSessionActivityHistory(memberSlug, limit);
+    return this.workoutSessionService.getWorkoutSessionActivityHistory(memberSlug, limit);
   }
 
   @Post()
   @Version('1')
-  async createWorkoutSession(@Body() body: WorkoutSessionDTO): Promise<WorkoutSession | null> {
-    return await this.workoutSessionService.createWorkoutSession(body);
+  createWorkoutSession(@Body() body: WorkoutSessionDTO): Promise<WorkoutSession | null> {
+    return this.workoutSessionService.createWorkoutSession(body);
   }
 }

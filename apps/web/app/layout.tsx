@@ -61,8 +61,9 @@ export default async function RootLayout({
                 updateMemberAction={updateCurrentMember}
               />
             </div>
+
             <div className="flex-none">
-              <div className="dropdown dropdown-end">
+              <div data-testid="config-dropdown" className="dropdown dropdown-end">
                 <div className="dropdown dropdown-end">
                   <div tabIndex={0} role="button" className="btn m-1">
                     <Bars3Icon className="size-5" />

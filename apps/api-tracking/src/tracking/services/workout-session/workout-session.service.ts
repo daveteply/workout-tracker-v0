@@ -17,10 +17,8 @@ export class WorkoutSessionService {
 
   async createWorkoutSession(createWorkoutSessionDTO: WorkoutSessionDTO): Promise<WorkoutSession> {
     const memberId = this.utilsService.getId(createWorkoutSessionDTO.memberSlug as string);
-    // transform object
     const workoutSessionData: WorkoutSession = {
-      memberId: memberId,
-      // default to current date if none provided
+      memberId,
       sessionStart: createWorkoutSessionDTO.sessionStart || new Date(),
       sessionCompleted: createWorkoutSessionDTO.sessionCompleted,
       activitySets: this.dataTransforms.setsToSets(createWorkoutSessionDTO.activitySets as []),
@@ -28,67 +26,56 @@ export class WorkoutSessionService {
     };
 
     const workoutSession = new this.workoutSessionModel(workoutSessionData);
-    return await workoutSession.save();
+    return workoutSession.save();
   }
 
   async getWorkoutSession(memberSlug: string): Promise<WorkoutSession[]> {
     const memberId = this.utilsService.getId(memberSlug);
-    return await this.workoutSessionModel.where({ memberId }).sort({ ['sessionStart']: -1 });
+    return this.workoutSessionModel.where({ memberId }).sort({ sessionStart: -1 });
+  }
+
+  private async getAggregateHistory(
+    memberSlug: string,
+    limit: number,
+    field: string,
+  ): Promise<{ slug: string; title: string }[]> {
+    const memberId = this.utilsService.getId(memberSlug);
+    return this.workoutSessionModel.aggregate([
+      { $match: { memberId: Number(memberId) } },
+      { $sort: { sessionStart: -1 } },
+      { $limit: Number(limit) },
+      { $unwind: { path: '$activitySets' } },
+      {
+        $group: {
+          _id: {
+            slug: `$activitySets.${field}Slug`,
+            title: `$activitySets.${field}Title`,
+          },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          slug: `$_id.slug`,
+          title: `$_id.title`,
+        },
+      },
+    ]);
   }
 
   async getWorkoutSessionCategoryHistory(
     memberSlug: string,
     limit: number,
   ): Promise<{ categorySlug: string; categoryTitle: string }[]> {
-    const memberId = this.utilsService.getId(memberSlug);
-    return await this.workoutSessionModel.aggregate([
-      { $match: { memberId: Number(memberId) } },
-      { $sort: { sessionStart: -1 } },
-      { $limit: Number(limit) },
-      { $unwind: { path: '$activitySets' } },
-      {
-        $group: {
-          _id: {
-            categorySlug: '$activitySets.categorySlug',
-            categoryTitle: '$activitySets.categoryTitle',
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          categorySlug: '$_id.categorySlug',
-          categoryTitle: '$_id.categoryTitle',
-        },
-      },
-    ]);
+    const res = await this.getAggregateHistory(memberSlug, limit, 'category');
+    return res.map((r) => ({ categorySlug: r.slug, categoryTitle: r.title }));
   }
 
   async getWorkoutSessionActivityHistory(
     memberSlug: string,
     limit: number,
   ): Promise<{ activitySlug: string; activityTitle: string }[]> {
-    const memberId = this.utilsService.getId(memberSlug);
-    return await this.workoutSessionModel.aggregate([
-      { $match: { memberId: Number(memberId) } },
-      { $sort: { sessionStart: -1 } },
-      { $limit: Number(limit) },
-      { $unwind: { path: '$activitySets' } },
-      {
-        $group: {
-          _id: {
-            activitySlug: '$activitySets.activitySlug',
-            activityTitle: '$activitySets.activityTitle',
-          },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          activitySlug: '$_id.activitySlug',
-          activityTitle: '$_id.activityTitle',
-        },
-      },
-    ]);
+    const res = await this.getAggregateHistory(memberSlug, limit, 'activity');
+    return res.map((r) => ({ activitySlug: r.slug, activityTitle: r.title }));
   }
 }

@@ -6,18 +6,20 @@ import { ActivityAttributeService } from 'src/activity/services/activity-attribu
 export class ActivityAttributeController {
   constructor(private activityAttributeService: ActivityAttributeService) {}
 
-  @Get('activity/:s')
+  @Get('activity/:activitySlug')
   @Version('1')
-  async getAttributesByActivity(@Param('s') activitySlug: string): Promise<ActivityAttribute[]> {
-    return await this.activityAttributeService.getAttributesByActivity(activitySlug);
+  getAttributesByActivity(
+    @Param('activitySlug') activitySlug: string,
+  ): Promise<ActivityAttribute[]> {
+    return this.activityAttributeService.getAttributesByActivity(activitySlug);
   }
 
   @Post()
   @Version('1')
-  async attachActivityAttribute(
+  attachActivityAttribute(
     @Body() body: { activitySlug: string; attributeSlug: string },
   ): Promise<ActivityActivityAttributes> {
-    return await this.activityAttributeService.attachActivityAttribute(
+    return this.activityAttributeService.attachActivityAttribute(
       body.activitySlug,
       body.attributeSlug,
     );
@@ -25,10 +27,10 @@ export class ActivityAttributeController {
 
   @Delete()
   @Version('1')
-  async removeActivityAttribute(
+  removeActivityAttribute(
     @Query('as') activitySlug: string,
     @Query('at') attributeSlug: string,
   ): Promise<ActivityActivityAttributes> {
-    return await this.activityAttributeService.removeActivityAttribute(activitySlug, attributeSlug);
+    return this.activityAttributeService.removeActivityAttribute(activitySlug, attributeSlug);
   }
 }

@@ -10,18 +10,18 @@ export class WorkoutSetController {
 
   @Post()
   @Version('1')
-  async updateWorkoutSession(
+  updateWorkoutSession(
     @Body() body: { sessionId: string; activitySet: ActivitySetDTO },
   ): Promise<WorkoutSession | null> {
-    return await this.workoutSetService.addSetsToSession(body.sessionId, body.activitySet);
+    return this.workoutSetService.addSetsToSession(body.sessionId, body.activitySet);
   }
 
   @Get()
   @Version('1')
-  async getActivitySetByActivitySlug(
+  getActivitySetByActivitySlug(
     @Query('s') sessionId: string,
     @Query('a') activitySlug: string,
   ): Promise<ActivitySet[] | null> {
-    return await this.workoutSetService.getActivitySetByActivitySlug(sessionId, activitySlug);
+    return this.workoutSetService.getActivitySetByActivitySlug(sessionId, activitySlug);
   }
 }

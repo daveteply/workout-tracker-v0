@@ -19,12 +19,10 @@ export class WorkoutSetService {
     activityData: ActivitySetDTO,
   ): Promise<WorkoutSession | null> {
     const session = await this.workoutSessionModel.findOne({ id: sessionId });
-    if (session) {
-      const sets: ActivitySet[] = this.dataTransforms.setsToSets([activityData]);
-      session.activitySets?.push(...sets);
-      return await session.save();
-    }
-    return null;
+    if (!session) return null;
+    const sets: ActivitySet[] = this.dataTransforms.setsToSets([activityData]);
+    session.activitySets?.push(...sets);
+    return session.save();
   }
 
   async getActivitySetByActivitySlug(
@@ -32,9 +30,7 @@ export class WorkoutSetService {
     activitySlug: string,
   ): Promise<ActivitySet[] | null> {
     const session = await this.workoutSessionModel.findOne({ id: sessionId });
-    if (session) {
-      return session.activitySets.filter((a) => a.activitySlug === activitySlug);
-    }
-    return null;
+    if (!session) return null;
+    return session.activitySets.filter((a) => a.activitySlug === activitySlug);
   }
 }

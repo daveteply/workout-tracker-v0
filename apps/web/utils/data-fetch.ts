@@ -7,46 +7,47 @@ import { MemberDTO } from '@repo/dto/member';
 import { CategoryHistoryDTO } from '@repo/dto/category-history';
 import { ActivityHistoryDTO } from '@repo/dto/activity-history';
 
-export async function getActivity(slug: string): Promise<ActivityDTO> {
-  const res = await fetch(`${API_STRUCTURE_URL}/v1/activities/${slug}`);
+async function fetchJSON<T>(url: string): Promise<T> {
+  const res = await fetch(url);
   return res.json();
+}
+
+export async function getActivity(slug: string): Promise<ActivityDTO> {
+  return fetchJSON<ActivityDTO>(`${API_STRUCTURE_URL}/v1/activities/${slug}`);
 }
 
 export async function getActivityAttributes(slug: string): Promise<ActivityAttributeDTO[]> {
-  const res = await fetch(`${API_STRUCTURE_URL}/v1/activity-attributes/activity/${slug}`);
-  return res.json();
+  return fetchJSON<ActivityAttributeDTO[]>(
+    `${API_STRUCTURE_URL}/v1/activity-attributes/activity/${slug}`,
+  );
 }
 
 export async function getAttributeTypes(): Promise<string[]> {
-  const res = await fetch(`${API_STRUCTURE_URL}/v1/attributes/types`);
-  return res.json();
+  return fetchJSON<string[]>(`${API_STRUCTURE_URL}/v1/attributes/types`);
 }
 
 export async function getAttributes(): Promise<ActivityAttributeDTO[]> {
-  const res = await fetch(`${API_STRUCTURE_URL}/v1/attributes`);
-  return res.json();
+  return fetchJSON<ActivityAttributeDTO[]>(`${API_STRUCTURE_URL}/v1/attributes`);
 }
 
 export async function getCategory(slug: string): Promise<ActivityCategoryDTO> {
-  const res = await fetch(`${API_STRUCTURE_URL}/v1/categories/${slug}`);
-  return res.json();
+  return fetchJSON<ActivityCategoryDTO>(`${API_STRUCTURE_URL}/v1/categories/${slug}`);
 }
 
 export async function getCategories(): Promise<ActivityCategoryDTO[]> {
-  const res = await fetch(`${API_STRUCTURE_URL}/v1/categories`);
-  return res.json();
+  return fetchJSON<ActivityCategoryDTO[]>(`${API_STRUCTURE_URL}/v1/categories`);
 }
 
 export async function getCategoryActivities(activityCategorySlug: string): Promise<ActivityDTO[]> {
-  const res = await fetch(`${API_STRUCTURE_URL}/v1/activities/category/${activityCategorySlug}`);
-  return res.json();
+  return fetchJSON<ActivityDTO[]>(
+    `${API_STRUCTURE_URL}/v1/activities/category/${activityCategorySlug}`,
+  );
 }
 
 // Tracking
 
 export async function getSessions(memberSlug?: string): Promise<WorkoutSessionDTO[]> {
-  const res = await fetch(`${API_TRACKING_URL}/v1/workout-session/${memberSlug}`);
-  return res.json();
+  return fetchJSON<WorkoutSessionDTO[]>(`${API_TRACKING_URL}/v1/workout-session/${memberSlug}`);
 }
 
 async function fetchHistory<T>(
@@ -54,10 +55,9 @@ async function fetchHistory<T>(
   memberSlug: string,
   limit: number,
 ): Promise<T[]> {
-  const res = await fetch(
+  return fetchJSON<T[]>(
     `${API_TRACKING_URL}/v1/workout-session/${memberSlug}/${type}-history?l=${limit}`,
   );
-  return res.json();
 }
 
 export function getSessionCategoryHistory(
@@ -76,6 +76,5 @@ export function getSessionActivityHistory(
 
 // Member
 export async function getMembers(): Promise<MemberDTO[]> {
-  const res = await fetch(`${API_STRUCTURE_URL}/v1/members`);
-  return res.json();
+  return fetchJSON<MemberDTO[]>(`${API_STRUCTURE_URL}/v1/members`);
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { PencilIcon } from '@heroicons/react/16/solid';
 
 import Modal from '../../../../components/modal';
@@ -20,24 +20,26 @@ export function ActivityAttributeUpdateForm({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const openModal = useCallback(() => setIsModalOpen(true), []);
+  const closeModal = useCallback(() => setIsModalOpen(false), []);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsPending(true);
-    const formData = new FormData(event.currentTarget);
-    const result = await updateActivityAttributeAction(formData);
-    setIsPending(false);
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setIsPending(true);
+      const formData = new FormData(event.currentTarget);
+      const result = await updateActivityAttributeAction(formData);
+      setIsPending(false);
 
-    if (!result.success) {
-      toast.error(result.message);
-    } else {
-      setIsModalOpen(false);
-      toast.success('Updated Activity Attribute');
-    }
-  };
+      if (!result.success) {
+        toast.error(result.message);
+      } else {
+        closeModal();
+        toast.success('Updated Activity Attribute');
+      }
+    },
+    [updateActivityAttributeAction, closeModal],
+  );
 
   return (
     <div>
@@ -90,7 +92,7 @@ export function ActivityAttributeUpdateForm({
           <input type="hidden" id="activity-attribute-slug" name="slug" value={dto?.slug} />
 
           <div className="modal-action">
-            <button className="btn" onClick={() => setIsModalOpen(false)}>
+            <button className="btn" onClick={closeModal}>
               Cancel
             </button>
             <button

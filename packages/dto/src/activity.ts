@@ -8,3 +8,8 @@ export interface ActivityDTO {
   title: string;
   description?: string;
 }
+
+export interface UpdateActivityDTO {
+  title: string;
+  description?: string;
+}

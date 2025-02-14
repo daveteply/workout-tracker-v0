@@ -9,43 +9,31 @@ export class CategoryController {
 
   @Get()
   @Version('1')
-  async getActivityCategories(): Promise<ActivityCategory[]> {
-    return await this.categoryService.getCategories();
+  getActivityCategories(): Promise<ActivityCategory[]> {
+    return this.categoryService.getCategories();
   }
 
-  @Get(':s')
+  @Get(':slug')
   @Version('1')
-  async getActivityCategory(@Param('s') slug: string): Promise<ActivityCategory | null> {
-    return await this.categoryService.getCategoryBySlug(slug);
+  getActivityCategory(@Param('slug') slug: string): Promise<ActivityCategory | null> {
+    return this.categoryService.getCategoryBySlug(slug);
   }
 
   @Post()
   @Version('1')
-  async createActivityCategory(@Body() body: ActivityCategoryDTO): Promise<ActivityCategory> {
-    const activityCategory: ActivityCategoryDTO = {
-      title: body.title,
-      description: body.description,
-    };
-    return await this.categoryService.createCategory(activityCategory);
+  createActivityCategory(@Body() body: ActivityCategoryDTO): Promise<ActivityCategory> {
+    return this.categoryService.createCategory(body);
   }
 
-  @Patch(':s')
+  @Patch()
   @Version('1')
-  async updateActivityCategory(
-    @Param('s') slug: string,
-    @Body() body: ActivityCategoryDTO,
-  ): Promise<ActivityCategory | null> {
-    const activityCategory: ActivityCategoryDTO = {
-      slug: slug,
-      title: body.title,
-      description: body.description,
-    };
-    return await this.categoryService.updateCategory(activityCategory);
+  updateActivityCategory(@Body() body: ActivityCategoryDTO): Promise<ActivityCategory | null> {
+    return this.categoryService.updateCategory(body);
   }
 
-  @Delete(':s')
+  @Delete(':slug')
   @Version('1')
-  async deleteActivityCategory(@Param('s') slug: string): Promise<ActivityCategory | null> {
-    return await this.categoryService.deleteActivityCategory(slug);
+  deleteActivityCategory(@Param('slug') slug: string): Promise<ActivityCategory | null> {
+    return this.categoryService.deleteActivityCategory(slug);
   }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { PencilIcon } from '@heroicons/react/16/solid';
 
 import Modal from '../../../../../components/modal';
@@ -18,31 +18,33 @@ export function ActivityUpdateForm({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const openModal = useCallback(() => setIsModalOpen(true), []);
+  const closeModal = useCallback(() => setIsModalOpen(false), []);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsPending(true);
-    const formData = new FormData(event.currentTarget);
-    const result = await updateActivityAction(formData);
-    setIsPending(false);
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setIsPending(true);
+      const formData = new FormData(event.currentTarget);
+      const result = await updateActivityAction(formData);
+      setIsPending(false);
 
-    if (!result.success) {
-      toast.error(result.message);
-    } else {
-      setIsModalOpen(false);
-      toast.success('Updated Activity');
-    }
-  };
+      if (!result.success) {
+        toast.error(result.message);
+      } else {
+        closeModal();
+        toast.success('Updated Activity');
+      }
+    },
+    [updateActivityAction, closeModal],
+  );
 
   return (
     <div>
       <button className="btn btn-sm" onClick={openModal}>
         <PencilIcon className="size-5 text-blue-500" />
       </button>
-      <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} hideClose onClose={closeModal}>
         <form onSubmit={handleSubmit}>
           <label className="floating-label mb-2">
             <span>Activity Title</span>
@@ -63,16 +65,16 @@ export function ActivityUpdateForm({
               className="textarea textarea-bordered"
               id="activity-description"
               name="description"
-              rows={3}
               defaultValue={dto?.description}
               placeholder="Describe this Activity"
+              rows={3}
             />
           </label>
 
           <input type="hidden" name="category-slug" value={dto.slug} />
 
           <div className="modal-action">
-            <button className="btn" onClick={() => setIsModalOpen(false)}>
+            <button className="btn" type="button" onClick={closeModal}>
               Cancel
             </button>
             <button

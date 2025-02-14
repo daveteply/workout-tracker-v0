@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Modal from '../../../../components/modal';
 import { ServerActionResponse } from '../../../constants';
 import toast from 'react-hot-toast';
@@ -15,31 +15,33 @@ export function ActivityAttributeCreateForm({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const openModal = useCallback(() => setIsModalOpen(true), []);
+  const closeModal = useCallback(() => setIsModalOpen(false), []);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsPending(true);
-    const formData = new FormData(event.currentTarget);
-    const result = await createActivityAttributeAction(formData);
-    setIsPending(false);
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setIsPending(true);
+      const formData = new FormData(event.currentTarget);
+      const result = await createActivityAttributeAction(formData);
+      setIsPending(false);
 
-    if (!result.success) {
-      toast.error(result.message);
-    } else {
-      setIsModalOpen(false);
-      toast.success('Created Activity Attribute');
-    }
-  };
+      if (!result.success) {
+        toast.error(result.message);
+      } else {
+        setIsModalOpen(false);
+        toast.success('Created Activity Attribute');
+      }
+    },
+    [createActivityAttributeAction, closeModal],
+  );
 
   return (
     <div>
       <button className="btn btn-primary" onClick={openModal}>
         Add Activity Attribute
       </button>
-      <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} hideClose onClose={closeModal}>
         <form onSubmit={handleSubmit}>
           <label className="floating-label mb-2">
             <span>Attribute Title</span>
@@ -80,7 +82,7 @@ export function ActivityAttributeCreateForm({
           </label>
 
           <div className="modal-action">
-            <button className="btn" onClick={() => setIsModalOpen(false)}>
+            <button className="btn" onClick={closeModal}>
               Cancel
             </button>
             <button

@@ -15,38 +15,25 @@ export class AttributeController {
 
   @Get()
   @Version('1')
-  async getActivityAttributes() {
-    return await this.attributeService.getActivityAttributes();
+  getActivityAttributes(): Promise<ActivityAttribute[]> {
+    return this.attributeService.getActivityAttributes();
   }
 
   @Post()
   @Version('1')
-  async createActivity(@Body() body: ActivityAttributeDTO): Promise<ActivityAttribute> {
-    const activityAttribute: ActivityAttributeDTO = {
-      title: body.title,
-      description: body.description,
-      attributeType: body.attributeType,
-    };
-    return await this.attributeService.createActivityAttribute(activityAttribute);
+  createActivity(@Body() body: ActivityAttributeDTO): Promise<ActivityAttribute> {
+    return this.attributeService.createActivityAttribute(body);
   }
 
   @Patch()
   @Version('1')
-  async updateActivityCategory(
-    @Body() body: ActivityAttributeDTO,
-  ): Promise<ActivityAttribute | null> {
-    const activityAttribute: ActivityAttributeDTO = {
-      slug: body.slug,
-      title: body.title,
-      description: body.description,
-      attributeType: body.attributeType,
-    };
-    return await this.attributeService.updateActivityAttribute(activityAttribute);
+  updateActivityCategory(@Body() body: ActivityAttributeDTO): Promise<ActivityAttribute | null> {
+    return this.attributeService.updateActivityAttribute(body);
   }
 
-  @Delete(':s')
+  @Delete(':slug')
   @Version('1')
-  async deleteActivityCategory(@Param('s') slug: string): Promise<ActivityAttribute> {
-    return await this.attributeService.deleteActivityAttribute(slug);
+  deleteActivityCategory(@Param('slug') slug: string): Promise<ActivityAttribute> {
+    return this.attributeService.deleteActivityAttribute(slug);
   }
 }

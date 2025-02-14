@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Modal from '../../../../../../components/modal';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ServerActionResponse } from '../../../../../constants';
@@ -15,34 +15,36 @@ export function ActivityAttributesAttachForm({
   attributes: ActivityAttributeDTO[];
   activitySlug: string;
 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const openModal = useCallback(() => setIsModalOpen(true), []);
+  const closeModal = useCallback(() => setIsModalOpen(false), []);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsPending(true);
-    const formData = new FormData(event.currentTarget);
-    const result = await createActivityAttributesAction(formData);
-    setIsPending(false);
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setIsPending(true);
+      const formData = new FormData(event.currentTarget);
+      const result = await createActivityAttributesAction(formData);
+      setIsPending(false);
 
-    if (!result.success) {
-      toast.error(result.message);
-    } else {
-      setIsModalOpen(false);
-      toast.success('Attached Attribute');
-    }
-  };
+      if (!result.success) {
+        toast.error(result.message);
+      } else {
+        closeModal();
+        toast.success('Attached Attribute');
+      }
+    },
+    [createActivityAttributesAction, closeModal],
+  );
 
   return (
     <div>
       <button className="btn btn-primary" onClick={openModal}>
         Attach Attribute to Activity
       </button>
-      <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} hideClose onClose={closeModal}>
         <form onSubmit={handleSubmit}>
           <label className="floating-label mt-4">
             <span>Attribute</span>
@@ -62,7 +64,7 @@ export function ActivityAttributesAttachForm({
           <input type="hidden" name="activity-slug" value={activitySlug} />
 
           <div className="modal-action">
-            <button className="btn" onClick={() => setIsModalOpen(false)}>
+            <button className="btn" type="button" onClick={closeModal}>
               Cancel
             </button>
             <button

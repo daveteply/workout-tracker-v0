@@ -11,25 +11,24 @@ export class ActivityService {
     private utilsService: UtilsService,
   ) {}
 
+  private getIdFromSlug(slug: string): number {
+    return this.utilsService.getId(slug);
+  }
+
   async createActivity(activity: ActivityDTO): Promise<Activity | null> {
-    if (activity.categorySlug) {
-      const categoryId = this.utilsService.getId(activity.categorySlug);
-      return await this.prismaClientActivityService.client.activity.create({
-        data: {
-          categoryId: categoryId,
-          title: activity.title,
-          description: activity.description,
-        },
-      });
-    } else {
-      return null;
-    }
+    if (!activity.categorySlug) return null;
+    return this.prismaClientActivityService.client.activity.create({
+      data: {
+        categoryId: this.getIdFromSlug(activity.categorySlug),
+        title: activity.title,
+        description: activity.description,
+      },
+    });
   }
 
   async getActivitiesByCategorySlug(categorySlug: string): Promise<Activity[]> {
-    const categoryId = this.utilsService.getId(categorySlug);
     return this.prismaClientActivityService.client.activity.findMany({
-      where: { categoryId: categoryId },
+      where: { categoryId: this.getIdFromSlug(categorySlug) },
     });
   }
 
@@ -38,36 +37,29 @@ export class ActivityService {
   }
 
   async getActivity(activitySlug: string): Promise<Activity | null> {
-    const id = this.utilsService.getId(activitySlug);
     return this.prismaClientActivityService.client.activity.findFirst({
-      where: { id: id },
+      where: { id: this.getIdFromSlug(activitySlug) },
     });
   }
 
   async updateActivity(activity: ActivityDTO): Promise<Activity | null> {
-    if (activity.slug) {
-      const id = this.utilsService.getId(activity.slug);
-      return await this.prismaClientActivityService.client.activity.update({
-        where: { id: id },
-        data: {
-          title: activity.title,
-          description: activity.description,
-        },
-      });
-    } else {
-      return null;
-    }
+    if (!activity.slug) return null;
+    return this.prismaClientActivityService.client.activity.update({
+      where: { id: this.getIdFromSlug(activity.slug) },
+      data: {
+        title: activity.title,
+        description: activity.description,
+      },
+    });
   }
 
   async deleteActivity(slug: string): Promise<Activity | null> {
-    const id = this.utilsService.getId(slug);
     try {
-      return await this.prismaClientActivityService.client.activity.delete({
-        where: { id: id },
+      return this.prismaClientActivityService.client.activity.delete({
+        where: { id: this.getIdFromSlug(slug) },
       });
     } catch (e) {
       throw e;
     }
-    return null;
   }
 }

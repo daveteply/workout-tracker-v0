@@ -13,13 +13,13 @@ export async function createActivityAttribute(formData: FormData): Promise<Serve
   const schema = z.object({
     title: z.string().min(1),
     description: z.string().optional(),
-    type: z.string(),
+    attributeType: z.string(),
   });
 
   const parse = schema.safeParse({
     title: formData.get('title'),
     description: formData.get('description'),
-    type: formData.get('attribute-type'),
+    attributeType: formData.get('attribute-type'),
   });
 
   if (!parse.success) {
@@ -50,14 +50,14 @@ export async function updateActivityAttribute(formData: FormData): Promise<Serve
     slug: z.string().min(1),
     title: z.string().min(1),
     description: z.string().optional(),
-    type: z.string(),
+    attributeType: z.string(),
   });
 
   const parse = schema.safeParse({
     slug: formData.get('slug'),
     title: formData.get('title'),
     description: formData.get('description'),
-    type: formData.get('attribute-type'),
+    attributeType: formData.get('attribute-type'),
   });
 
   if (!parse.success) {

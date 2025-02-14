@@ -11,8 +11,12 @@ export class CategoryService {
     private utilsService: UtilsService,
   ) {}
 
+  private getIdFromSlug(slug: string): number {
+    return this.utilsService.getId(slug);
+  }
+
   async createCategory(activityCategory: ActivityCategoryDTO): Promise<ActivityCategory> {
-    return await this.prismaClientActivityService.client.activityCategory.create({
+    return this.prismaClientActivityService.client.activityCategory.create({
       data: {
         title: activityCategory.title,
         description: activityCategory.description,
@@ -21,33 +25,29 @@ export class CategoryService {
   }
 
   async getCategories(): Promise<ActivityCategory[]> {
-    return await this.prismaClientActivityService.client.activityCategory.findMany();
+    return this.prismaClientActivityService.client.activityCategory.findMany();
   }
 
   async getCategoryBySlug(slug: string): Promise<ActivityCategory | null> {
-    const id = this.utilsService.getId(slug);
-    return await this.prismaClientActivityService.client.activityCategory.findFirst({
-      where: { id: id },
+    return this.prismaClientActivityService.client.activityCategory.findFirst({
+      where: { id: this.getIdFromSlug(slug) },
     });
   }
 
   async updateCategory(activityCategory: ActivityCategoryDTO): Promise<ActivityCategory | null> {
-    if (activityCategory.slug) {
-      const id = this.utilsService.getId(activityCategory.slug);
-      return await this.prismaClientActivityService.client.activityCategory.update({
-        where: { id: id },
-        data: {
-          title: activityCategory.title,
-          description: activityCategory.description,
-        },
-      });
-    } else return null;
+    if (!activityCategory.slug) return null;
+    return this.prismaClientActivityService.client.activityCategory.update({
+      where: { id: this.getIdFromSlug(activityCategory.slug) },
+      data: {
+        title: activityCategory.title,
+        description: activityCategory.description,
+      },
+    });
   }
 
   async deleteActivityCategory(slug: string): Promise<ActivityCategory | null> {
-    const id = this.utilsService.getId(slug);
-    return await this.prismaClientActivityService.client.activityCategory.delete({
-      where: { id: id },
+    return this.prismaClientActivityService.client.activityCategory.delete({
+      where: { id: this.getIdFromSlug(slug) },
     });
   }
 }

@@ -3,6 +3,7 @@ import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ActivityAttributesAttachForm } from './components/attach-form';
 import { ActivityAttributesRemoveForm } from './components/remove-form';
 import { getActivity, getActivityAttributes, getAttributes } from '../../../../../utils/data-fetch';
+import Link from 'next/link';
 
 /**
  * Associate Attributes to an Activity
@@ -12,9 +13,11 @@ import { getActivity, getActivityAttributes, getAttributes } from '../../../../.
 export default async function ActivityCategoryActivitiesAttributesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ s: string }>;
+  searchParams: Promise<{ s: string; cs: string }>;
 }) {
-  const activitySlug = (await searchParams).s;
+  const params = await searchParams;
+  const activitySlug = params.s;
+  const activityCategorySlug = params.cs;
 
   const [attributes, activity, activityAttributes] = await Promise.all([
     getAttributes(),
@@ -24,6 +27,23 @@ export default async function ActivityCategoryActivitiesAttributesPage({
 
   return (
     <div>
+      <div className="text-xs">
+        <Link
+          className="no-underline hover:underline"
+          href={{ pathname: '/activity/category/', query: { cs: activityCategorySlug } }}
+        >
+          Categories
+        </Link>
+        &nbsp;&gt;&nbsp;
+        <Link
+          className="no-underline hover:underline"
+          href={{ pathname: '/activity/category/activities/', query: { cs: activityCategorySlug } }}
+        >
+          Activities
+        </Link>
+        &nbsp;&gt;&nbsp;
+        <span>Attributes</span>
+      </div>
       <h3>
         Attributes for <span className="font-bold italic capitalize">{activity.title}</span>
       </h3>

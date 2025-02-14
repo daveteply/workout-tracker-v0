@@ -49,24 +49,29 @@ export async function getSessions(memberSlug?: string): Promise<WorkoutSessionDT
   return res.json();
 }
 
-export async function getSessionCategoryHistory(
+async function fetchHistory<T>(
+  type: 'category' | 'activity',
   memberSlug: string,
   limit: number,
-): Promise<CategoryHistoryDTO[]> {
+): Promise<T[]> {
   const res = await fetch(
-    `${API_TRACKING_URL}/v1/workout-session/${memberSlug}/category-history?l=${limit}`,
+    `${API_TRACKING_URL}/v1/workout-session/${memberSlug}/${type}-history?l=${limit}`,
   );
   return res.json();
 }
 
-export async function getSessionActivityHistory(
+export function getSessionCategoryHistory(
+  memberSlug: string,
+  limit: number,
+): Promise<CategoryHistoryDTO[]> {
+  return fetchHistory<CategoryHistoryDTO>('category', memberSlug, limit);
+}
+
+export function getSessionActivityHistory(
   memberSlug: string,
   limit: number,
 ): Promise<ActivityHistoryDTO[]> {
-  const res = await fetch(
-    `${API_TRACKING_URL}/v1/workout-session/${memberSlug}/activity-history?l=${limit}`,
-  );
-  return res.json();
+  return fetchHistory<ActivityHistoryDTO>('activity', memberSlug, limit);
 }
 
 // Member

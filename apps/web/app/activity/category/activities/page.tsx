@@ -22,6 +22,16 @@ export default async function ActivityPage({
 
   return (
     <div>
+      <div className="text-xs">
+        <Link
+          className="no-underline hover:underline"
+          href={{ pathname: '/activity/category/', query: { cs: activityCategorySlug } }}
+        >
+          Categories
+        </Link>
+        &nbsp;&gt;&nbsp;
+        <span>Activities</span>
+      </div>
       <h3>
         <p>
           Activities for category&nbsp;
@@ -56,7 +66,7 @@ export default async function ActivityPage({
                       className="btn btn-sm no-underline text-blue-500"
                       href={{
                         pathname: '/activity/category/activities/attributes',
-                        query: { s: a.slug },
+                        query: { s: a.slug, cs: activityCategorySlug },
                       }}
                     >
                       <div className="hidden sm:inline">Attributes</div>

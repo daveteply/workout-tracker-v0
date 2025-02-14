@@ -10,20 +10,20 @@ export class ActivityAttributeService {
     private utilsService: UtilsService,
   ) {}
 
+  private getIdFromSlug(slug: string): number {
+    return this.utilsService.getId(slug);
+  }
+
   async getAttributesByActivity(activitySlug: string): Promise<ActivityAttribute[]> {
-    const activityId = this.utilsService.getId(activitySlug);
+    const activityId = this.getIdFromSlug(activitySlug);
     const data = await this.prismaClientActivityService.client.activityAttribute.findMany({
       where: {
         attributes: {
-          some: {},
+          some: { activityId },
         },
       },
       include: {
-        attributes: {
-          where: {
-            activityId: activityId,
-          },
-        },
+        attributes: true,
       },
     });
 
@@ -35,12 +35,10 @@ export class ActivityAttributeService {
     activitySlug: string,
     attributeSlug: string,
   ): Promise<ActivityActivityAttributes> {
-    const activityId = this.utilsService.getId(activitySlug);
-    const attributeId = this.utilsService.getId(attributeSlug);
-    return await this.prismaClientActivityService.client.activityActivityAttributes.create({
+    return this.prismaClientActivityService.client.activityActivityAttributes.create({
       data: {
-        activityId: activityId,
-        attributeId: attributeId,
+        activityId: this.getIdFromSlug(activitySlug),
+        attributeId: this.getIdFromSlug(attributeSlug),
       },
     });
   }
@@ -49,13 +47,11 @@ export class ActivityAttributeService {
     activitySlug: string,
     attributeSlug: string,
   ): Promise<ActivityActivityAttributes> {
-    const activityId = this.utilsService.getId(activitySlug);
-    const attributeId = this.utilsService.getId(attributeSlug);
-    return await this.prismaClientActivityService.client.activityActivityAttributes.delete({
+    return this.prismaClientActivityService.client.activityActivityAttributes.delete({
       where: {
         activityId_attributeId: {
-          activityId: activityId,
-          attributeId: attributeId,
+          activityId: this.getIdFromSlug(activitySlug),
+          attributeId: this.getIdFromSlug(attributeSlug),
         },
       },
     });

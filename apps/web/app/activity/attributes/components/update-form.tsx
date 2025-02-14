@@ -74,7 +74,7 @@ export function ActivityAttributeUpdateForm({
           <label className="floating-label mt-4">
             <span>Attribute Type</span>
             <select
-              className="select select-bordered w-2/3 max-w-xs"
+              className="select select-bordered"
               id="activity-attribute-type"
               name="attribute-type"
               defaultValue={dto.attributeType}

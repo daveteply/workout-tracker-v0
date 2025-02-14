@@ -12,6 +12,10 @@ export class AttributeService {
     private utilsService: UtilsService,
   ) {}
 
+  private getIdFromSlug(slug: string): number {
+    return this.utilsService.getId(slug);
+  }
+
   getActivityAttributeTypes(): string[] {
     return [
       AttributeTypes.LENGTH,
@@ -23,13 +27,13 @@ export class AttributeService {
   }
 
   async getActivityAttributes(): Promise<ActivityAttribute[]> {
-    return await this.prismaClientActivityService.client.activityAttribute.findMany();
+    return this.prismaClientActivityService.client.activityAttribute.findMany();
   }
 
   async createActivityAttribute(
     activityAttribute: ActivityAttributeDTO,
   ): Promise<ActivityAttribute> {
-    return await this.prismaClientActivityService.client.activityAttribute.create({
+    return this.prismaClientActivityService.client.activityAttribute.create({
       data: {
         title: activityAttribute.title,
         description: activityAttribute.description,
@@ -41,23 +45,20 @@ export class AttributeService {
   async updateActivityAttribute(
     activityAttribute: ActivityAttributeDTO,
   ): Promise<ActivityAttribute | null> {
-    if (activityAttribute.slug) {
-      const id = this.utilsService.getId(activityAttribute.slug);
-      return await this.prismaClientActivityService.client.activityAttribute.update({
-        where: { id: id },
-        data: {
-          title: activityAttribute.title,
-          description: activityAttribute.description,
-          attributeType: activityAttribute.attributeType,
-        },
-      });
-    } else return null;
+    if (!activityAttribute.slug) return null;
+    return this.prismaClientActivityService.client.activityAttribute.update({
+      where: { id: this.getIdFromSlug(activityAttribute.slug) },
+      data: {
+        title: activityAttribute.title,
+        description: activityAttribute.description,
+        attributeType: activityAttribute.attributeType,
+      },
+    });
   }
 
   async deleteActivityAttribute(slug: string): Promise<ActivityAttribute> {
-    const id = this.utilsService.getId(slug);
-    return await this.prismaClientActivityService.client.activityAttribute.delete({
-      where: { id: id },
+    return this.prismaClientActivityService.client.activityAttribute.delete({
+      where: { id: this.getIdFromSlug(slug) },
     });
   }
 }

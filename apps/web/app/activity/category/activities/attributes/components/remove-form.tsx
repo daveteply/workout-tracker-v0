@@ -34,7 +34,7 @@ export function ActivityAttributesRemoveForm({
     <form onSubmit={handleSubmit}>
       <input type="hidden" id="activity-slug" name="activity-slug" value={activitySlug} />
       <input type="hidden" id="attribute-slug" name="attribute-slug" value={attributeSlug} />
-      <button type="submit" disabled={isPending} aria-disabled={isPending}>
+      <button className="btn btn-sm" type="submit" disabled={isPending} aria-disabled={isPending}>
         <XCircleIcon className="size-5 text-blue-500"></XCircleIcon>
       </button>
     </form>

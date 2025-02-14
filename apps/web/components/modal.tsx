@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -12,19 +12,25 @@ interface ModalProps {
 const Modal: React.FC<ModalProps> = ({ isOpen, hideClose = false, onClose, children }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         onClose();
       }
-    };
+    },
+    [onClose],
+  );
 
-    const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
         onClose();
       }
-    };
+    },
+    [isOpen, onClose],
+  );
 
+  useEffect(() => {
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleKeyDown);
@@ -37,7 +43,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, hideClose = false, onClose, child
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClickOutside, handleKeyDown]);
 
   return (
     isOpen && (

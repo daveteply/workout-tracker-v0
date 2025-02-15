@@ -19,10 +19,12 @@ export class WorkoutSetService {
     activityData: ActivitySetDTO,
   ): Promise<WorkoutSession | null> {
     const session = await this.workoutSessionModel.findOne({ id: sessionId });
-    if (!session) return null;
-    const sets: ActivitySet[] = this.dataTransforms.setsToSets([activityData]);
-    session.activitySets?.push(...sets);
-    return session.save();
+    if (session) {
+      const sets: ActivitySet[] = this.dataTransforms.setsDTOToSets([activityData]);
+      session.activitySets?.push(...sets);
+      return await session.save();
+    }
+    return null;
   }
 
   async getActivitySetByActivitySlug(

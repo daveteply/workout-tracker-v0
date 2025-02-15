@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
 import { DataTransformsService } from '../data-transforms/data-transforms.service';
 import { UtilsService } from 'src/services/utils/utils.service';
+import { ActivitySet } from 'src/tracking/schemas/activity-set';
 
 @Injectable()
 export class WorkoutSessionService {
@@ -21,7 +22,7 @@ export class WorkoutSessionService {
       memberId,
       sessionStart: createWorkoutSessionDTO.sessionStart || new Date(),
       sessionCompleted: createWorkoutSessionDTO.sessionCompleted,
-      activitySets: this.dataTransforms.setsToSets(createWorkoutSessionDTO.activitySets as []),
+      activitySets: this.dataTransforms.setsDTOToSets(createWorkoutSessionDTO.activitySets as []),
       activitySetsCount: 0,
     };
 
@@ -77,5 +78,30 @@ export class WorkoutSessionService {
   ): Promise<{ activitySlug: string; activityTitle: string }[]> {
     const res = await this.getAggregateHistory(memberSlug, limit, 'activity');
     return res.map((r) => ({ activitySlug: r.slug, activityTitle: r.title }));
+  }
+
+  async getWorkoutSessionActivityAttributeHistory(
+    memberSlug: string,
+    activitySlug: string,
+    limit: number,
+  ): Promise<{ activitySets: ActivitySet[] }[]> {
+    const memberId = this.utilsService.getId(memberSlug);
+    return await this.workoutSessionModel.aggregate([
+      { $match: { memberId: Number(memberId), 'activitySets.activitySlug': String(activitySlug) } },
+      { $sort: { sessionStart: -1 } },
+      { $limit: Number(limit) },
+      {
+        $project: {
+          _id: 0,
+          activitySets: {
+            $filter: {
+              input: '$activitySets',
+              as: 'activitySet',
+              cond: { $eq: ['$$activitySet.activitySlug', String(activitySlug)] },
+            },
+          },
+        },
+      },
+    ]);
   }
 }

@@ -109,6 +109,7 @@ export function TrackingForm({
           Complete Activity
         </button>
       </div>
+
       <Modal isOpen={isModalOpen} hideClose={true} onClose={() => setIsModalOpen(false)}>
         <form onSubmit={saveTrackingAttribute}>
           {attributes.map((attribute: ActivityAttributeDTO, index: number) => (
@@ -140,30 +141,34 @@ export function TrackingForm({
         </form>
       </Modal>
 
-      <div className="flex flex-wrap">
-        {activitySet?.attributeSets?.map((as, asInx) => (
-          <div
-            key={asInx}
-            className="card card-compact border border-2 border-blue-300 m-2 basis-36 md:basis-52"
-          >
-            <div className="card-body capitalize">
-              {as.attributes?.map((a, aInx) => (
-                <div key={aInx}>
-                  {a.title} {a.value}
+      {activitySet.attributeSets?.length ? (
+        <div className="flex flex-wrap">
+          {activitySet.attributeSets?.map((as, asInx) => (
+            <div
+              key={asInx}
+              className="card card-compact border border-2 border-blue-300 m-2 basis-36 md:basis-52"
+            >
+              <div className="card-body capitalize">
+                {as.attributes?.map((a, aInx) => (
+                  <div key={aInx}>
+                    {a.title} {a.value}
+                  </div>
+                ))}
+                <div className="card-actions justify-end">
+                  <button onClick={() => editTrackingAttribute(asInx)}>
+                    <PencilIcon className="size-5 text-blue-500" />
+                  </button>
+                  <button onClick={() => deleteTrackingAttribute(asInx)}>
+                    <TrashIcon className="size-5 text-blue-500" />
+                  </button>
                 </div>
-              ))}
-              <div className="card-actions justify-end">
-                <button onClick={() => editTrackingAttribute(asInx)}>
-                  <PencilIcon className="size-5 text-blue-500" />
-                </button>
-                <button onClick={() => deleteTrackingAttribute(asInx)}>
-                  <TrashIcon className="size-5 text-blue-500" />
-                </button>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div>Get started by Adding some Tracking</div>
+      )}
     </div>
   );
 }

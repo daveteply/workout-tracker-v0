@@ -5,7 +5,7 @@ import { ActivityAttribute } from './activity-attribute';
 @Schema()
 export class ActivityAttributeSet {
   @Prop([ActivityAttribute])
-  attributes?: ActivityAttribute[];
+  attributes: ActivityAttribute[];
 }
 
 export type ActivityAttributeSetDocument = HydratedDocument<ActivityAttributeSet>;

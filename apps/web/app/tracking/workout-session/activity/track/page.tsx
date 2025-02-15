@@ -3,6 +3,9 @@ import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { TrackingForm } from './components/tracking-form';
 import { getActivity, getActivityAttributes, getCategory } from '../../../../../utils/data-fetch';
 import { CrumbTrail, CrumbTrailEntry } from '../../../../components/crumb-trail';
+import { PreviousActivity } from './components/previous-activity';
+import { cookies } from 'next/headers';
+import { MEMBER_COOKIE_KEY } from '../../../../constants';
 
 export default async function TrackingActivityPage({
   searchParams,
@@ -13,6 +16,9 @@ export default async function TrackingActivityPage({
   const activitySlug = params.s;
   const activityCategorySlug = params.cs;
   const sessionId = params.secs;
+
+  const cookieStore = await cookies();
+  const memberSlug = cookieStore.get(MEMBER_COOKIE_KEY)?.value;
 
   const [activity, category, activityAttributes] = await Promise.all([
     getActivity(activitySlug),
@@ -52,6 +58,7 @@ export default async function TrackingActivityPage({
       <CrumbTrail entries={crumbEntries} />
 
       <h3>Tracking Activity - {activity.title}</h3>
+
       <TrackingForm
         workoutSessionId={sessionId}
         activity={activity}
@@ -59,6 +66,8 @@ export default async function TrackingActivityPage({
         activityAttributes={activityAttributeDTOs}
         addSessionSetAction={updateWorkoutSession}
       />
+
+      <PreviousActivity memberSlug={memberSlug} activitySlug={activitySlug} />
 
       {/* {activitySet.length > 0 && (
         <div>

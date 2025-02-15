@@ -6,6 +6,7 @@ import { WorkoutSessionDTO } from '@repo/dto/workout-session';
 import { MemberDTO } from '@repo/dto/member';
 import { CategoryHistoryDTO } from '@repo/dto/category-history';
 import { ActivityHistoryDTO } from '@repo/dto/activity-history';
+import { ActivitySetDTO } from '@repo/dto/activity-set';
 
 async function fetchJSON<T>(url: string): Promise<T> {
   const res = await fetch(url);
@@ -74,7 +75,21 @@ export function getSessionActivityHistory(
   return fetchHistory<ActivityHistoryDTO>('activity', memberSlug, limit);
 }
 
+export async function getSessionActivityAttributeHistory(
+  memberSlug?: string,
+  activitySlug?: string,
+  limit: number = 1,
+): Promise<ActivitySetDTO[]> {
+  if (!memberSlug) return [];
+  if (!activitySlug) return [];
+  const res = await fetch(
+    `${API_TRACKING_URL}/v1/workout-session/${memberSlug}/activity-history/${activitySlug}/attributes?l=${limit}`,
+  );
+  return res.json();
+}
+
 // Member
+
 export async function getMembers(): Promise<MemberDTO[]> {
   return fetchJSON<MemberDTO[]>(`${API_STRUCTURE_URL}/v1/members`);
 }

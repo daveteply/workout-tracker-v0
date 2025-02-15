@@ -7,6 +7,7 @@ import { ActivityDeleteForm } from './components/delete-form';
 import { ActivityUpdateForm } from './components/update-form';
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid';
 import { getCategory, getCategoryActivities } from '../../../../utils/data-fetch';
+import { CrumbTrail, CrumbTrailEntry } from '../../../components/crumb-trail';
 
 export default async function ActivityPage({
   searchParams,
@@ -20,18 +21,14 @@ export default async function ActivityPage({
     getCategoryActivities(activityCategorySlug),
   ]);
 
+  const crumbEntries: CrumbTrailEntry[] = [
+    { label: 'Categories', pathname: '/activity/category', query: { cs: activityCategorySlug } },
+    { label: 'Activities' },
+  ];
+
   return (
     <div>
-      <div className="text-xs">
-        <Link
-          className="no-underline hover:underline"
-          href={{ pathname: '/activity/category/', query: { cs: activityCategorySlug } }}
-        >
-          Categories
-        </Link>
-        &nbsp;&gt;&nbsp;
-        <span>Activities</span>
-      </div>
+      <CrumbTrail entries={crumbEntries} />
       <h3>
         <p>
           Activities for category&nbsp;

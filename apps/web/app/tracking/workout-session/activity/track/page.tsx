@@ -2,6 +2,7 @@ import { updateWorkoutSession } from './track-actions';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { TrackingForm } from './components/tracking-form';
 import { getActivity, getActivityAttributes, getCategory } from '../../../../../utils/data-fetch';
+import { CrumbTrail, CrumbTrailEntry } from '../../../../components/crumb-trail';
 
 export default async function TrackingActivityPage({
   searchParams,
@@ -29,6 +30,17 @@ export default async function TrackingActivityPage({
     };
   });
 
+  const crumbEntries: CrumbTrailEntry[] = [
+    { label: 'Workout Sessions', pathname: '/tracking' },
+    { label: 'Categories', pathname: '/tracking/workout-session', query: { ses: sessionId } },
+    {
+      label: 'Activities',
+      pathname: '/tracking/workout-session/activity',
+      query: { ses: sessionId, cs: activityCategorySlug },
+    },
+    { label: activity.title },
+  ];
+
   // load existing Sets from the current Session
   // const activitySetResult = await fetch(
   //   `${API_TRACKING_URL}/v1/workout-set?s=${sessionId}&a=${activitySlug}`,
@@ -37,6 +49,8 @@ export default async function TrackingActivityPage({
 
   return (
     <div>
+      <CrumbTrail entries={crumbEntries} />
+
       <h3>Tracking Activity - {activity.title}</h3>
       <TrackingForm
         workoutSessionId={sessionId}
@@ -45,6 +59,7 @@ export default async function TrackingActivityPage({
         activityAttributes={activityAttributeDTOs}
         addSessionSetAction={updateWorkoutSession}
       />
+
       {/* {activitySet.length > 0 && (
         <div>
           <h4>Already in this Session</h4>

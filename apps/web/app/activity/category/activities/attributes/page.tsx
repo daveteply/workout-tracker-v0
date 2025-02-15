@@ -4,6 +4,7 @@ import { ActivityAttributesAttachForm } from './components/attach-form';
 import { ActivityAttributesRemoveForm } from './components/remove-form';
 import { getActivity, getActivityAttributes, getAttributes } from '../../../../../utils/data-fetch';
 import Link from 'next/link';
+import { CrumbTrail, CrumbTrailEntry } from '../../../../components/crumb-trail';
 
 /**
  * Associate Attributes to an Activity
@@ -25,25 +26,20 @@ export default async function ActivityCategoryActivitiesAttributesPage({
     getActivityAttributes(activitySlug),
   ]);
 
+  const crumbEntries: CrumbTrailEntry[] = [
+    { label: 'Categories', pathname: '/activity/category', query: { cs: activityCategorySlug } },
+    {
+      label: 'Activities',
+      pathname: '/activity/category/activities/',
+      query: { cs: activityCategorySlug },
+    },
+    { label: 'Attributes' },
+  ];
+
   return (
     <div>
-      <div className="text-xs">
-        <Link
-          className="no-underline hover:underline"
-          href={{ pathname: '/activity/category/', query: { cs: activityCategorySlug } }}
-        >
-          Categories
-        </Link>
-        &nbsp;&gt;&nbsp;
-        <Link
-          className="no-underline hover:underline"
-          href={{ pathname: '/activity/category/activities/', query: { cs: activityCategorySlug } }}
-        >
-          Activities
-        </Link>
-        &nbsp;&gt;&nbsp;
-        <span>Attributes</span>
-      </div>
+      <CrumbTrail entries={crumbEntries} />
+
       <h3>
         Attributes for <span className="font-bold italic capitalize">{activity.title}</span>
       </h3>

@@ -7,6 +7,7 @@ import {
 } from '../../../../utils/data-fetch';
 import { cookies } from 'next/headers';
 import { MEMBER_COOKIE_KEY, SESSION_HISTORY_LIMIT } from '../../../constants';
+import { CrumbTrail, CrumbTrailEntry } from '../../../components/crumb-trail';
 
 export default async function WorkoutActivityPage({
   searchParams,
@@ -30,22 +31,17 @@ export default async function WorkoutActivityPage({
     return `btn no-underline m-3 h-30 w-30 sm:h-35 sm:w-35 ${activityHistory.find((a) => a.activitySlug === activitySlug) ? 'btn-secondary' : ''}`;
   };
 
+  const crumbEntries: CrumbTrailEntry[] = [
+    { label: 'Workout Sessions', pathname: '/tracking' },
+    { label: 'Categories', pathname: '/tracking/workout-session', query: { ses: sessionId } },
+    {
+      label: 'Activities',
+    },
+  ];
+
   return (
     <div>
-      <div className="text-xs">
-        <Link className="no-underline hover:underline" href={'/tracking/'}>
-          Workout Sessions
-        </Link>
-        &nbsp;&gt;&nbsp;
-        <Link
-          className="no-underline hover:underline"
-          href={{ pathname: '/tracking/workout-session/', query: { ses: sessionId } }}
-        >
-          Categories
-        </Link>
-        &nbsp;&gt;&nbsp;
-        <span>Activities</span>
-      </div>
+      <CrumbTrail entries={crumbEntries} />
       <h3>
         Which <span className="capitalize">{activityCategory?.title}</span> activity is next for
         you?

@@ -3,6 +3,7 @@ import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import { getCategories, getSessionCategoryHistory } from '../../../utils/data-fetch';
 import { cookies } from 'next/headers';
 import { MEMBER_COOKIE_KEY, SESSION_HISTORY_LIMIT } from '../../constants';
+import { CrumbTrail, CrumbTrailEntry } from '../../components/crumb-trail';
 
 export default async function WorkoutSessionPage({
   searchParams,
@@ -22,15 +23,14 @@ export default async function WorkoutSessionPage({
     return `btn no-underline m-3 h-30 w-30 sm:h-35 sm:w-35 ${categoryHistory.find((c) => c.categorySlug === categorySlug) ? 'btn-secondary' : ''}`;
   };
 
+  const crumbEntries: CrumbTrailEntry[] = [
+    { label: 'Workout Sessions', pathname: '/tracking' },
+    { label: 'Categories' },
+  ];
+
   return (
     <div>
-      <div className="text-xs">
-        <Link className="no-underline hover:underline" href={'/tracking/'}>
-          Workout Sessions
-        </Link>
-        &nbsp;&gt;&nbsp;
-        <span>Categories</span>
-      </div>
+      <CrumbTrail entries={crumbEntries} />
 
       <h3>What are you working on today?</h3>
 

@@ -33,7 +33,7 @@ export function ActivityAttributeCreateForm({
         toast.success('Created Activity Attribute');
       }
     },
-    [createActivityAttributeAction, closeModal],
+    [createActivityAttributeAction],
   );
 
   return (

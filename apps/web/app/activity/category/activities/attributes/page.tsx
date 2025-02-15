@@ -3,7 +3,6 @@ import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
 import { ActivityAttributesAttachForm } from './components/attach-form';
 import { ActivityAttributesRemoveForm } from './components/remove-form';
 import { getActivity, getActivityAttributes, getAttributes } from '../../../../../utils/data-fetch';
-import Link from 'next/link';
 import { CrumbTrail, CrumbTrailEntry } from '../../../../components/crumb-trail';
 
 /**

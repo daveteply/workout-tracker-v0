@@ -105,7 +105,11 @@ export function TrackingForm({
         <button className="btn btn-primary mr-2" onClick={openModal}>
           Add Tracking
         </button>
-        <button className="btn btn-primary" onClick={completeActivitySet}>
+        <button
+          className="btn btn-primary"
+          onClick={completeActivitySet}
+          disabled={activitySet.attributeSets?.length === 0}
+        >
           Complete Activity
         </button>
       </div>

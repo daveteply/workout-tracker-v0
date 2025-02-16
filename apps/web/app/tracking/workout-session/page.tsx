@@ -49,9 +49,9 @@ export default async function WorkoutSessionPage({
         ))}
       </div>
       {categoryHistory.length ? (
-        <span className="text-xs">Recently Used Categories are highlighted</span>
+        <span>Recently Used Categories are highlighted</span>
       ) : (
-        <span className="text-xs">Select a Category above</span>
+        <span>Select a Category above</span>
       )}
     </div>
   );

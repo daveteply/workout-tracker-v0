@@ -60,7 +60,7 @@ export default async function WorkoutActivityPage({
           </Link>
         ))}
       </div>
-      <span className="text-xs">Recently Used Activities are highlighted</span>
+      <span>Recently Used Activities are highlighted</span>
     </div>
   );
 }

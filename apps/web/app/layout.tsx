@@ -37,11 +37,11 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className={inter.className + ' h-full'} data-theme="dark">
-      <body className="h-full flex flex-col max-w-none">
+      <body className="prose h-full text-md sm:text-lg md:text-xl flex flex-col max-w-none">
         <header className="sticky top-0 z-10">
           <nav className="navbar bg-base-100 shadow-sm">
             <div className="flex items-center flex-1 navbar-start">
-              <Link className="btn btn-ghost text-xl" href="/">
+              <Link className="btn btn-ghost text-xl no-underline" href="/">
                 <Image
                   className="mx-2"
                   src={'/favicon/favicon-32x32.png'}
@@ -85,7 +85,7 @@ export default async function RootLayout({
             </div>
           </nav>
         </header>
-        <main className="grow container mx-auto px-4 md:w-2/3 xl:w-1/2 prose">{children}</main>
+        <main className="grow container mx-auto px-4 md:w-2/3 xl:w-1/2">{children}</main>
         <footer className="footer bg-neutral text-neutral-content p-5 sticky bottom-0">
           Footer content
         </footer>

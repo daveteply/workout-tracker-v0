@@ -12,7 +12,7 @@ export interface CrumbTrailEntry {
 export async function CrumbTrail({ entries }: { entries: CrumbTrailEntry[] }) {
   if (!entries) return null;
   return (
-    <div className="text-xs flex">
+    <div className="flex">
       {entries.map((entry, index) => (
         <div key={index}>
           {entry.pathname?.length ? (

@@ -8,10 +8,7 @@ export function CreateSessionComponent({
   memberSlug: string | undefined;
 }) {
   return (
-    <button
-      className="btn btn-primary text-xs sm:text-sm capitalize"
-      onClick={() => createSessionAction(memberSlug)}
-    >
+    <button className="btn btn-primary capitalize" onClick={() => createSessionAction(memberSlug)}>
       start a new workout session
     </button>
   );

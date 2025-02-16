@@ -41,7 +41,7 @@ export function MemberSelector({
 
   return (
     <div>
-      <span className="pr-2 text-sm">{currentMember?.name}</span>
+      <span className="pr-2">{currentMember?.name}</span>
       <details className="dropdown dropdown-end" open={isOpen ? true : undefined}>
         <summary className="btn btn-sm">
           <ArrowsRightLeftIcon className="size-5" />

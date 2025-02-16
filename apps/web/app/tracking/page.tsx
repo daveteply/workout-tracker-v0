@@ -41,7 +41,7 @@ export default async function TrackingPage() {
                   <td>
                     {!session.sessionCompleted && (
                       <Link
-                        className="btn btn-secondary text-xs sm:text-sm capitalize mr-3 no-underline"
+                        className="btn btn-secondary capitalize mr-3 no-underline"
                         href={{ pathname: '/tracking/workout-session', query: { ses: session.id } }}
                       >
                         continue workout

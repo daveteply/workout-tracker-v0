@@ -7,3 +7,7 @@
     dark --prefersdark,
     emerald;
 }
+
+h3 {
+  @apply mt-3 mb-3;
+}

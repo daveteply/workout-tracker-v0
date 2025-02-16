@@ -2,6 +2,7 @@
 
 import { getSessionActivityAttributeHistory } from '../../../../../../utils/data-fetch';
 import { DateTime } from '../../../../../components/date-time';
+import { AttributeGroup } from './attribute-group';
 
 export async function PreviousActivity({
   memberSlug,
@@ -10,30 +11,25 @@ export async function PreviousActivity({
   memberSlug?: string;
   activitySlug?: string;
 }) {
-  const attributeHistory = await getSessionActivityAttributeHistory(memberSlug, activitySlug, 1);
+  const data = await getSessionActivityAttributeHistory(memberSlug, activitySlug, 1);
+
+  // This component is intended to show a single entry
+  const attributeHistory = data.length ? data[0] : undefined;
 
   return (
     <div>
-      {attributeHistory?.length !== 0 && (
+      {attributeHistory && (
         <div>
           <hr className="mt-2 mb-2" />
-          {attributeHistory.map((ah) => (
-            <div key={ah.slug}>
-              <span>Last time...</span>&nbsp;
-              <DateTime date={ah.start as Date} />
-              <div className="flex flex-wrap p-2">
-                {ah.attributeSets?.map((attribSet, inx) => (
-                  <div key={inx} className="border rounded-md p-4 mr-4 mb-4">
-                    {attribSet.attributes.map((attr, i) => (
-                      <div key={i}>
-                        {attr.title} {attr.value}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+          <div className="text-sm">
+            <span>Last time...</span>&nbsp;
+            <DateTime date={attributeHistory.start as Date} />
+          </div>
+          <div className="flex flex-wrap">
+            {attributeHistory.attributeSets?.map((ahSet, inx) => (
+              <AttributeGroup key={inx} attributeSet={ahSet} />
+            ))}
+          </div>
         </div>
       )}
     </div>

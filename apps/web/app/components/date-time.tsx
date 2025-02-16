@@ -11,6 +11,8 @@ const timeFormatter = new Intl.DateTimeFormat(locale, {
 });
 
 export function DateTime({ date }: { date: Date }) {
-  const start = new Date(date);
-  return <span>{`${dateFormatter.format(start)} ${timeFormatter.format(start)}`}</span>;
+  if (date) {
+    const start = new Date(date);
+    return <span>{`${dateFormatter.format(start)} ${timeFormatter.format(start)}`}</span>;
+  }
 }

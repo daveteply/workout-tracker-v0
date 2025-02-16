@@ -102,6 +102,18 @@ export class WorkoutSessionService {
           },
         },
       },
+      {
+        $project: {
+          activitySets: {
+            $sortArray: {
+              input: '$activitySets',
+              sortBy: {
+                setStart: -1,
+              },
+            },
+          },
+        },
+      },
     ]);
   }
 }

@@ -11,6 +11,7 @@ import Modal from '../../../../../../components/modal';
 import toast from 'react-hot-toast';
 import { ActivityDTO } from '@repo/dto/activity';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
+import { AttributeGroup } from './attribute-group';
 
 function SubmitButton({ editMode }: { editMode: boolean }) {
   const { pending } = useFormStatus();
@@ -53,6 +54,12 @@ export function TrackingForm({
 
   function saveTrackingAttribute(e: SyntheticEvent) {
     e.preventDefault();
+
+    // Set start date
+    if (!activitySet.start) {
+      // TODO: this may cause UI vs Backend issues w/timezones
+      activitySet.start = new Date();
+    }
 
     if (editIdx > -1) {
       // update existing list
@@ -147,25 +154,16 @@ export function TrackingForm({
 
       {activitySet.attributeSets?.length ? (
         <div className="flex flex-wrap">
-          {activitySet.attributeSets?.map((as, asInx) => (
-            <div
-              key={asInx}
-              className="card card-compact border border-2 border-blue-300 m-2 basis-36 md:basis-52"
-            >
-              <div className="card-body capitalize">
-                {as.attributes?.map((a, aInx) => (
-                  <div key={aInx}>
-                    {a.title} {a.value}
-                  </div>
-                ))}
-                <div className="card-actions justify-end">
-                  <button onClick={() => editTrackingAttribute(asInx)}>
-                    <PencilIcon className="size-5 text-blue-500" />
-                  </button>
-                  <button onClick={() => deleteTrackingAttribute(asInx)}>
-                    <TrashIcon className="size-5 text-blue-500" />
-                  </button>
-                </div>
+          {activitySet.attributeSets?.map((aSet, asInx) => (
+            <div key={asInx} className="rounded-md bg-accent-content flex mr-4">
+              <AttributeGroup attributeSet={aSet} />
+              <div className="flex flex-col justify-start m-2">
+                <button onClick={() => editTrackingAttribute(asInx)}>
+                  <PencilIcon className="size-5 text-blue-500" />
+                </button>
+                <button onClick={() => deleteTrackingAttribute(asInx)}>
+                  <TrashIcon className="size-5 text-blue-500" />
+                </button>
               </div>
             </div>
           ))}

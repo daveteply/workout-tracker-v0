@@ -40,7 +40,7 @@ export default async function ActivityPage({
         activityCategorySlug={activityCategorySlug}
       />
       <div className="overflow-x-auto">
-        <table className="table table-xs md:table-md">
+        <table>
           <thead>
             <tr>
               <th>Activity</th>

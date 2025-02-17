@@ -32,7 +32,7 @@ export default async function ActivityAttributesPage() {
         attributeTypes={activityAttributeTypes}
       />
       <div className="overflow-x-auto">
-        <table className="table table-xs md:table-md">
+        <table>
           <thead>
             <tr>
               <th>Title</th>

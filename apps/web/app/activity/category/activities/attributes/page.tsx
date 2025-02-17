@@ -48,7 +48,7 @@ export default async function ActivityCategoryActivitiesAttributesPage({
         activitySlug={activitySlug}
       />
       <div className="overflow-x-auto">
-        <table className="table table-xs md:table-md">
+        <table>
           <thead>
             <tr>
               <th>Title</th>

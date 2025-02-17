@@ -21,7 +21,7 @@ export default async function TrackingPage() {
       </div>
       <div className="overflow-x-auto">
         {workoutSessions.length !== 0 && (
-          <table className="table">
+          <table>
             <thead>
               <tr>
                 <th>Started</th>

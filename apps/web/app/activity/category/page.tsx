@@ -20,7 +20,7 @@ export default async function ActivityCategoryPage() {
       <h3>Activity Categories</h3>
       <ActivityCategoryCreateForm createActivityCategoryAction={createActivityCategory} />
       <div className="overflow-x-auto">
-        <table className="table table-xs md:table-md">
+        <table>
           <thead>
             <tr>
               <th>Category</th>

@@ -85,7 +85,7 @@ export default async function RootLayout({
             </div>
           </nav>
         </header>
-        <main className="grow container mx-auto px-4 md:w-2/3 xl:w-1/2">{children}</main>
+        <main className="container grow px-4 mx-auto sm:w-xl md:w-3xl lg:w-5xl">{children}</main>
         <footer className="footer bg-neutral text-neutral-content p-5 sticky bottom-0">
           Footer content
         </footer>

@@ -36,7 +36,7 @@ export default async function RootLayout({
   const currentMember = await getCurrentMember();
 
   return (
-    <html lang="en" className={inter.className + ' h-full'} data-theme="dark">
+    <html lang="en" className={inter.className + ' h-full'} data-theme="night">
       <body className="prose h-full text-md sm:text-lg md:text-xl flex flex-col max-w-none">
         <header className="sticky top-0 z-10">
           <nav className="navbar bg-base-100 shadow-sm">

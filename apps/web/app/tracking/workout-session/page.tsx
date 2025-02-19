@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import { getCategories, getSessionCategoryHistory } from '../../../utils/data-fetch';
 import { cookies } from 'next/headers';
-import { MEMBER_COOKIE_KEY, SESSION_HISTORY_LIMIT } from '../../constants';
+import { MEMBER_COOKIE_KEY } from '../../constants';
 import { CrumbTrail, CrumbTrailEntry } from '../../components/crumb-trail';
 
 export default async function WorkoutSessionPage({
@@ -16,7 +16,7 @@ export default async function WorkoutSessionPage({
   const sessionId = (await searchParams).ses;
   const [activityCategories, categoryHistory] = await Promise.all([
     getCategories(),
-    getSessionCategoryHistory(memberSlug as string, SESSION_HISTORY_LIMIT),
+    getSessionCategoryHistory(memberSlug),
   ]);
 
   const buttonClasses = (categorySlug: string): string => {

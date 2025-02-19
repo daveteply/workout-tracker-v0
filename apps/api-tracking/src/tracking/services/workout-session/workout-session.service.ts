@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { WorkoutSessionDTO } from '@repo/dto/src/tracking/workout-session';
-import { Model } from 'mongoose';
+import { Model, PipelineStage } from 'mongoose';
 import { WorkoutSession } from 'src/tracking/schemas/workout-session';
 import { DataTransformsService } from '../data-transforms/data-transforms.service';
 import { UtilsService } from 'src/services/utils/utils.service';
@@ -23,16 +23,37 @@ export class WorkoutSessionService {
       sessionStart: createWorkoutSessionDTO.sessionStart || new Date(),
       sessionCompleted: createWorkoutSessionDTO.sessionCompleted,
       activitySets: this.dataTransforms.setsDTOToSets(createWorkoutSessionDTO.activitySets as []),
-      activitySetsCount: 0,
     };
 
     const workoutSession = new this.workoutSessionModel(workoutSessionData);
     return workoutSession.save();
   }
 
-  async getWorkoutSession(memberSlug: string): Promise<WorkoutSession[]> {
+  async getWorkoutSessions(
+    memberSlug: string,
+    itemsPerPage?: number,
+    pageNumber?: number,
+  ): Promise<WorkoutSession[]> {
     const memberId = this.utilsService.getId(memberSlug);
-    return this.workoutSessionModel.where({ memberId }).sort({ sessionStart: -1 });
+    const stages: PipelineStage[] = [
+      { $match: { memberId: Number(memberId) } },
+      { $sort: { sessionStart: -1 } },
+      { $addFields: { activitySetsCount: { $size: '$activitySets' } } },
+      { $project: { activitySets: false } },
+    ];
+    if (pageNumber) {
+      const skip = (pageNumber - 1) * (itemsPerPage || 0);
+      stages.push({ $skip: Number(skip) });
+    }
+    if (itemsPerPage) {
+      stages.push({ $limit: Number(itemsPerPage) });
+    }
+    return this.workoutSessionModel.aggregate(stages);
+  }
+
+  async getWorkoutSessionCount(memberSlug: string): Promise<number> {
+    const memberId = this.utilsService.getId(memberSlug);
+    return this.workoutSessionModel.where({ memberId }).countDocuments();
   }
 
   private async getAggregateHistory(

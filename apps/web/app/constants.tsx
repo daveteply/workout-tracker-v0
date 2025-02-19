@@ -12,3 +12,4 @@ export const API_TRACKING_URL = process.env.API_TRACKING_URL;
 export const MEMBER_COOKIE_KEY = 'member';
 
 export const SESSION_HISTORY_LIMIT = 4;
+export const ITEMS_PER_PAGE = 10;

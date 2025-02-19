@@ -1,6 +1,11 @@
 import { ActivityDTO } from '@repo/dto/activity';
 import { ActivityAttributeDTO } from '@repo/dto/activity-attribute';
-import { API_STRUCTURE_URL, API_TRACKING_URL } from '../app/constants';
+import {
+  API_STRUCTURE_URL,
+  API_TRACKING_URL,
+  ITEMS_PER_PAGE,
+  SESSION_HISTORY_LIMIT,
+} from '../app/constants';
 import { ActivityCategoryDTO } from '@repo/dto/activity-category';
 import { WorkoutSessionDTO } from '@repo/dto/workout-session';
 import { MemberDTO } from '@repo/dto/member';
@@ -47,34 +52,55 @@ export async function getCategoryActivities(activityCategorySlug: string): Promi
 
 // Tracking
 
-export async function getSessions(memberSlug?: string): Promise<WorkoutSessionDTO[]> {
-  return fetchJSON<WorkoutSessionDTO[]>(`${API_TRACKING_URL}/v1/workout-session/${memberSlug}`);
+export async function getSessions(
+  memberSlug?: string,
+  itemsPerPage: number = ITEMS_PER_PAGE,
+  pageNumber: number = 1,
+): Promise<WorkoutSessionDTO[]> {
+  if (!memberSlug) return [];
+
+  const url = new URL(`/v1/workout-session/${memberSlug}`, API_TRACKING_URL);
+  url.searchParams.set('pc', itemsPerPage.toString());
+  url.searchParams.set('pn', pageNumber.toString());
+
+  return fetchJSON<WorkoutSessionDTO[]>(url.toString());
+}
+
+export async function getSessionCount(memberSlug?: string): Promise<number> {
+  if (!memberSlug) return 0;
+
+  const url = new URL(`/v1/workout-session/${memberSlug}/count`, API_TRACKING_URL);
+  return fetchJSON<number>(url.toString());
 }
 
 async function fetchHistory<T>(
   type: 'category' | 'activity',
-  memberSlug: string,
-  limit: number,
+  memberSlug?: string,
+  limit: number = SESSION_HISTORY_LIMIT,
 ): Promise<T[]> {
-  return fetchJSON<T[]>(
-    `${API_TRACKING_URL}/v1/workout-session/${memberSlug}/${type}-history?l=${limit}`,
-  );
+  if (!memberSlug) return [];
+
+  const url = new URL(`/v1/workout-session/${memberSlug}/${type}-history`, API_TRACKING_URL);
+  url.searchParams.set('l', limit.toString());
+
+  return fetchJSON<T[]>(url.toString());
 }
 
 export function getSessionCategoryHistory(
-  memberSlug: string,
-  limit: number,
+  memberSlug?: string,
+  limit: number = SESSION_HISTORY_LIMIT,
 ): Promise<CategoryHistoryDTO[]> {
   return fetchHistory<CategoryHistoryDTO>('category', memberSlug, limit);
 }
 
 export function getSessionActivityHistory(
-  memberSlug: string,
-  limit: number,
+  memberSlug?: string,
+  limit: number = SESSION_HISTORY_LIMIT,
 ): Promise<ActivityHistoryDTO[]> {
   return fetchHistory<ActivityHistoryDTO>('activity', memberSlug, limit);
 }
 
+/** This method intentionally returns a single result */
 export async function getSessionActivityAttributeHistory(
   memberSlug?: string,
   activitySlug?: string,
@@ -82,9 +108,14 @@ export async function getSessionActivityAttributeHistory(
 ): Promise<ActivitySetDTO[]> {
   if (!memberSlug) return [];
   if (!activitySlug) return [];
-  const res = await fetch(
-    `${API_TRACKING_URL}/v1/workout-session/${memberSlug}/activity-history/${activitySlug}/attributes?l=${limit}`,
+
+  const url = new URL(
+    `/v1/workout-session/${memberSlug}/activity-history/${activitySlug}/attributes`,
+    API_TRACKING_URL,
   );
+  url.searchParams.set('l', limit.toString());
+
+  const res = await fetch(url.toString());
   return res.json();
 }
 

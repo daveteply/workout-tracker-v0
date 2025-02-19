@@ -6,7 +6,7 @@ import {
   getSessionActivityHistory,
 } from '../../../../utils/data-fetch';
 import { cookies } from 'next/headers';
-import { MEMBER_COOKIE_KEY, SESSION_HISTORY_LIMIT } from '../../../constants';
+import { MEMBER_COOKIE_KEY } from '../../../constants';
 import { CrumbTrail, CrumbTrailEntry } from '../../../components/crumb-trail';
 
 export default async function WorkoutActivityPage({
@@ -24,7 +24,7 @@ export default async function WorkoutActivityPage({
   const [activityCategory, activities, activityHistory] = await Promise.all([
     getCategory(activityCategorySlug),
     getCategoryActivities(activityCategorySlug),
-    getSessionActivityHistory(memberSlug as string, SESSION_HISTORY_LIMIT),
+    getSessionActivityHistory(memberSlug),
   ]);
 
   const buttonClasses = (activitySlug: string): string => {

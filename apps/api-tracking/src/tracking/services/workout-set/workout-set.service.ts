@@ -32,7 +32,7 @@ export class WorkoutSetService {
     activitySlug: string,
   ): Promise<ActivitySet[] | null> {
     const session = await this.workoutSessionModel.findOne({ id: sessionId });
-    if (!session) return null;
+    if (!session || !session.activitySets) return null;
     return session.activitySets.filter((a) => a.activitySlug === activitySlug);
   }
 }

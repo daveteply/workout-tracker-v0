@@ -4,14 +4,26 @@ import { cookies } from 'next/headers';
 import { CreateSessionComponent } from './components/start-session';
 import { createNewSession } from './session-actions';
 import { WorkoutSessionDTO } from '@repo/dto/workout-session';
-import { getSessions } from '../../utils/data-fetch';
+import { getSessionCount, getSessions } from '../../utils/data-fetch';
 import { MEMBER_COOKIE_KEY } from '../constants';
 import { DateTime } from '../components/date-time';
+import { PageLinks } from './components/page-links';
 
-export default async function TrackingPage() {
+export default async function TrackingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ pn: string }>;
+}) {
   const cookieStore = await cookies();
   const memberSlug = cookieStore.get(MEMBER_COOKIE_KEY)?.value;
-  const workoutSessions = await getSessions(memberSlug);
+
+  const pnValue = (await searchParams).pn || '1';
+  let pageNumber = parseInt(pnValue);
+
+  const [workoutSessions, count] = await Promise.all([
+    getSessions(memberSlug, 10, pageNumber),
+    getSessionCount(memberSlug),
+  ]);
 
   return (
     <section>
@@ -19,6 +31,9 @@ export default async function TrackingPage() {
       <div className="mb-5">
         <CreateSessionComponent createSessionAction={createNewSession} memberSlug={memberSlug} />
       </div>
+
+      <PageLinks count={count} currentPage={pageNumber} />
+
       <div className="overflow-x-auto">
         {workoutSessions.length !== 0 && (
           <table>
@@ -53,6 +68,10 @@ export default async function TrackingPage() {
             </tbody>
           </table>
         )}
+      </div>
+
+      <div className="mb-5">
+        <PageLinks count={count} currentPage={pageNumber} />
       </div>
     </section>
   );

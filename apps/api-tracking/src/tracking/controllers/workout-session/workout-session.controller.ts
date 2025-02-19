@@ -13,10 +13,19 @@ export class WorkoutSessionController {
   ) {}
 
   @Get(':memberSlug')
-  @Get(':memberSlug')
   @Version('1')
-  getWorkoutSession(@Param('memberSlug') memberSlug: string): Promise<WorkoutSession[]> {
-    return this.workoutSessionService.getWorkoutSession(memberSlug);
+  getWorkoutSessions(
+    @Param('memberSlug') memberSlug: string,
+    @Query('pn') pageNumber?: number,
+    @Query('pc') itemsPerPage?: number,
+  ): Promise<WorkoutSession[]> {
+    return this.workoutSessionService.getWorkoutSessions(memberSlug, itemsPerPage, pageNumber);
+  }
+
+  @Get(':memberSlug/count')
+  @Version('1')
+  getWorkoutSessionCount(@Param('memberSlug') memberSlug: string): Promise<number> {
+    return this.workoutSessionService.getWorkoutSessionCount(memberSlug);
   }
 
   @Get(':memberSlug/category-history')

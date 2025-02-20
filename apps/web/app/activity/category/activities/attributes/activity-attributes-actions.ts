@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import {
   API_STRUCTURE_URL,
+  HEADER_JSON,
   HTTP_STATUS_CREATED,
   HTTP_STATUS_OK,
   ServerActionResponse,
@@ -26,8 +27,8 @@ export async function attachActivityAttributes(formData: FormData): Promise<Serv
 
   const data = parse.data;
 
-  const response = await fetch(`${API_STRUCTURE_URL}/v1/activity-attributes`, {
-    headers: { 'Content-Type': 'application/json' },
+  const response = await fetch(new URL('/v1/activity-attributes', API_STRUCTURE_URL), {
+    headers: HEADER_JSON,
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -59,7 +60,9 @@ export async function removeActivityAttributes(formData: FormData): Promise<Serv
   }
 
   const data = parse.data;
-  const url = `${API_STRUCTURE_URL}/v1/activity-attributes?as=${data.activitySlug}&at=${data.attributeSlug}`;
+  const url = new URL('/v1/activity-attributes', API_STRUCTURE_URL);
+  url.searchParams.set('as', data.activitySlug);
+  url.searchParams.set('at', data.attributeSlug);
 
   const response = await fetch(url, { method: 'DELETE' });
 

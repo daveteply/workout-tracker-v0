@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import {
   API_STRUCTURE_URL,
+  HEADER_JSON,
   HTTP_STATUS_CREATED,
   HTTP_STATUS_OK,
   ServerActionResponse,
@@ -28,14 +29,13 @@ export async function createActivity(formData: FormData): Promise<ServerActionRe
 
   const data = parse.data;
 
-  const response = await fetch(`${API_STRUCTURE_URL}/v1/activities`, {
-    headers: { 'Content-Type': 'application/json' },
+  const response = await fetch(new URL('/v1/activities', API_STRUCTURE_URL), {
+    headers: HEADER_JSON,
     method: 'POST',
     body: JSON.stringify(data),
   });
 
   if (response.status === HTTP_STATUS_CREATED) {
-    //console.info(`Created new Activity: ${data.title}`);
     revalidatePath('/');
     return { success: true };
   } else {
@@ -65,8 +65,8 @@ export async function updateActivity(formData: FormData): Promise<ServerActionRe
 
   const data = parse.data;
 
-  const response = await fetch(`${API_STRUCTURE_URL}/v1/activities/${data.activitySlug}`, {
-    headers: { 'Content-Type': 'application/json' },
+  const response = await fetch(new URL(`/v1/activities/${data.activitySlug}`, API_STRUCTURE_URL), {
+    headers: HEADER_JSON,
     method: 'PATCH',
     body: JSON.stringify(data),
   });
@@ -97,7 +97,7 @@ export async function deleteActivity(formData: FormData): Promise<ServerActionRe
     return { success: false, message: 'Failed to delete Activity' };
   }
 
-  const response = await fetch(`${API_STRUCTURE_URL}/v1/activities/${parse.data.slug}`, {
+  const response = await fetch(new URL(`/v1/activities/${parse.data.slug}`, API_STRUCTURE_URL), {
     method: 'DELETE',
   });
 

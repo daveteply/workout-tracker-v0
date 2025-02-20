@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import {
   API_STRUCTURE_URL,
+  HEADER_JSON,
   HTTP_STATUS_CREATED,
   HTTP_STATUS_OK,
   ServerActionResponse,
@@ -26,8 +27,8 @@ export async function createActivityCategory(formData: FormData): Promise<Server
 
   const data = parse.data;
 
-  const response = await fetch(`${API_STRUCTURE_URL}/v1/categories`, {
-    headers: { 'Content-Type': 'application/json' },
+  const response = await fetch(new URL('/v1/categories', API_STRUCTURE_URL), {
+    headers: HEADER_JSON,
     method: 'POST',
     body: JSON.stringify(data),
   });
@@ -62,9 +63,8 @@ export async function updateActivityCategory(formData: FormData): Promise<Server
 
   const data = parse.data;
 
-  console.log(888, data);
-  const response = await fetch(`${API_STRUCTURE_URL}/v1/categories`, {
-    headers: { 'Content-Type': 'application/json' },
+  const response = await fetch(new URL('/v1/categories', API_STRUCTURE_URL), {
+    headers: HEADER_JSON,
     method: 'PATCH',
     body: JSON.stringify(data),
   });
@@ -94,9 +94,10 @@ export async function deleteActivityCategory(formData: FormData): Promise<Server
   }
 
   const data = parse.data;
-  const url = `${API_STRUCTURE_URL}/v1/categories/${data.slug}`;
 
-  const response = await fetch(url, { method: 'DELETE' });
+  const response = await fetch(new URL(`/v1/categories/${data.slug}`, API_STRUCTURE_URL), {
+    method: 'DELETE',
+  });
 
   if (response.status === HTTP_STATUS_OK) {
     revalidatePath('/');

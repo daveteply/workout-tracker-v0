@@ -23,7 +23,7 @@ export function ActivityCategoryDeleteForm({
       const result = await deleteActivityCategoryAction(formData);
       setIsPending(false);
 
-      if (!result.success) {
+      if (!result.success && result.message) {
         toast.error(result.message);
       } else {
         toast.success('Deleted Activity Category');

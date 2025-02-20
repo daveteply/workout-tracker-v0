@@ -24,7 +24,7 @@ export function ActivityAttributesRemoveForm({
       const result = await deleteActivityAttributesAction(formData);
       setIsPending(false);
 
-      if (!result.success) {
+      if (!result.success && result.message) {
         toast.error(result.message);
       } else {
         toast.success('Successfully removed');

@@ -31,7 +31,7 @@ export function ActivityAttributeUpdateForm({
       const result = await updateActivityAttributeAction(formData);
       setIsPending(false);
 
-      if (!result.success) {
+      if (!result.success && result.message) {
         toast.error(result.message);
       } else {
         closeModal();

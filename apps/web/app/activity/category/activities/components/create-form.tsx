@@ -26,7 +26,7 @@ export function ActivityCreateForm({
       const result = await createActivityAction(formData);
       setIsPending(false);
 
-      if (!result.success) {
+      if (!result.success && result.message) {
         toast.error(result.message);
       } else {
         closeModal();

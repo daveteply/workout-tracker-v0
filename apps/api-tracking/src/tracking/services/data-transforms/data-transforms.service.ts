@@ -68,7 +68,6 @@ export class DataTransformsService {
   }
 
   setsToSetsDTO(sets: ActivitySet[]): ActivitySetDTO[] {
-    debugger;
     return (sets ?? []).map((s) => ({
       slug: s.activitySlug,
       title: s.activityTitle,

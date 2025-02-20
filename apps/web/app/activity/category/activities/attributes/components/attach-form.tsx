@@ -29,7 +29,7 @@ export function ActivityAttributesAttachForm({
       const result = await createActivityAttributesAction(formData);
       setIsPending(false);
 
-      if (!result.success) {
+      if (!result.success && result.message) {
         toast.error(result.message);
       } else {
         closeModal();

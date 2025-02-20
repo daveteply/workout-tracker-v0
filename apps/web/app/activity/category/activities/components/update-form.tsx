@@ -29,7 +29,7 @@ export function ActivityUpdateForm({
       const result = await updateActivityAction(formData);
       setIsPending(false);
 
-      if (!result.success) {
+      if (!result.success && result.message) {
         toast.error(result.message);
       } else {
         closeModal();

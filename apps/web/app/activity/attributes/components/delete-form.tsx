@@ -22,7 +22,7 @@ export function ActivityAttributeDeleteForm({
       const result = await deleteActivityAttributeAction(formData);
       setIsPending(false);
 
-      if (!result.success) {
+      if (!result.success && result.message) {
         toast.error(result.message);
       } else {
         toast.success('Deleted Activity Attribute');

@@ -18,7 +18,7 @@ export default async function TrackingPage({
   const memberSlug = cookieStore.get(MEMBER_COOKIE_KEY)?.value;
 
   const pnValue = (await searchParams).pn || '1';
-  let pageNumber = parseInt(pnValue);
+  const pageNumber = parseInt(pnValue);
 
   const [workoutSessions, count] = await Promise.all([
     getSessions(memberSlug, 10, pageNumber),

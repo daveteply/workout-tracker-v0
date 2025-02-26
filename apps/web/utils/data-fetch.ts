@@ -14,8 +14,13 @@ import { ActivityHistoryDTO } from '@repo/dto/activity-history';
 import { ActivitySetDTO } from '@repo/dto/activity-set';
 
 async function fetchJSON<T>(url: string): Promise<T> {
-  const res = await fetch(url);
-  return res.json();
+  // allows the next.js build to complete while pre-caching pages
+  if (process.env.NODE_ENV === 'production') {
+    return <T>{};
+  } else {
+    const res = await fetch(url);
+    return res.json();
+  }
 }
 
 export async function getActivity(slug: string): Promise<ActivityDTO> {

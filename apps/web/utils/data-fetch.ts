@@ -12,15 +12,20 @@ import { MemberDTO } from '@repo/dto/member';
 import { CategoryHistoryDTO } from '@repo/dto/category-history';
 import { ActivityHistoryDTO } from '@repo/dto/activity-history';
 import { ActivitySetDTO } from '@repo/dto/activity-set';
+import { notFound } from 'next/navigation';
 
 async function fetchJSON<T>(url: string): Promise<T> {
   // allows the next.js build to complete while pre-caching pages
   if (process.env.NODE_ENV === 'production') {
-    return <T>{};
-  } else {
-    const res = await fetch(url);
-    return res.json();
+    return {} as T;
   }
+
+  const res = await fetch(url);
+  if (!res.ok) {
+    notFound();
+  }
+
+  return await res.json();
 }
 
 export async function getActivity(slug: string): Promise<ActivityDTO> {

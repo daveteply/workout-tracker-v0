@@ -38,7 +38,9 @@ jobs:
         env:
           DATABASE_URL: 'mysql://root:${{ secrets.MYSQL_ROOT_PASSWORD }}@127.0.0.1:3306/workout_tracker'
         working-directory: apps/api-structure
-        run: npx prisma migrate deploy
+        run: |
+          npx prisma migrate deploy
+          npx prisma generate
 
       - name: Build all packages
         run: npm run build

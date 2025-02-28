@@ -7,117 +7,102 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model ActivityCategory {
+  id          Int        @id @default(autoincrement()) @map("activity_category_id")
+  title       String
+  description String?    @db.VarChar(512)
+  createdAt   DateTime   @default(now()) @map("create_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  activities  Activity[]
+
+  @@map("activity_categories")
+}
+
+model Activity {
+  id          Int                          @id @default(autoincrement()) @map("activity_id")
+  categoryId  Int                          @map("category_id")
+  title       String
+  description String?                      @db.VarChar(512)
+  createdAt   DateTime                     @default(now()) @map("create_at")
+  updatedAt   DateTime                     @updatedAt @map("updated_at")
+  category    ActivityCategory             @relation(fields: [categoryId], references: [id])
+  attributes  ActivityActivityAttributes[]
+
+  @@index([categoryId], map: "activities_category_id_fkey")
+  @@map("activities")
+}
+
+model ActivityAttribute {
+  id            Int                          @id @default(autoincrement()) @map("activity_attribute_id")
+  title         String
+  description   String?                      @db.VarChar(512)
+  attributeType AttributeType                @default(LENGTH) @map("attribute_type")
+  createdAt     DateTime                     @default(now()) @map("create_at")
+  updatedAt     DateTime                     @updatedAt @map("updated_at")
+  attributes    ActivityActivityAttributes[]
+
+  @@map("activity_attributes")
+}
+
+model ActivityActivityAttributes {
+  activityId        Int               @map("activity_id")
+  attributeId       Int               @map("attribute_id")
+  createdAt         DateTime          @default(now()) @map("create_at")
+  updatedAt         DateTime          @updatedAt @map("updated_at")
+  activity          Activity          @relation(fields: [activityId], references: [id])
+  activityAttribute ActivityAttribute @relation(fields: [attributeId], references: [id])
+
+  @@id([activityId, attributeId])
+  @@index([attributeId], map: "activity_activity_attributes_attribute_id_fkey")
+  @@map("activity_activity_attributes")
+}
+
+model Routine {
+  id        Int             @id @default(autoincrement()) @map("routine_id")
+  title     String
+  started   DateTime
+  completed DateTime?
+  createdAt DateTime        @default(now()) @map("create_at")
+  updatedAt DateTime        @updatedAt @map("updated_at")
+  members   MemberRoutine[]
+
+  @@map("routines")
+}
+
+model Member {
+  id        Int             @id @default(autoincrement()) @map("member_id")
+  email     String          @unique
+  name      String?
+  role      Role            @default(MEMBER)
+  createdAt DateTime        @default(now()) @map("create_at")
+  updatedAt DateTime        @updatedAt @map("updated_at")
+  routines  MemberRoutine[]
+
+  @@map("members")
+}
+
+model MemberRoutine {
+  memberId  Int      @map("member_id")
+  routineId Int      @map("routine_id")
+  createdAt DateTime @default(now()) @map("create_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  member    Member   @relation(fields: [memberId], references: [id])
+  routine   Routine  @relation(fields: [routineId], references: [id])
+
+  @@id([memberId, routineId])
+  @@index([routineId], map: "member_routines_routine_id_fkey")
+  @@map("member_routines")
+}
+
 enum Role {
   MEMBER
   ADMIN
 }
 
-// ensure this matches packages\dto\src\attribute-types.ts
 enum AttributeType {
   LENGTH
   MASS
   TIME
   NUMBER
   STRING
-}
-
-// Model definitions
-
-model ActivityCategory {
-  id          Int     @id @default(autoincrement()) @map("activity_category_id")
-  title       String
-  description String? @db.VarChar(512)
-
-  createdAt DateTime @default(now()) @map("create_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  activities Activity[]
-
-  @@map("activity_categories")
-}
-
-model Activity {
-  id Int @id @default(autoincrement()) @map("activity_id")
-
-  category   ActivityCategory @relation(fields: [categoryId], references: [id])
-  categoryId Int              @map("category_id")
-
-  title       String
-  description String? @db.VarChar(512)
-
-  createdAt DateTime @default(now()) @map("create_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  attributes ActivityActivityAttributes[]
-
-  @@map("activities")
-}
-
-model ActivityAttribute {
-  id            Int           @id @default(autoincrement()) @map("activity_attribute_id")
-  title         String
-  description   String?       @db.VarChar(512)
-  attributeType AttributeType @default(LENGTH) @map("attribute_type")
-
-  createdAt DateTime @default(now()) @map("create_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  attributes ActivityActivityAttributes[]
-
-  @@map("activity_attributes")
-}
-
-model ActivityActivityAttributes {
-  activity   Activity @relation(fields: [activityId], references: [id])
-  activityId Int      @map("activity_id")
-
-  activityAttribute ActivityAttribute @relation(fields: [attributeId], references: [id])
-  attributeId       Int               @map("attribute_id")
-
-  createdAt DateTime @default(now()) @map("create_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@id([activityId, attributeId])
-  @@map("activity_activity_attributes")
-}
-
-model Routine {
-  id      Int             @id @default(autoincrement()) @map("routine_id")
-  title   String
-  members MemberRoutine[]
-
-  started   DateTime
-  completed DateTime?
-
-  createdAt DateTime @default(now()) @map("create_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("routines")
-}
-
-model Member {
-  id       Int             @id @default(autoincrement()) @map("member_id")
-  email    String          @unique
-  name     String?
-  role     Role            @default(MEMBER)
-  routines MemberRoutine[]
-
-  createdAt DateTime @default(now()) @map("create_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("members")
-}
-
-model MemberRoutine {
-  member   Member @relation(fields: [memberId], references: [id])
-  memberId Int    @map("member_id")
-
-  routine   Routine @relation(fields: [routineId], references: [id])
-  routineId Int     @map("routine_id")
-
-  createdAt DateTime @default(now()) @map("create_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@id([memberId, routineId])
-  @@map("member_routines")
 }

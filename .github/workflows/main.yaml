@@ -25,13 +25,13 @@ jobs:
         uses: mirromutth/mysql-action@v1.1
         with:
           mysql version: '8.0'
-          username: 'root'
-          password: ''
+          mysql user: 'migrations'
+          mysql password: 'migrations'
           mysql database: 'workout_tracker'
 
       - name: Migrations
         env:
-          DATABASE_URL: 'mysql://root@localhost:3306/workout_tracker'
+          DATABASE_URL: 'mysql://migrations:migrations@localhost:3306/workout_tracker'
         run: npx prisma migrate deploy
         working-directory: apps/api-structure
 

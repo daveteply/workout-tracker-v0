@@ -30,7 +30,7 @@ jobs:
       - name: Run Prisma migrations
         working-directory: apps/api-structure
         env:
-          DATABASE_URL: mysql://root:${{ secrets.MYSQL_ROOT_PASSWORD }}@localhost:3306/your_database_name
+          DATABASE_URL: mysql://root:${{ secrets.MYSQL_ROOT_PASSWORD }}@localhost:3306/workout_tracker
         run: |
           npx prisma migrate deploy
 

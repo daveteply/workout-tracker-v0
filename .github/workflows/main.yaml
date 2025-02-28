@@ -21,6 +21,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Migrations
+        run: npx prisma migrate deploy
+        working-directory: apps/api-structure
+
       - name: Build the app
         run: npm run build
 

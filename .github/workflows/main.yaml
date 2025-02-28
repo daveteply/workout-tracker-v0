@@ -21,7 +21,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Set up MySQL
+        uses: mirromutth/mysql-action@v1
+        with:
+          mysql-version: '8.0'
+          username: 'root'
+          password: ''
+          database: 'my_database'
+
       - name: Migrations
+        env:
+          DATABASE_URL: 'mysql://root@localhost:3306/workout_tracker'
         run: npx prisma migrate deploy
         working-directory: apps/api-structure
 

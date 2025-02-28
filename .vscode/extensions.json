@@ -5,6 +5,7 @@
     "esbenp.prettier-vscode",
     "prisma.prisma",
     "hashicorp.terraform",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "github.vscode-github-actions"
   ]
 }

@@ -22,12 +22,12 @@ jobs:
         run: npm install
 
       - name: Set up MySQL
-        uses: mirromutth/mysql-action@v1
+        uses: mirromutth/mysql-action@v1.1
         with:
-          mysql-version: '8.0'
+          mysql version: '8.0'
           username: 'root'
           password: ''
-          database: 'my_database'
+          mysql database: 'workout_tracker'
 
       - name: Migrations
         env:

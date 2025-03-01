@@ -47,16 +47,13 @@ jobs:
 
       - name: Bundle Projects
         run: |
-          pwd
-          ls -l
           mkdir -p dist-bundle/api-structure
           mkdir -p dist-bundle/api-tracking
           mkdir -p dist-bundle/web
-          ls -l
           cp -r apps/api-structure/dist/* dist-bundle/api-structure/
           cp -r apps/api-tracking/dist/* dist-bundle/api-tracking/
-          cp -r apps/web/dist/.next dist-bundle/web/.next
-          cp -r apps/web/dist/public dist-bundle/web/public
+          cp -r apps/web/.next dist-bundle/web/.next
+          cp -r apps/web/public dist-bundle/web/public
           zip -r deployment-bundle.zip dist-bundle
 
       - name: Install AWS CLI

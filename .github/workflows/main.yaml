@@ -56,10 +56,10 @@ jobs:
           cp -r apps/web/public dist-bundle/web/public
           zip -r deployment-bundle.zip dist-bundle
 
-      - name: Install AWS CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli zip
+      # - name: Install AWS CLI
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y awscli zip
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2

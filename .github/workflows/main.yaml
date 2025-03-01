@@ -44,3 +44,27 @@ jobs:
 
       - name: Build all packages
         run: npm run build
+
+      - name: Bundle Projects
+        run: |
+          mkdir dist-bundle
+          cp -r apps/api-structure/dist/* dist-bundle/api-structure/
+          cp -r apps/api-tracking/dist/* dist-bundle/api-tracking/
+          mkdir dist-bundle/web
+          cp -r apps/web/dist/.next dist-bundle/web/.next
+          cp -r apps/web/dist/public dist-bundle/web/public
+          zip -r deployment-bundle.zip dist-bundle
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli zip
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::202533509084:role/GitHubS3
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload to S3
+        run: aws s3 cp deployment-bundle.zip s3://${{ secrets.S3_BUCKET_NAME }}/deployment-bundle.zip

@@ -47,10 +47,9 @@ jobs:
 
       - name: Bundle Projects
         run: |
-          mkdir dist-bundle
-          mkdir dist-bundle/api-structure
-          mkdir dist-bundle/api-tracking
-          mkdir dist-bundle/web
+          mkdir -p dist-bundle/api-structure
+          mkdir -p dist-bundle/api-tracking
+          mkdir -p dist-bundle/web
           cp -r apps/api-structure/dist/* dist-bundle/api-structure/
           cp -r apps/api-tracking/dist/* dist-bundle/api-tracking/
           cp -r apps/web/dist/.next dist-bundle/web/.next

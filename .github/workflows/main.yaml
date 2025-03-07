@@ -1,12 +1,15 @@
 name: Build API
 
 on:
-  push:
-    branches:
-      - main # Adjust to your main branch name
   pull_request:
-    branches:
-      - main # Adjust to your main branch name
+
+# on:
+#   push:
+#     branches:
+#       - main # Adjust to your main branch name
+#   pull_request:
+#     branches:
+#       - main # Adjust to your main branch name
 
 jobs:
   build:

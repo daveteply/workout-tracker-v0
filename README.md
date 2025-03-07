@@ -40,11 +40,31 @@ This is an application platform POC to track various types of exercise and fitne
     1. Enable [Mirror mode networking](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configuration-settings-for-wslconfig)
     2. See notes in `docs/wslconfig-backup.txt`
 
-### Launch 🚀
+### 🚀 Launch Dev Environment 🚀
 
-1. Install `npm` dependencies: `npm i` from the root folder
-2. Launch the local dev environment:
-   1. `cd /` (to root of project)
+1. Establish environment files (`.env`)
+
+   1. The /docs folder contains example .env files for each project
+
+   ```
+   cp docs/api-structure-env-backup.txt ./apps/api-structure/.env
+   cp docs/api-tracking-env-backup.txt ./apps/api-tracking/.env
+   cp docs/web-env-backup.txt ./apps/web/.env
+   ```
+
+   📝 Update each .env for your specific configuration
+
+1. `cd /` (to root of project)
+1. Install `npm` dependencies: `npm i`
+1. Apply migrations:
+   1. `cd apps/api-structure`
+      1. If you are using an established/up-to-date database:
+         (For example: your database migrations are up-to-date but you re-cloned the repository)
+         1. `npx prisma generate`
+      1. If you are starting with a fresh database:
+         1. `npx prisma migrate deploy`
+1. Launch the local dev environment:
+   1. `cd /`
    2. `npm run dev`
 
 ## What's inside?

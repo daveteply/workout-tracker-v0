@@ -49,11 +49,13 @@ jobs:
         run: |
           docker build -t api-structure:latest -f infra/docker/Dockerfile.api-structure apps/api-structure
           docker build -t api-tracking:latest -f infra/docker/Dockerfile.api-tracking apps/api-tracking
+          docker build -t api-web:latest -f infra/docker/Dockerfile.web apps/web
 
       - name: Save Docker containers for transport to S3
         run: |
           docker save api-structure:latest > api-structure.tar
           docker save api-tracking:latest > api-tracking.tar
+          docker save web:latest > web.tar
 
       # - name: Bundle Projects
       #   run: |
@@ -78,3 +80,4 @@ jobs:
         run: |
           aws s3 cp api-structure.tar s3://${{ secrets.S3_BUCKET_NAME }}/api-structure.tar
           aws s3 cp api-tracking.tar s3://${{ secrets.S3_BUCKET_NAME }}/api-tracking.tar
+          aws s3 cp web.tar s3://${{ secrets.S3_BUCKET_NAME }}/web.tar

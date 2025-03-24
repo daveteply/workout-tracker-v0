@@ -77,3 +77,4 @@ jobs:
         #   run: aws s3 cp deployment-bundle.zip s3://${{ secrets.S3_BUCKET_NAME }}/deployment-bundle.zip
         run: |
           aws s3 cp api-structure.tar s3://${{ secrets.S3_BUCKET_NAME }}/api-structure.tar
+          aws s3 cp api-tracking.tar s3://${{ secrets.S3_BUCKET_NAME }}/api-tracking.tar

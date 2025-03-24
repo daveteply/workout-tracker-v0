@@ -1,12 +1,12 @@
-name: Build API
+name: Build Workout Tracker
 
 on:
   push:
     branches:
-      - main # Adjust to your main branch name
-  pull_request:
-    branches:
-      - main # Adjust to your main branch name
+      - main
+  # pull_request:
+  #   branches:
+  #     - main
 
 jobs:
   build:
@@ -28,11 +28,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22' # Or your preferred Node.js version
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Prisma Migrate Deploy
         env:
@@ -42,26 +42,30 @@ jobs:
           npx prisma migrate deploy
           npx prisma generate
 
-      - name: Build all packages
+      - name: Build all Turborepo Apps and Packages
         run: npm run build
 
-      - name: Bundle Projects
+      - name: Docker - api-structure
         run: |
-          mkdir -p dist-bundle/api-structure
-          mkdir -p dist-bundle/api-tracking
-          mkdir -p dist-bundle/web
-          cp -r apps/api-structure/dist/* dist-bundle/api-structure/
-          cp -r apps/api-tracking/dist/* dist-bundle/api-tracking/
-          cp -r apps/web/.next dist-bundle/web/.next
-          cp -r apps/web/public dist-bundle/web/public
-          zip -r deployment-bundle.zip dist-bundle
+          docker build -t api-structure:latest -f infra/docker/Dockerfile.api-structure apps/api-structure
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+      # - name: Bundle Projects
+      #   run: |
+      #     mkdir -p dist-bundle/api-structure
+      #     mkdir -p dist-bundle/api-tracking
+      #     mkdir -p dist-bundle/web
+      #     cp -r apps/api-structure/dist/* dist-bundle/api-structure/
+      #     cp -r apps/api-tracking/dist/* dist-bundle/api-tracking/
+      #     cp -r apps/web/.next dist-bundle/web/.next
+      #     cp -r apps/web/public dist-bundle/web/public
+      #     zip -r deployment-bundle.zip dist-bundle
 
-      - name: Upload to S3
-        run: aws s3 cp deployment-bundle.zip s3://${{ secrets.S3_BUCKET_NAME }}/deployment-bundle.zip
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ secrets.AWS_REGION }}
+
+      # - name: Upload to S3
+      #   run: aws s3 cp deployment-bundle.zip s3://${{ secrets.S3_BUCKET_NAME }}/deployment-bundle.zip

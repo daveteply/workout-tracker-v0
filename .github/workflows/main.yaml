@@ -45,13 +45,15 @@ jobs:
       - name: Build all Turborepo Apps and Packages
         run: npm run build
 
-      - name: Docker - api-structure
+      - name: Create Docker containers
         run: |
           docker build -t api-structure:latest -f infra/docker/Dockerfile.api-structure apps/api-structure
+          docker build -t api-tracking:latest -f infra/docker/Dockerfile.api-tracking apps/api-tracking
 
-      - name: Save Docker Image
+      - name: Save Docker containers for transport to S3
         run: |
           docker save api-structure:latest > api-structure.tar
+          docker save api-tracking:latest > api-tracking.tar
 
       # - name: Bundle Projects
       #   run: |

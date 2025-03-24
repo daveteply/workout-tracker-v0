@@ -49,7 +49,7 @@ jobs:
         run: |
           docker build -t api-structure:latest -f infra/docker/Dockerfile.api-structure apps/api-structure
           docker build -t api-tracking:latest -f infra/docker/Dockerfile.api-tracking apps/api-tracking
-          docker build -t api-web:latest -f infra/docker/Dockerfile.web apps/web
+          docker build -t web:latest -f infra/docker/Dockerfile.web apps/web
 
       - name: Save Docker containers for transport to S3
         run: |

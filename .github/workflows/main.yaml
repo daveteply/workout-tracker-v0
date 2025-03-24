@@ -51,7 +51,7 @@ jobs:
 
       - name: Save Docker Image
         run: |
-          docker save workout-tracker-api:latest > workout-tracker-api.tar
+          docker save api-structure:latest > api-structure.tar
 
       # - name: Bundle Projects
       #   run: |

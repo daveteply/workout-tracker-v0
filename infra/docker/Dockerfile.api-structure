@@ -3,8 +3,8 @@ FROM node:22-alpine
 WORKDIR /app
 
 COPY apps/api-structure/dist ./dist
-COPY infra/aws/CodeDeploy/backend-appspec.yml .
-COPY infra/aws/CodeDeploy/backend-deploy.sh .
+COPY infra/aws/CodeDeploy/backend/appspec.yml .
+COPY infra/aws/CodeDeploy/backend/deploy.sh .
 
 EXPOSE 3000
 

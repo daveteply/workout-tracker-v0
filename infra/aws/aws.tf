@@ -56,6 +56,29 @@ resource "aws_subnet" "private" {
   }
 }
 
+########################## only use when private EC2 needs internet access ################################
+# Elastic IP for NAT Gateway
+resource "aws_eip" "nat_eip" {
+  domain = "vpc"
+  tags = {
+    Name = "NAT EIP"
+  }
+}
+
+# NAT Gateway in the public subnet
+resource "aws_nat_gateway" "nat" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.public.id
+
+  tags = {
+    Name = "NAT Gateway"
+  }
+
+  # Add depends_on to ensure the internet gateway is created first.
+  depends_on = [data.aws_internet_gateway.default]
+}
+########################## only use when private EC2 needs internet access ################################
+
 # Create a route table for the public subnet
 resource "aws_route_table" "public" {
   vpc_id = data.aws_vpc.default.id
@@ -80,6 +103,13 @@ resource "aws_route_table_association" "public" {
 # Create a route table for the private subnet
 resource "aws_route_table" "private" {
   vpc_id = data.aws_vpc.default.id
+
+  ########################## only use when private EC2 needs internet access ################################
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat.id
+  }
+  ########################## only use when private EC2 needs internet access ################################
 
   tags = {
     Name        = "Private Route Table"
@@ -137,6 +167,13 @@ resource "aws_security_group" "api" {
     description     = "Allow traffic from web instance"
     from_port       = 8080
     to_port         = 8081
+    protocol        = "tcp"
+    security_groups = [aws_security_group.web.id]
+  }
+  ingress {
+    description     = "SSH access from specific IP"
+    from_port       = 22
+    to_port         = 22
     protocol        = "tcp"
     security_groups = [aws_security_group.web.id]
   }

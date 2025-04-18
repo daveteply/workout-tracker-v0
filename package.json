@@ -5,7 +5,9 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "update-deps": "turbo run update-deps",
+    "update-deps:ncu": "npx npm-check-updates -u"
   },
   "devDependencies": {
     "prettier": "^3.5.3",

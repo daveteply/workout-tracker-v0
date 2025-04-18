@@ -3,10 +3,13 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "files": [ "dist" ],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc"
+    "build": "tsc",
+    "update-deps": "npx npm-check-updates -u"
   },
   "exports": {
     "./activity-category": "./src/activity-category.ts",
@@ -24,6 +27,6 @@
   "devDependencies": {
     "@repo/eslint-config": "^0.0.0",
     "@repo/typescript-config": "^0.0.0",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   }
 }

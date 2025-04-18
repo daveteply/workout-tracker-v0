@@ -18,21 +18,22 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "update-deps": "npx npm-check-updates -u"
   },
   "devDependencies": {
     "@repo/eslint-config": "^0.0.0",
     "@repo/typescript-config": "^0.0.0",
-    "@turbo/gen": "^2.4.4",
-    "@types/node": "^22.13.13",
-    "@types/react": "^19.0.12",
-    "@types/react-dom": "^19.0.4",
+    "@turbo/gen": "^2.5.0",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
     "autoprefixer": "^10.4.21",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   }
 }
